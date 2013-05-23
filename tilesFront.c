@@ -1,63 +1,65 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "tilesBack.h";
+#include "tilesBack.h"
+#include "getnum.h"
 
-void acciones(TipoDatos * dato);
+void imprimeTablero(TipoTablero * tablero);
+
+int main(void)
 {
-	char * operacion
-
-	fgets(
-
-
-	if(dato->flags[NEXT_LEVEL]==ON)
+	srand(time(NULL));
+	int aux, a, b, respuesta;
+	TipoDatos edato;
+	TipoDatos * dato = &edato;
+	dato->nivel = 3;
+	(dato->tablero).dim.filas = 12;
+	(dato->tablero).dim.columnas = 17;
+	(dato->tablero).c_habilidades.c_martillazos = 1;
+	(dato->tablero).c_habilidades.c_hileras = 1;
+	(dato->tablero).c_habilidades.c_columnas = 1;
+	aux = generarTablero(dato);
+	while(1)
 	{
-		nextlevel();
-		// generarTablero(dato) va dentro de next level
+		putchar('\n');
+		imprimeTablero(&(dato->tablero));
+		a = getint("fila: ");
+		b = getint("columna: ");
+		respuesta = eliminar(&(dato->tablero), a, b);
+		printf("Azulejos destruidos = %d\n", respuesta);
+		gravedad(&(dato->tablero));
+		nullCols(&(dato->tablero));
+		getchar();
 	}
-	else if(accion->operacion == SAVE || accion->operacion == LOAD ) 
-	{
-		Admin_Arch(dato);
-	}
-	else
-	{
-		ProcesamientoMatriz(dato,accion);
-	}
+	liberarMatriz(&(dato->tablero));
 }
 
-// FUNCION next level que haga todo lo necesario al principio de nivel(subir nivel, calcular bonu,etc);
 
-static void Admin_Arch
-	// MANEJA SI EL usuario pone save o elige load, sino no entro
-
-static void ProcesamientoMatriz(TipoDatos * dato,TipoAccion * accion)
+/*
+Trabajamos con matrices tipo C/S (columna x filas)
+*/
+void imprimeTablero(TipoTablero * tablero)
 {
-	int cant_azulejos;
-	
-	
-
-	if(accion->flag[BITACORA]==ON)
+	int i, j, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
+	for(i=-1; i<filas; i++)
 	{
-		//log(accion,datos)
-	}
-
-	
-	
-	
-		dato->puntaje = CalcularPuntaje(cant_azulejos);
-
-		gravedad(dato);
-
-		if(dato->cant_habilidades.cant_martillazos > 0 || dato->cant_habilidades.cant_martillazos >0 || dato->cant_habilidades.cant_martillazos > 0)
+		printf(" ");
+		for(j=-1; j<columnas; j++)
 		{
-			analisisMatriz(dato); //Modifica el FLAG GAME_OVER dependiendo de si se puede seguir jugando o no
-						
+			if(i==-1 && j>=0)
+				printf("%-2d ", j);
+			else if(j==-1 && i>=0)
+				printf("%2d  ", i);
+			else if(j>=0 && i>=0)
+			{
+				if((tablero->matriz)[j][i] != 0  && (tablero->matriz)[j][i]!='0')
+                    printf("%c  ", (tablero->matriz)[j][i]);
+				else
+					printf("   ");
+			}
+			else
+				printf("    ");
 		}
-
-		GanoNivel(dato) // si la matriz es nula --> gano el nivel, modifcar el flag NEXT_LEVEL=ON
+		putchar('\n');
 	}
-	else
-		return;
 }
-
-
