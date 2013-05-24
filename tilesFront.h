@@ -10,15 +10,14 @@
 
 #define BORRAR_PANT printf("\033c"); // NO ES ANSI C!!!
 
-#define BITACORA 0 
-#define NEXT_LEVEL 1
-#define GAME_OVER 2
+#define BITACORA	 0 
+#define NEXT_LEVEL	 1
+#define GAME_OVER	 2
+#define END_APPLICATION 3	
  
 enum estados {ON=0,OFF};
 typedef enum estados TipoEstado;
-typedef TipoEstado TipoFlag[3]; //1er FLAG: BITACORA, 2do FLAG: NEXT LEVEL, 3er FLAG: GAME OVER
-
-char *error;//[]={"Fuera de Rango","No hay adyacencia","Error de Columna","Error de Hilera","Posicion Nula","Sin_Memoria","No Hay error"};
+typedef TipoEstado TipoFlag[4]; //1er FLAG: BITACORA, 2do FLAG: NEXT LEVEL, 3er FLAG: GAME OVER, 4to Flag: END APPLICATION
 
 void Menu (TipoDatos * dato,TipoFlag Flags);
 void PedidoDimenciones(TipoDatos * dato);
