@@ -1,8 +1,6 @@
 #include "tilesBack.h"
 #include "tilesFront.h"
 
-//haciendo push
-
 /*static char *menu[]={"Bienvenido:\n\n1 - Juego Nuevo \n2 - Juego con Bitacora \n3 - Cargar Partida\n\n\n","Ingresa Filas\n","Ingresa Columnas\n"}; variables globales are for pussies*/
 
 void main(void)
