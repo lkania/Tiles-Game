@@ -6,13 +6,14 @@ void main(void)
 	TipoDatos dato;
 	
 	Menu (&dato,Flags);
-	while(Flags[NEXT_LEVEL]==OFF) 
+	while(Flags[END_APPLICATION]==OFF) 
 	{
 		if(Flags[NEXT_LEVEL]==ON)
 		{  	
-			Flags[NEXT_LEVEL]=OFF; // El flag NEXT_LEVEL solo se pone en ON si: se carga una partida  o se pasa de nivel
+			Flags[NEXT_LEVEL]=OFF; // El flag NEXT_LEVEL solo se pone en ON si: se carga una partida  o se pasa de nivel		
 			// calculo de bonus
 			Crear_Nivel(&dato);
+			
 		}
 		
 		imprimeTablero(&(dato.tablero));
@@ -71,14 +72,14 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 	int cant,cant_azulejos;
 	TipoPosicion pos;
 	
-	static char * operacion=malloc(MAXLONG*sizeof(*operacion));
-	char * nombrefile=malloc(MAXLONG*sizeof(*nombrefile));
+	char operacion[MAX_LONG];
+	char * nombrefile=malloc(MAX_LONG*sizeof(*nombrefile));
 
-	char * respuesta=malloc(MAXLONG*sizeof(*respuesta));
+	char * respuesta=malloc(MAX_LONG*sizeof(*respuesta));
 	
 	char accion,aux;
 	
-	aux_datos = dato //Se realiza un save temporal de los datos por si el usuario pide la operacion UNDO	
+	//aux_datos = dato ;//Se realiza un save temporal de los datos por si el usuario pide la operacion UNDO	
 	
 	inputString(operacion);
 
@@ -190,10 +191,9 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 	}
 	else
 	{		
-		Proc_Matriz(dato);
+		Proc_Matriz(dato,cant_azulejos);
 	}
-
-	return;
+	
 }
 
 void inputString(char * string)
@@ -213,11 +213,22 @@ void inputString(char * string)
 
 }
 
+int validFileName(char * nombrefile)
+{	int i;
+
+	for(i=0;nombrefile[i]!=0;i++)
+	{
+		if(!VALIDCHAR(nombrefile[i]))
+		return 0;
+	}
+	return 1;
+}
+
 void printerror(int ind)
 {
-	char *error={"Fuera de Rango","No hay adyacencia","Error de Columna","Error de Hilera","Posicion Nula","Sin_Memoria","No Hay error","Comando no valido"}; 
+	char * error[]={"Fuera de Rango","No hay adyacencia","Error de Columna","Error de Hilera","Posicion Nula","Sin_Memoria","No Hay error","Comando no valido"}; 
 
-	printf("ERROR: %s\n",error+(ind*(-1)-1));
+	printf("ERROR: %s\n",*(error+(ind*(-1)-1)));
 
 }
 

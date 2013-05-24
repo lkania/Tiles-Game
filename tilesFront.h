@@ -1,7 +1,11 @@
+#ifndef tilesFront_H
+#define tilesFront_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include "tilesBack.h"
 #include "getnum.h"
 
 //CONSTANTES
@@ -33,3 +37,5 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags);
 void printerror(int ind);
 int validFileName(char * nombrefile);
 void inputString(char * string);
+
+#endif

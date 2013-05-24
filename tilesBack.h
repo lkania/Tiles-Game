@@ -70,5 +70,3 @@ static void decalarFils(TipoTablero * tablero, int i, int j); //funcion auxiliar
 static void nullCols(TipoTablero * tablero);//decala hacia la izquierda las columnas nulas
 
 #endif
-
-//CONVENCION: Matriz tipo c/f [columna][fila] ¡QUE HAGO!!! donde lo pongo
