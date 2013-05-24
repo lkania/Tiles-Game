@@ -1,47 +1,28 @@
 #include "tilesBack.h"
 #include "tilesFront.h"
 
-
 void main(void)
-{	TipoFlag  Flags = {OFF,OFF,OFF,OFF];
+{	TipoFlag  Flags = {OFF,OFF,OFF,OFF};
 	TipoDatos dato;
 	
-	Flags[BITACORA]=OFF;
-	Flags[NEXT_LEVEL]=OFF;
-	Flags[GAME_OVER]=OFF;
-
 	Menu (&dato,Flags);
-	while(Flags[NEXT_LEVEL]==OFF) // while(1) es para faggots
+	while(Flags[NEXT_LEVEL]==OFF) 
 	{
-	if(Flags[NEXT_LEVEL]==ON){  // El flag NEXT_LEVEL solo se pone en ON si: se carga una partida  o se pasa de nivel
-		Flags[NEXT_LEVEL]=OFF;
-		// calculo de bonus
-		Crear_Nivel(&dato);
-	}
-	imprimeTablero(&(dato.tablero));
-	AccionesDeJuego(&dato,Flags); 
+		if(Flags[NEXT_LEVEL]==ON)
+		{  	
+			Flags[NEXT_LEVEL]=OFF; // El flag NEXT_LEVEL solo se pone en ON si: se carga una partida  o se pasa de nivel
+			// calculo de bonus
+			Crear_Nivel(&dato);
+		}
+		
+		imprimeTablero(&(dato.tablero));
+		AccionesDeJuego(&dato,Flags); 
 	}
 }
-
-void imprimeMenu(int menu)
-{
-	switch(menu)
-	{
-		case 1:
-			printf("Bienvenido:\n\n1 - Juego Nuevo\n2 - Juego con Bitacora\n3 - Cargar Partida\n\n\n");
-			break;
-		case 2:
-			printf("Ingresa Filas\n");
-			break;
-		case 3:
-			printf("Ingresa Columnas\n");
-			break;
-	}
-}
-
 
 void Menu (TipoDatos * dato,TipoFlag Flags){
 	int c;
+
 	printf("Bienvenido:\n\n1 - Juego Nuevo \n2 - Juego con Bitacora \n3 - Cargar Partida\n\n\n","Ingresa Filas\n","Ingresa Columnas\n");
 
 	do
@@ -57,7 +38,7 @@ void Menu (TipoDatos * dato,TipoFlag Flags){
 			Flags[NEXT_LEVEL]=ON;
 			(dato->tablero).c_habilidades.c_martillazos=0;
 			(dato->tablero).c_habilidades.c_hileras=0;
-			(dato->tablero).c_habilidades.c_columnas ++; 
+			(dato->tablero).c_habilidades.c_columnas=0; 
 			PedidoDimenciones(dato);  
 			break;
 		case 3:  //LOAD
@@ -68,53 +49,46 @@ void Menu (TipoDatos * dato,TipoFlag Flags){
 
 void PedidoDimenciones(TipoDatos * dato)
 {
-	//FALTA VALIDAR DIMENSIONES	
-	printf("%s",menu[1]);
-	(dato->tablero).dim.filas= getint("fila: ");
-	printf("%s",menu[2]);
-	(dato->tablero).dim.columnas= getint("columna: ");
-	return;
+	TipoEstado dim_ok = OFF;
 
+	do
+	{
+	
+	(dato->tablero).dim.filas= getint("Ingrese Cantidad de Filas: ");
+	(dato->tablero).dim.columnas= getint("Ingrese Cantidad de Columnas: ");
+
+	dim_ok = DIMCHECK((dato->tablero).dim.filas,(dato->tablero).dim.columnas);
+
+	}while(dim_ok == OFF);
+
+	return;
 }
 
 
 void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 {	
 	static TipoDatos aux_datos;
-
 	int cant,cant_azulejos;
 	TipoPosicion pos;
-	TipoEstado fin_programa=OFF; // PONER EN FLAGS
-
-	char operacion[MAX_LONG]={0};
-	char nombrefile[MAX_LONG];
-	char respuesta[2];
-
-	int longitud_op;
-	char accion,aux;
-
-	//Se realiza un save temporal de los datos por si el usuario pide la operacion UNDO
-	//aux_datos = dato	
-
-	fgets(operacion,MAX_LONG,stdin);
-	longitud_op = strlen(operacion);
-	if(longitud_op != 0)
-	{
 	
-		if(operacion[longitud_op-1]=='\n')
-			operacion[--longitud_op]=0;
+	static char * operacion=malloc(MAXLONG*sizeof(*operacion));
+	char * nombrefile=malloc(MAXLONG*sizeof(*nombrefile));
 
-	}
+	char * respuesta=malloc(MAXLONG*sizeof(*respuesta));
+	
+	char accion,aux;
+	
+	aux_datos = dato //Se realiza un save temporal de los datos por si el usuario pide la operacion UNDO	
+	
+	inputString(operacion);
 
 	sscanf(operacion,"%c",&accion);
-
 
 	switch(accion)
 	{
 		case 'e': 
 
 			cant = sscanf(operacion+1,"%*[ \t]%d,%d%c",&pos.x,&pos.y,&aux);
-
 				
 			if(cant == 2 && cant != EOF){
 				printf("e \n");
@@ -123,18 +97,18 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 				printf("Azulejos: %d \n",cant_azulejos);
 			}else
 			{
-				printf("ERROR: COMANDO NO VALIDO\n");
+				printerror(COMANDO_INVALIDO);
 				return;	
 			}
 			break;
-		/*case 'm':
+		case 'm':
 			cant = sscanf(operacion+1,"%*[ \t]%d,%d%c",&pos.x,&pos.y,&aux);
 						
 			if(cant == 2 && cant != EOF)
-				//cant_azulejos = martillazo(&(dato->tablero),pos.x,pos.y);
+				cant_azulejos = martillazo(&(dato->tablero),pos.x,pos.y);
 			else
 			{
-				printf("ERROR: COMANDO NO VALIDO\n");
+				printerror(COMANDO_INVALIDO);
 				return;	
 			}
 			break;
@@ -142,23 +116,23 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 			cant = sscanf(operacion+1,"%*[ \t]%d%c",&pos.y,&aux);
 				
 			if(cant == 1 && cant != EOF)
-				//cant_azulejos = columna(&(dato->tablero),pos.y);
+				cant_azulejos = columna(&(dato->tablero),pos.y);
 			else
 			{
-				printf("ERROR: COMANDO NO VALIDO\n");
+				printerror(COMANDO_INVALIDO);
 				return;	
 			}
 			break;
 		case 'h':
 			cant = sscanf(operacion+1,"%*[ \t]%d%c",&pos.x,&aux);
 			if(cant == 1 && cant != EOF)
-				//cant_azulejos = hilera(&(dato->tablero),pos.x);
+				cant_azulejos = hilera(&(dato->tablero),pos.x);
 			else
 			{
-				printf("ERROR: COMANDO NO VALIDO\n");
+				printerror(COMANDO_INVALIDO);
 				return;	
 			}
-			break;*/
+			break;
 		case 's':
 			cant = sscanf(operacion+1,"ave%*[ \t]%30s%c",nombrefile,&aux);
 
@@ -168,61 +142,82 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 				//save(dato,nombrefile);
 			}
 			else
-				printf("ERROR: COMANDO NO VALIDO\n");
-				return;	
-			break;
+				printerror(COMANDO_INVALIDO);
+					
+			return;
 
 		case 'u': // VER LOGICA DEL UNDO 
-			if(strcmp( respuesta,"SI" )==0){
-				//*dato = aux_dato;
-			}
 			
-			break;
+				//*dato = aux_dato;
+						
+			return;
 
 		case 'q':
-			while(fin_programa==OFF)
-			{
-				printf("Desea guardar la partida [SI\\NO]\n");
-				scanf("%s",respuesta);
-
+			printf("Desea guardar la partida [SI\\NO]\n");
+			
+				inputString(respuesta);				
+	
 				if(strcmp( respuesta,"SI" )==0)
 				{
 					do{	
 						printf("Ingrese un nombre valido: \n");
 						scanf("%30s%c",nombrefile,&aux);
 					}while(!validFileName(nombrefile));
-						//save(dato,nombrefile);
-						fin_programa=ON;
-				}else{
-					if(strcmp( respuesta,"NO" )==0)
-						fin_programa=ON;
-					else
-						printf("Respuesta no valida\n\n");
+			
+					//save(dato,nombrefile);
+					Flags[END_APPLICATION]=ON;
 				}
+				else if(strcmp( respuesta,"NO" )==0)
+				{
+					Flags[END_APPLICATION]=ON;
+				}
+				else
+				{
+					printf("Respuesta no valida\n\n");
+				}
+			return;
 
-
-
-			}
-			exit(0);
-			break;
-
-
-		/*default:*/
+		default:
+			
+			printerror(COMANDO_INVALIDO);
+			return;
+			
 	}
 
-		if(cant_azulejos < 0) // Si la cantidad de azulejos es negativa implica que hay un error
-		{
-			printerror(cant_azulejos);
-		}else{		
-			Proc_Matriz(dato);
-		}
+	if(cant_azulejos < 0) // Si la cantidad de azulejos es negativa implica que hay un error
+	{
+		printerror(cant_azulejos);
+	}
+	else
+	{		
+		Proc_Matriz(dato);
+	}
 
-		return;
+	return;
+}
+
+void inputString(char * string)
+{
+
+	int longitud_op;
+
+	fgets(string,MAX_LONG,stdin);
+	longitud_op = strlen(string);
+	if(longitud_op != 0)
+	{
+
+		if(string[longitud_op-1]=='\n')
+			string[--longitud_op]=0;
+
+	}
 
 }
 
-void printerror(int ind){
-	printf("%s\n",error+(ind*(-1)));
+void printerror(int ind)
+{
+	char *error={"Fuera de Rango","No hay adyacencia","Error de Columna","Error de Hilera","Posicion Nula","Sin_Memoria","No Hay error","Comando no valido"}; 
+
+	printf("ERROR: %s\n",error+(ind*(-1)-1));
 
 }
 
