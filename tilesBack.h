@@ -49,15 +49,15 @@ typedef struct
 	int nivel;
 }TipoDatos;
 
-void Crear_Nivel(TipoDatos * dato);
+int Crear_Nivel(TipoDatos * dato); // devuelve 0 si pudo crearse el nivel, SIN_MEMORIA en otro caso
 void Proc_Matriz(TipoDatos * dato, int azulejos);
-static int calcularPuntaje(const TipoDimension * dim, int azulejos)
+static int calcularPuntaje(const TipoDimension * dim, int azulejos);
+static int coloresPresentes(TipoTablero * tablero, char * colores);
 
-int validFileName(char * nombrefile); 
-
+// nivelTerminado debe llamarse antes de analisisMatriz!!!
 int analisisMatriz(TipoTablero * tablero); //devuelve 0 si no puedo jugar mas, 1 si puedo seguir jugando
 static int algunAdyacente(TipoTablero * tablero, int i, int j);//funcion auxiliar de analisisMatriz
-int nivelTerminado(TipoTablero * tablero);
+int nivelTerminado(TipoTablero * tablero); // devuelve 1 si termino el nivel, 0 si no
 
 int generarTablero(TipoDatos * dato); //Genera el tablero de juego en cada nivel
 

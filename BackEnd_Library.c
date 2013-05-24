@@ -6,23 +6,23 @@
 Esta es la libreria de good-engineer
 */
 
-void Crear_Nivel(TipoDatos * dato)
+int Crear_Nivel(TipoDatos * dato)
 {
-
+	int rta;
 	dato->nivel++;
 	dato->puntaje=0;
 	(dato->tablero).c_habilidades.c_martillazos ++;
 	(dato->tablero).c_habilidades.c_hileras ++;
 	(dato->tablero).c_habilidades.c_columnas ++;
-	generarTablero(dato);
+	return generarTablero(dato);
 }
 
 void Proc_Matriz(TipoDatos * dato, int azulejos)
 {
-
 	gravedad(&(dato->tablero));
 	nullCols(&(dato->tablero));
-	dato->puntaje = calcularPuntaje(&((dato->tablero).dim), azulejos);
+	dato->puntaje += calcularPuntaje(&((dato->tablero).dim), azulejos);
+		
 }
 
 
@@ -31,6 +31,10 @@ int generarTablero(TipoDatos * dato)
 	//LLAMADO A srand(time(NULL)) lo hacemos UNA sola vez, y desde el main
 	int i, j, indice, nivel = dato->nivel, filas = (dato->tablero).dim.filas, columnas = (dato->tablero).dim.columnas;
 	char ** tablero = malloc(columnas*sizeof(char*));
+	char * colores = malloc(nivel+2);
+	colores[nivel+1]='0';
+	for(i=0; i<=nivel; i++)
+		colores[i]='A'+i;
 	if(tablero == NULL)
 		return SIN_MEMORIA;
 	for(j=0; j<columnas; j++)
@@ -45,16 +49,39 @@ int generarTablero(TipoDatos * dato)
 			return SIN_MEMORIA;
 		}
 	}
-	for(j=0; j<columnas; j++)
+	do
 	{
-		for(i=0; i<filas; i++)
+		for(j=0; j<columnas; j++)
 		{
-			indice = rand()%(nivel+1);
-			tablero[j][i] = 'A' + indice;
+			for(i=0; i<filas; i++)
+			{
+				indice = rand()%(nivel+1);
+				tablero[j][i] = 'A' + indice;
+			}
 		}
-	}
+	}while(!coloresPresentes(tablero, colores));
 	(dato->tablero).matriz = tablero;
 	return 0;
+}
+
+static int coloresPresentes(TipoTablero * tablero, char * colores)
+{
+	int filas = (tablero->dim).filas, columnas = (tablero->dim).columnas, i, j, k, flag=0;
+	for(k=0; colores[k]!=0; k++)
+	{
+		flag = 0;
+		for(j=0; j<columnas && !flag; j++)
+		{
+			for(i=0; i<filas && !flag; i++)
+			{
+				if((tablero->matriz)[j][i]==colores[k])
+					flag = 1;
+			}
+		}
+		if(flag==0)
+			return 0;
+	}
+	return 1;			
 }
 
 void liberarMatriz(TipoTablero * tablero)
