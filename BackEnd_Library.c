@@ -26,15 +26,6 @@ void Proc_Matriz(TipoDatos * dato, int azulejos)
 }
 
 
-int validFileName(char * nombrefile)
-{	
-	int i;
-	for(i=0;nombrefile[i]!=0;i++)
-		if(!VALIDCHAR(nombrefile[i]))
-			return 0;
-	return 1;
-}
-
 int generarTablero(TipoDatos * dato)
 {
 	//LLAMADO A srand(time(NULL)) lo hacemos UNA sola vez, y desde el main
