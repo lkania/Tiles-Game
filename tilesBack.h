@@ -44,7 +44,7 @@ typedef struct
 	int nivel;
 }TipoDatos;
 
-
+void Crear_Nivel(TipoDatos * dato);
  
 /*
 void analisisMatriz(TipoDatos * dato); //Modifica el FLAG GAME_OVER dependiendo de si se puede seguir jugando o no

@@ -6,7 +6,7 @@
 Esta es la libreria de good-engineer
 */
 
-static int generarTablero(TipoDatos * dato)
+int generarTablero(TipoDatos * dato)
 {
 	//LLAMADO A srand(time(NULL)) lo hacemos UNA sola vez, y desde el main
 	int i, j, indice, nivel = dato->nivel, filas = (dato->tablero).dim.filas, columnas = (dato->tablero).dim.columnas;
@@ -37,7 +37,7 @@ static int generarTablero(TipoDatos * dato)
 	return 0;
 }
 
-static void liberarMatriz(TipoTablero * tablero)
+ void liberarMatriz(TipoTablero * tablero)
 {
 	int j, columnas = (tablero->dim).columnas;
 	for(j=0; j<columnas; j++)
@@ -45,7 +45,7 @@ static void liberarMatriz(TipoTablero * tablero)
 	free(tablero->matriz);
 }
 
-static void elimAd(TipoTablero * tablero, int i, int j, char tipo, int * azulejos)
+ void elimAd(TipoTablero * tablero, int i, int j, char tipo, int * azulejos)
 {
 	if((tablero->matriz)[j][i]==tipo)
 	{
@@ -130,7 +130,7 @@ int columna(TipoTablero * tablero, int columna)
 	return azulejos;
 }
 
-static int validarEliminar(TipoTablero * tablero, int i, int j)
+ int validarEliminar(TipoTablero * tablero, int i, int j)
 {
 	int aux, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	char tipo;
@@ -146,12 +146,12 @@ static int validarEliminar(TipoTablero * tablero, int i, int j)
 			(i+1<filas && (tablero->matriz)[j][i+1]==tipo)||
 			(j+1<columnas && (tablero->matriz)[j+1][i]==tipo));
 		if(!aux)
-			return SIN_ADYACENCIAS;
+			return SIN_ADYACENCIA;
 	}
 	return 0;
 }
 
-static int validarMartillazo(TipoTablero * tablero, int i, int j)
+ int validarMartillazo(TipoTablero * tablero, int i, int j)
 {
 	int filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	if(i<0 || i>=filas || j<0 || j>=columnas)
@@ -163,7 +163,7 @@ static int validarMartillazo(TipoTablero * tablero, int i, int j)
 	return 0;
 }
 
-static int validarHilera(TipoTablero * tablero, int hilera)
+int validarHilera(TipoTablero * tablero, int hilera)
 {
 	int j, flag = 0, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	if(hilera<0 || hilera >= filas)
@@ -178,7 +178,7 @@ static int validarHilera(TipoTablero * tablero, int hilera)
 	return 0;
 }
 
-static int validarColumna(TipoTablero * tablero, int columna)
+int validarColumna(TipoTablero * tablero, int columna)
 {
 	int i, flag = 0, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	if(columna < 0 || columna >= columnas)
@@ -194,7 +194,7 @@ static int validarColumna(TipoTablero * tablero, int columna)
 	return 0;
 }
 
-static void gravedad(TipoTablero * tablero)
+ void gravedad(TipoTablero * tablero)
 {
 	int i, j, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	for(j=0; j<columnas; j++)
@@ -209,7 +209,7 @@ static void gravedad(TipoTablero * tablero)
 	}
 }
 
-static void decalarFils(TipoTablero * tablero, int i, int j)
+void decalarFils(TipoTablero * tablero, int i, int j)
 {
 	if((tablero->matriz)[j][i]==0)
 	{
@@ -221,7 +221,7 @@ static void decalarFils(TipoTablero * tablero, int i, int j)
 	}
 }
 
-static void nullCols(TipoTablero * tablero)
+void nullCols(TipoTablero * tablero)
 {
 	int i=0, j=(tablero->dim).columnas-1, filas = (tablero->dim).filas, k;
 	char * aux;
@@ -244,7 +244,7 @@ static void nullCols(TipoTablero * tablero)
 	}
 }
 
-static int algunAdyacente(TipoTablero * tablero, int i, int j)
+ int algunAdyacente(TipoTablero * tablero, int i, int j)
 {
 	char color = (tablero->matriz)[j][i];
 	int filas = (tablero->dim).filas, columnas = (tablero->dim).columnas, h, k;
@@ -256,7 +256,7 @@ static int algunAdyacente(TipoTablero * tablero, int i, int j)
 	return 0;
 }
 
-static int analisisMatriz(TipoTablero * tablero)
+ int analisisMatriz(TipoTablero * tablero)
 {
 	int filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	int i, j, aux;
