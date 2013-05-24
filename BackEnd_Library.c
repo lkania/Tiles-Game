@@ -6,6 +6,39 @@
 Esta es la libreria de good-engineer
 */
 
+void Crear_Nivel(TipoDatos * dato)
+{
+
+	dato->nivel++;
+	dato->puntaje=0;
+	(dato->tablero).c_habilidades.c_martillazos ++;
+	(dato->tablero).c_habilidades.c_hileras ++;
+	(dato->tablero).c_habilidades.c_columnas ++;
+	generarTablero(dato);
+}
+
+void Proc_Matriz(TipoDatos * dato)
+{
+
+	gravedad(&(dato->tablero));
+	nullCols(&(dato->tablero));
+	return;
+
+
+}
+
+
+int validFileName(char * nombrefile)
+{	int i;
+
+	for(i=0;nombrefile[i]!=0;i++)
+	{
+		if(!VALIDNAME(nombrefile[i]))
+			return 0;
+	}
+		return 1;
+}
+
 int generarTablero(TipoDatos * dato)
 {
 	//LLAMADO A srand(time(NULL)) lo hacemos UNA sola vez, y desde el main

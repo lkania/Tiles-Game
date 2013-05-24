@@ -16,9 +16,9 @@ void main(void)
 	{
 	if(Flags[NEXT_LEVEL]==ON){  // El flag NEXT_LEVEL solo se pone en ON si: se carga una partida  o se pasa de nivel
 		Flags[NEXT_LEVEL]=OFF;
+		// calculo de bonus
 		Crear_Nivel(&dato);
 	}
-	BORRAR_PANT
 	imprimeTablero(&(dato.tablero));
 	AccionesDeJuego(&dato,Flags); 
 	}
@@ -43,9 +43,6 @@ void imprimeMenu(int menu)
 
 void Menu (TipoDatos * dato,TipoFlag Flags){
 	int c;
-	
-	BORRAR_PANT
-
 	do{
 		printf("%s",menu[0]);
 		c=getint("");
@@ -58,7 +55,6 @@ void Menu (TipoDatos * dato,TipoFlag Flags){
 			 (dato->tablero).c_habilidades.c_martillazos=0;
 			 (dato->tablero).c_habilidades.c_hileras=0;
 			 (dato->tablero).c_habilidades.c_columnas ++; 
-			 BORRAR_PANT
 			 PedidoDimenciones(dato);  
 			 break;
 		case 3:  //LOAD
@@ -77,25 +73,6 @@ void PedidoDimenciones(TipoDatos * dato){
 	return;
 
 }
-
-
-
-
-
-void Crear_Nivel(TipoDatos * dato){ /// FUNCION DEL BACKEND HAY QUE PONERLA EN TILES BACK!!!!!!!!!!!!!!!!!!!1
-
-	dato->nivel++;
-	dato->puntaje=0;
-	(dato->tablero).c_habilidades.c_martillazos ++;
-	(dato->tablero).c_habilidades.c_hileras ++;
-	(dato->tablero).c_habilidades.c_columnas ++;
-	//Falta calculo del bonus
-	generarTablero(dato);
-
-}
-
-
-
 
 
 void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
@@ -239,29 +216,6 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 
 		return;
 
-}
-
-
-void Proc_Matriz(TipoDatos * dato) // SE PASA A BACKEND
-{
-
-	gravedad(&(dato->tablero));
-	nullCols(&(dato->tablero));
-	return;
-
-
-}
-
-
-int validFileName(char * nombrefile) // SE PASA A BACKEND
-{	int i;
-
-	for(i=0;nombrefile[i]!=0;i++)
-	{
-		if(!VALIDNAME(nombrefile[i]))
-			return 0;
-	}
-		return 1;
 }
 
 void printerror(int ind){
