@@ -17,26 +17,22 @@ void Crear_Nivel(TipoDatos * dato)
 	generarTablero(dato);
 }
 
-void Proc_Matriz(TipoDatos * dato)
+void Proc_Matriz(TipoDatos * dato, int azulejos)
 {
 
 	gravedad(&(dato->tablero));
 	nullCols(&(dato->tablero));
-	return;
-
-
+	dato->puntaje = calcularPuntaje(&((dato->tablero).dim), azulejos);
 }
 
 
 int validFileName(char * nombrefile)
-{	int i;
-
+{	
+	int i;
 	for(i=0;nombrefile[i]!=0;i++)
-	{
-		if(!VALIDNAME(nombrefile[i]))
+		if(!VALIDCHAR(nombrefile[i]))
 			return 0;
-	}
-		return 1;
+	return 1;
 }
 
 int generarTablero(TipoDatos * dato)
@@ -70,7 +66,7 @@ int generarTablero(TipoDatos * dato)
 	return 0;
 }
 
- void liberarMatriz(TipoTablero * tablero)
+void liberarMatriz(TipoTablero * tablero)
 {
 	int j, columnas = (tablero->dim).columnas;
 	for(j=0; j<columnas; j++)
@@ -78,7 +74,7 @@ int generarTablero(TipoDatos * dato)
 	free(tablero->matriz);
 }
 
- void elimAd(TipoTablero * tablero, int i, int j, char tipo, int * azulejos)
+static void elimAd(TipoTablero * tablero, int i, int j, char tipo, int * azulejos)
 {
 	if((tablero->matriz)[j][i]==tipo)
 	{
@@ -163,7 +159,7 @@ int columna(TipoTablero * tablero, int columna)
 	return azulejos;
 }
 
- int validarEliminar(TipoTablero * tablero, int i, int j)
+static int validarEliminar(TipoTablero * tablero, int i, int j)
 {
 	int aux, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	char tipo;
@@ -184,7 +180,7 @@ int columna(TipoTablero * tablero, int columna)
 	return 0;
 }
 
- int validarMartillazo(TipoTablero * tablero, int i, int j)
+static int validarMartillazo(TipoTablero * tablero, int i, int j)
 {
 	int filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	if(i<0 || i>=filas || j<0 || j>=columnas)
@@ -196,7 +192,7 @@ int columna(TipoTablero * tablero, int columna)
 	return 0;
 }
 
-int validarHilera(TipoTablero * tablero, int hilera)
+static int validarHilera(TipoTablero * tablero, int hilera)
 {
 	int j, flag = 0, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	if(hilera<0 || hilera >= filas)
@@ -211,7 +207,7 @@ int validarHilera(TipoTablero * tablero, int hilera)
 	return 0;
 }
 
-int validarColumna(TipoTablero * tablero, int columna)
+static int validarColumna(TipoTablero * tablero, int columna)
 {
 	int i, flag = 0, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	if(columna < 0 || columna >= columnas)
@@ -227,7 +223,7 @@ int validarColumna(TipoTablero * tablero, int columna)
 	return 0;
 }
 
- void gravedad(TipoTablero * tablero)
+static void gravedad(TipoTablero * tablero)
 {
 	int i, j, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	for(j=0; j<columnas; j++)
@@ -242,7 +238,7 @@ int validarColumna(TipoTablero * tablero, int columna)
 	}
 }
 
-void decalarFils(TipoTablero * tablero, int i, int j)
+static void decalarFils(TipoTablero * tablero, int i, int j)
 {
 	if((tablero->matriz)[j][i]==0)
 	{
@@ -254,7 +250,7 @@ void decalarFils(TipoTablero * tablero, int i, int j)
 	}
 }
 
-void nullCols(TipoTablero * tablero)
+static void nullCols(TipoTablero * tablero)
 {
 	int i=0, j=(tablero->dim).columnas-1, filas = (tablero->dim).filas, k;
 	char * aux;
@@ -277,7 +273,7 @@ void nullCols(TipoTablero * tablero)
 	}
 }
 
- int algunAdyacente(TipoTablero * tablero, int i, int j)
+static int algunAdyacente(TipoTablero * tablero, int i, int j)
 {
 	char color = (tablero->matriz)[j][i];
 	int filas = (tablero->dim).filas, columnas = (tablero->dim).columnas, h, k;
@@ -289,7 +285,7 @@ void nullCols(TipoTablero * tablero)
 	return 0;
 }
 
- int analisisMatriz(TipoTablero * tablero)
+int analisisMatriz(TipoTablero * tablero)
 {
 	int filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	int i, j, aux;
@@ -303,4 +299,21 @@ void nullCols(TipoTablero * tablero)
 			if(algunAdyacente(tablero, i, j))
 				return 1;
 	return 0;
+}
+
+int nivelTerminado(TipoTablero * tablero)
+{
+	return (tablero->matriz)[0][(tablero->dim).filas-1]=='0';
+}
+
+static int calcularPuntaje(const TipoDimension * dim, int azulejos)
+{
+	int totalAzulejos = (dim->filas)*(dim->columnas);
+	if(azulejos == 1)
+		return 1;
+	else if(1 < totalAzulejos < 0.3*totalAzulejos)
+		return (2*azulejos);
+	else if(0.3*totalAzulejos <= azulejos < 0.6*totalAzulejos)
+		return (3*azulejos);
+	return (4*azulejos);
 }
