@@ -2,19 +2,6 @@
 #define tilesBack_H
 
 #define MOD(x) ( ((x)>=0)?(x):(-x) )
-#define	MAX_LONG	30
-#define VALIDCHAR(c)	(isalnum(c) || c =='_' || c=='-')
-#define	FREE_BUFFER	while(getchar()!='\n')
-#define BITACORA 0 
-#define NEXT_LEVEL 1
-#define GAME_OVER 2
-
-enum operaciones {UNDO=0,SAVE,ELIMINAR,HILERA,COLUMNA,MARTILLAZO};
-typedef enum operaciones TipoOperacion;
-
-enum estados {ON=0,OFF};
-typedef enum estados TipoEstado;
-typedef TipoEstado TipoFlag[3]; //1er FLAG: BITACORA, 2do FLAG: NEXT LEVEL, 3er FLAG: GAME OVER
 
 enum errores {FUERA_RANGO=-8,SIN_ADYACENCIA,COLUMNA_NULA,HILERA_NULA,POSICION_NULA,SIN_MEMORIA,NO_HAB, COMANDO_INVALIDO};
 
