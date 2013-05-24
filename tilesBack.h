@@ -52,16 +52,19 @@ typedef struct
 int Crear_Nivel(TipoDatos * dato); // devuelve 0 si pudo crearse el nivel, SIN_MEMORIA en otro caso
 void Proc_Matriz(TipoDatos * dato, int azulejos);
 static int calcularPuntaje(const TipoDimension * dim, int azulejos);
-static int coloresPresentes(TipoTablero * tablero, char * colores);
+static void bonus(TipoHabilidades * habilidades, const TipoDimension * dim, int puntaje);//incrementa habilidades segun bonus
 
 // nivelTerminado debe llamarse antes de analisisMatriz!!!
+int nivelTerminado(TipoTablero * tablero); // devuelve 1 si termino el nivel, 0 si no
 int analisisMatriz(TipoTablero * tablero); //devuelve 0 si no puedo jugar mas, 1 si puedo seguir jugando
 static int algunAdyacente(TipoTablero * tablero, int i, int j);//funcion auxiliar de analisisMatriz
-int nivelTerminado(TipoTablero * tablero); // devuelve 1 si termino el nivel, 0 si no
 
-int generarTablero(TipoDatos * dato); //Genera el tablero de juego en cada nivel
+static int generarTablero(TipoDatos * dato); //Genera el tablero de juego en cada nivel
+static int coloresPresentes(TipoTablero * tablero, char * colores); // funcion auxiliar de generarTablero
+static void liberarMatriz(TipoTablero * tablero);
 
-//Cada uno de las siguientes funciones devuelve cuantos azulejos se rompieron
+//Cada uno de las siguientes funciones devuelve cuantos azulejos se rompieron, si es que se pudo.
+//o un numero negativo caracteristico que indica el error que hubo. NUNCA DEVUELVEN 0
 int eliminar(TipoTablero * tablero, int i, int j);
 int martillazo(TipoTablero * tablero, int i, int j);
 int hilera(TipoTablero * tablero, int hilera);
@@ -69,8 +72,7 @@ int columna(TipoTablero * tablero, int columna);
 
 static void elimAd(TipoTablero * tablero, int i, int j, char tipo, int * azulejos);//funcion auxiliar de funcion "eliminar"
 
-//Validaciones de sus respectivos movimientos
-
+//Las siguientes son funciones auxiliares de sus respectivos movimientos
 static int validarEliminar(TipoTablero * tablero, int i, int j);
 static int validarMartillazo(TipoTablero * tablero, int i, int j);
 static int validarHilera(TipoTablero * tablero, int hilera);
@@ -78,9 +80,7 @@ static int validarColumna(TipoTablero * tablero, int columna);
 
 static void gravedad(TipoTablero * tablero);//tras su invocacion "caen" las piezas hasta que no haya espacios libres
 static void decalarFils(TipoTablero * tablero, int i, int j); //funcion auxiliar para gravedad
-
 static void nullCols(TipoTablero * tablero);//decala hacia la izquierda las columnas nulas
-void liberarMatriz(TipoTablero * tablero);
 
 #endif
 

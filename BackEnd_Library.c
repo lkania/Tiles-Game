@@ -8,12 +8,14 @@ Esta es la libreria de good-engineer
 
 int Crear_Nivel(TipoDatos * dato)
 {
-	int rta;
 	dato->nivel++;
+	if(nivel>1)
+		bonus(&((dato->tablero).c_habilidades), &((dato->tablero).dim), dato->puntaje);
 	dato->puntaje=0;
 	(dato->tablero).c_habilidades.c_martillazos ++;
 	(dato->tablero).c_habilidades.c_hileras ++;
 	(dato->tablero).c_habilidades.c_columnas ++;
+	liberarMatriz(&(dato->tablero));
 	return generarTablero(dato);
 }
 
@@ -22,11 +24,10 @@ void Proc_Matriz(TipoDatos * dato, int azulejos)
 	gravedad(&(dato->tablero));
 	nullCols(&(dato->tablero));
 	dato->puntaje += calcularPuntaje(&((dato->tablero).dim), azulejos);
-		
 }
 
 
-int generarTablero(TipoDatos * dato)
+static int generarTablero(TipoDatos * dato)
 {
 	//LLAMADO A srand(time(NULL)) lo hacemos UNA sola vez, y desde el main
 	int i, j, indice, nivel = dato->nivel, filas = (dato->tablero).dim.filas, columnas = (dato->tablero).dim.columnas;
@@ -84,7 +85,7 @@ static int coloresPresentes(TipoTablero * tablero, char * colores)
 	return 1;			
 }
 
-void liberarMatriz(TipoTablero * tablero)
+static void liberarMatriz(TipoTablero * tablero)
 {
 	int j, columnas = (tablero->dim).columnas;
 	for(j=0; j<columnas; j++)
@@ -303,6 +304,11 @@ static int algunAdyacente(TipoTablero * tablero, int i, int j)
 	return 0;
 }
 
+int nivelTerminado(TipoTablero * tablero)
+{
+	return (tablero->matriz)[0][(tablero->dim).filas-1]=='0';
+}
+
 int analisisMatriz(TipoTablero * tablero)
 {
 	int filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
@@ -319,11 +325,6 @@ int analisisMatriz(TipoTablero * tablero)
 	return 0;
 }
 
-int nivelTerminado(TipoTablero * tablero)
-{
-	return (tablero->matriz)[0][(tablero->dim).filas-1]=='0';
-}
-
 static int calcularPuntaje(const TipoDimension * dim, int azulejos)
 {
 	int totalAzulejos = (dim->filas)*(dim->columnas);
@@ -334,4 +335,22 @@ static int calcularPuntaje(const TipoDimension * dim, int azulejos)
 	else if(0.3*totalAzulejos <= azulejos < 0.6*totalAzulejos)
 		return (3*azulejos);
 	return (4*azulejos);
+}
+
+static void bonus(TipoHabilidades * habilidades, const TipoDimension * dim, int puntaje)
+{
+	int totalAzulejos = (dim->filas)(dim->columnas);
+	if(puntaje >= 3*totalAzulejos)
+	{
+		habilidades->martillazos++;
+		habilidades->columnas++;
+		habilidades->hileras++;
+	}
+	else if(puntaje >= 2*totalAzulejos)
+	{
+		habilidades->columnas++;
+		habilidades->hileras++;
+	}
+	else
+		habilidades->hileras++;
 }
