@@ -1,10 +1,9 @@
 #include "tilesBack.h"
 #include "tilesFront.h"
 
-/*static char *menu[]={"Bienvenido:\n\n1 - Juego Nuevo \n2 - Juego con Bitacora \n3 - Cargar Partida\n\n\n","Ingresa Filas\n","Ingresa Columnas\n"}; variables globales are for pussies*/
 
 void main(void)
-{	TipoFlag  Flags;
+{	TipoFlag  Flags = {OFF,OFF,OFF,OFF];
 	TipoDatos dato;
 	
 	Flags[BITACORA]=OFF;
@@ -12,7 +11,7 @@ void main(void)
 	Flags[GAME_OVER]=OFF;
 
 	Menu (&dato,Flags);
-	while(1) // while(1) es para faggots
+	while(Flags[NEXT_LEVEL]==OFF) // while(1) es para faggots
 	{
 	if(Flags[NEXT_LEVEL]==ON){  // El flag NEXT_LEVEL solo se pone en ON si: se carga una partida  o se pasa de nivel
 		Flags[NEXT_LEVEL]=OFF;
@@ -43,7 +42,8 @@ void imprimeMenu(int menu)
 
 void Menu (TipoDatos * dato,TipoFlag Flags){
 	int c;
-	imprimeMenu(1);
+	printf("Bienvenido:\n\n1 - Juego Nuevo \n2 - Juego con Bitacora \n3 - Cargar Partida\n\n\n","Ingresa Filas\n","Ingresa Columnas\n");
+
 	do
 	{
 		c=getint("Ingrese una opcion: ");
