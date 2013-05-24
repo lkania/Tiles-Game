@@ -43,28 +43,31 @@ void imprimeMenu(int menu)
 
 void Menu (TipoDatos * dato,TipoFlag Flags){
 	int c;
-	do{
-		printf("%s",menu[0]);
-		c=getint("");
-	}while(c<1 && c>4);
+	imprimeMenu(1);
+	do
+	{
+		c=getint("Ingrese una opcion: ");
+	}while(c<1 || c>4);
 
-	switch(c){
-		case 2:  Flags[BITACORA]=ON; // Hay que ver si no se pone en dato
-		case 1:	 dato->nivel=0;
-			  Flags[NEXT_LEVEL]=ON;
-			 (dato->tablero).c_habilidades.c_martillazos=0;
-			 (dato->tablero).c_habilidades.c_hileras=0;
-			 (dato->tablero).c_habilidades.c_columnas ++; 
-			 PedidoDimenciones(dato);  
-			 break;
+	switch(c)
+	{
+		case 2: Flags[BITACORA]=ON; // Hay que ver si no se pone en dato
+		case 1:
+			dato->nivel=0;
+			Flags[NEXT_LEVEL]=ON;
+			(dato->tablero).c_habilidades.c_martillazos=0;
+			(dato->tablero).c_habilidades.c_hileras=0;
+			(dato->tablero).c_habilidades.c_columnas ++; 
+			PedidoDimenciones(dato);  
+			break;
 		case 3:  //LOAD
 			 Flags[NEXT_LEVEL]=OFF; //Setear flag de que se hizo load FIJAR DONDE DECLARARSE
 			 break;
 	}
 }
 
-void PedidoDimenciones(TipoDatos * dato){
-	BORRAR_PANT
+void PedidoDimenciones(TipoDatos * dato)
+{
 	//FALTA VALIDAR DIMENSIONES	
 	printf("%s",menu[1]);
 	(dato->tablero).dim.filas= getint("fila: ");
