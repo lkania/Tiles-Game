@@ -1,7 +1,7 @@
 #include "tilesBack.h"
 #include "tilesFront.h"
 
-static char *menu[]={"Bienvenido:\n\n1 - Juego Nuevo \n2 - Juego con Bitacora \n3 - Cargar Partida\n\n\n","Ingresa Filas\n","Ingresa Columnas\n"};
+/*static char *menu[]={"Bienvenido:\n\n1 - Juego Nuevo \n2 - Juego con Bitacora \n3 - Cargar Partida\n\n\n","Ingresa Filas\n","Ingresa Columnas\n"}; variables globales are for pussies*/
 
 void main(void)
 {	TipoFlag  Flags;
@@ -12,17 +12,31 @@ void main(void)
 	Flags[GAME_OVER]=OFF;
 
 	Menu (&dato,Flags);
-	while(1){
-		if(Flags[NEXT_LEVEL]==ON){  // El flag NEXT_LEVEL solo se pone en ON si: se carga una partida  o se pasa de nivel
-			Flags[NEXT_LEVEL]=OFF;
-			Crear_Nivel(&dato);
-		}
-		BORRAR_PANT
-		imprimeTablero(&(dato.tablero));
-		AccionesDeJuego(&dato,Flags); 
-		
-		
+	while(1) // while(1) es para faggots
+	{
+	if(Flags[NEXT_LEVEL]==ON){  // El flag NEXT_LEVEL solo se pone en ON si: se carga una partida  o se pasa de nivel
+		Flags[NEXT_LEVEL]=OFF;
+		Crear_Nivel(&dato);
+	}
+	BORRAR_PANT
+	imprimeTablero(&(dato.tablero));
+	AccionesDeJuego(&dato,Flags); 
+	}
+}
 
+void imprimeMenu(int menu)
+{
+	switch(menu)
+	{
+		case 1:
+			printf("Bienvenido:\n\n1 - Juego Nuevo\n2 - Juego con Bitacora\n3 - Cargar Partida\n\n\n");
+			break;
+		case 2:
+			printf("Ingresa Filas\n");
+			break;
+		case 3:
+			printf("Ingresa Columnas\n");
+			break;
 	}
 }
 
@@ -228,7 +242,8 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 }
 
 
-void Proc_Matriz(TipoDatos * dato) {
+void Proc_Matriz(TipoDatos * dato) // SE PASA A BACKEND
+{
 
 	gravedad(&(dato->tablero));
 	nullCols(&(dato->tablero));
@@ -238,7 +253,7 @@ void Proc_Matriz(TipoDatos * dato) {
 }
 
 
-int validFileName(char * nombrefile)
+int validFileName(char * nombrefile) // SE PASA A BACKEND
 {	int i;
 
 	for(i=0;nombrefile[i]!=0;i++)
@@ -270,7 +285,7 @@ void imprimeTablero(TipoTablero * tablero)
 			else if(j>=0 && i>=0)
 			{
 				if((tablero->matriz)[j][i] != 0  && (tablero->matriz)[j][i]!='0')
-                    printf("%c  ", (tablero->matriz)[j][i]);
+					printf("%c  ", (tablero->matriz)[j][i]);
 				else
 					printf("   ");
 			}

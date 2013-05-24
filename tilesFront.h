@@ -8,7 +8,7 @@
 #define VALIDNAME(c)	(isalnum(c) || c =='_' || c=='-')
 #define	FREE_BUFFER	while(getchar()!='\n')
 
-#define BORRAR_PANT printf("\033c");
+#define BORRAR_PANT printf("\033c"); // NO ES ANSI C!!!
 
 #define BITACORA 0 
 #define NEXT_LEVEL 1
@@ -27,4 +27,5 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags);
 void printerror(int ind);
 int validFileName(char * nombrefile);
 void imprimeTablero(TipoTablero * tablero);
+void imprimeMenu(int menu);
 
