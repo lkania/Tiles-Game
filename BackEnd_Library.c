@@ -2,20 +2,18 @@
 #include <stdlib.h>
 #include "tilesBack.h"
 
-/*
-Esta es la libreria de good-engineer
-*/
-
 int Crear_Nivel(TipoDatos * dato)
 {
 	dato->nivel++;
-	if(dato->nivel>1)
+	if((dato->nivel)>1)
+	{
 		bonus(&((dato->tablero).c_habilidades), &((dato->tablero).dim), dato->puntaje);
+		liberarMatriz(&(dato->tablero));
+	}
 	dato->puntaje=0;
-	(dato->tablero).c_habilidades.c_martillazos ++;
-	(dato->tablero).c_habilidades.c_hileras ++;
-	(dato->tablero).c_habilidades.c_columnas ++;
-	liberarMatriz(&(dato->tablero));
+	(dato->tablero).c_habilidades.c_martillazos++;
+	(dato->tablero).c_habilidades.c_hileras++;
+	(dato->tablero).c_habilidades.c_columnas++;
 	return generarTablero(dato);
 }
 
@@ -29,18 +27,17 @@ void Proc_Matriz(TipoDatos * dato, int azulejos)
 
 static int generarTablero(TipoDatos * dato)
 {
-	//LLAMADO A srand(time(NULL)) lo hacemos UNA sola vez, y desde el main
-	int i, j, indice, nivel = dato->nivel, filas = (dato->tablero).dim.filas, columnas = (dato->tablero).dim.columnas;
+        int i, j, indice, nivel = dato->nivel, filas = (dato->tablero).dim.filas, columnas = (dato->tablero).dim.columnas;
 	char ** tablero = malloc(columnas*sizeof(char*));
 	char * colores = malloc(nivel+2);
-	colores[nivel+1]='0';
+	colores[nivel+1]='\0';
 	for(i=0; i<=nivel; i++)
 		colores[i]='A'+i;
 	if(tablero == NULL)
 		return SIN_MEMORIA;
 	for(j=0; j<columnas; j++)
 	{
-		tablero[j] = malloc(filas);
+		tablero[j] = malloc(filas*sizeof(char));
 		if(tablero[j] == NULL)
 		{
 			j--;
@@ -50,6 +47,7 @@ static int generarTablero(TipoDatos * dato)
 			return SIN_MEMORIA;
 		}
 	}
+	putchar('\n');
 	do
 	{
 		for(j=0; j<columnas; j++)
@@ -60,15 +58,15 @@ static int generarTablero(TipoDatos * dato)
 				tablero[j][i] = 'A' + indice;
 			}
 		}
+		(dato->tablero).matriz = tablero;
 	}while(!coloresPresentes(&(dato->tablero), colores));
-	(dato->tablero).matriz = tablero;
-	return 0;
+        return 0;
 }
 
 static int coloresPresentes(TipoTablero * tablero, char * colores)
 {
 	int filas = (tablero->dim).filas, columnas = (tablero->dim).columnas, i, j, k, flag=0;
-	for(k=0; colores[k]!=0; k++)
+	for(k=0; colores[k] != '\0'; k++)
 	{
 		flag = 0;
 		for(j=0; j<columnas && !flag; j++)
@@ -100,10 +98,16 @@ static void elimAd(TipoTablero * tablero, int i, int j, char tipo, int * azulejo
 		int h, k;
 		(tablero->matriz)[j][i]='\0';
 		(*azulejos)++;
-		for(k=j-1; h<=j+1; j++)
+		for(k=j-1; k<=j+1; k++)
+		{
 			for(h=i-1; h<=i+1; h++)
+			{
 				if(h>=0 && h<(tablero->dim).filas && k>=0 && k<(tablero->dim).columnas && (MOD(h-i)+MOD(k-j))==1 )
+				{
 					elimAd(tablero, h, k, tipo, azulejos);
+				}
+			}
+		}
 	}
 }
 
@@ -128,15 +132,15 @@ int martillazo(TipoTablero * tablero, int i, int j)
 		{
         	for(h=i-1; h<=i+1; h++)
 			{
-        	    if(h>=0 && h<(tablero->dim).filas && k>=0 && (tablero->dim).columnas && (tablero->matriz)[k][h]!=0)
+        	    if(h>=0 && h<(tablero->dim).filas && k>=0 && k<(tablero->dim).columnas && (tablero->matriz)[k][h]!=0)
 				{
         	        (tablero->matriz)[k][h] = '\0';
 					azulejos++;
 				}
 			}
 		}
+		(tablero->c_habilidades).c_martillazos--;
 	}
-	(tablero->c_habilidades).c_martillazos--;
 	return azulejos;
 }
 
@@ -153,9 +157,9 @@ int hilera(TipoTablero * tablero, int hilera)
 				(tablero->matriz)[j][hilera] = '\0';
 				azulejos++;
 			}
-		}	
+		}
+		(tablero->c_habilidades).c_hileras--;
 	}
-	(tablero->c_habilidades).c_hileras--;
 	return azulejos;
 }
 
@@ -173,8 +177,8 @@ int columna(TipoTablero * tablero, int columna)
 				azulejos++;
 			}
 		}
+		(tablero->c_habilidades).c_columnas--;
 	}
-	(tablero->c_habilidades).c_columnas--;
 	return azulejos;
 }
 
@@ -204,7 +208,7 @@ static int validarMartillazo(TipoTablero * tablero, int i, int j)
 	int filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	if(i<0 || i>=filas || j<0 || j>=columnas)
 		return FUERA_RANGO;
-	else if((tablero->matriz)[j][i]!='0')
+	else if((tablero->matriz)[j][i]=='0')
 		return POSICION_NULA;
 	else if((tablero->c_habilidades).c_martillazos < 1)
 		return NO_HAB;

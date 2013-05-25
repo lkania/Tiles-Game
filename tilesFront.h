@@ -32,6 +32,7 @@ void Menu (TipoDatos * dato,TipoFlag Flags);
 
 void PedidoDimenciones(TipoDatos * dato);
 void imprimeTablero(TipoTablero * tablero);
+void imprimirEstado(TipoDatos * dato);
 void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags);
 
 void printerror(int ind);

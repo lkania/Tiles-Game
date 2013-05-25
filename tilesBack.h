@@ -1,7 +1,7 @@
 #ifndef tilesBack_H
 #define tilesBack_H
 
-#define MOD(x) ( ((x)>=0)?(x):(-x) )
+#define MOD(x) ( ((x)>=0)?(x):-(x) )
 
 enum errores {FUERA_RANGO=-8,SIN_ADYACENCIA,COLUMNA_NULA,HILERA_NULA,POSICION_NULA,SIN_MEMORIA,NO_HAB, COMANDO_INVALIDO};
 
@@ -25,8 +25,8 @@ typedef struct
 typedef struct
 {
 	char ** matriz;
-	TipoHabilidades c_habilidades;
 	TipoDimension dim;
+	TipoHabilidades c_habilidades;
 }TipoTablero;
 
 typedef struct

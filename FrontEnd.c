@@ -4,24 +4,38 @@
 void main(void)
 {	TipoFlag  Flags = {OFF,OFF,OFF,OFF};
 	TipoDatos dato;
+	int rta;
 	
-	Menu (&dato,Flags);
+	srand(time(NULL));	
+	
 	while(Flags[END_APPLICATION]==OFF) 
 	{
-		if(Flags[NEXT_LEVEL]==ON)
-		{  	
-			Flags[NEXT_LEVEL]=OFF; // El flag NEXT_LEVEL solo se pone en ON si: se carga una partida  o se pasa de nivel		
-			// calculo de bonus
-			Crear_Nivel(&dato);
-			
-		}
+		Menu(&dato,Flags);
+
+		while(Flags[GAME_OVER]==OFF)
+		{		
+	
+			if(Flags[NEXT_LEVEL]==ON)
+			{  	
+				Flags[NEXT_LEVEL]=OFF; // El flag NEXT_LEVEL solo se pone en ON si: se carga una partida  o se pasa de nivel			
+				rta = Crear_Nivel(&dato);
+			}
 		
-		imprimeTablero(&(dato.tablero));
-		AccionesDeJuego(&dato,Flags); 
+			imprimirEstado(&dato);
+			imprimeTablero(&(dato.tablero));
+			AccionesDeJuego(&dato,Flags);
+		}
 	}
 }
 
-void Menu (TipoDatos * dato,TipoFlag Flags){
+void imprimirEstado(TipoDatos * dato)
+{
+	printf("PUNTAJE: %d\nHABILIDADES --> MARTILLAZOS: %d|COLUMNAS: %d|HILERAS: %d\n",dato->puntaje,dato->tablero.c_habilidades.c_martillazos,dato->tablero.c_habilidades.c_columnas,dato->tablero.c_habilidades.c_hileras);
+}
+
+
+void Menu (TipoDatos * dato,TipoFlag Flags)
+{
 	int c;
 
 	printf("Bienvenido:\n\n1 - Juego Nuevo \n2 - Juego con Bitacora \n3 - Cargar Partida\n\n\n","Ingresa Filas\n","Ingresa Columnas\n");
@@ -33,7 +47,7 @@ void Menu (TipoDatos * dato,TipoFlag Flags){
 
 	switch(c)
 	{
-		case 2: Flags[BITACORA]=ON; // Hay que ver si no se pone en dato
+		case 2: Flags[BITACORA]=ON; 
 		case 1:
 			dato->nivel=0;
 			Flags[NEXT_LEVEL]=ON;
@@ -41,10 +55,11 @@ void Menu (TipoDatos * dato,TipoFlag Flags){
 			(dato->tablero).c_habilidades.c_hileras=0;
 			(dato->tablero).c_habilidades.c_columnas=0; 
 			PedidoDimenciones(dato);  
+			
 			break;
 		case 3:  //LOAD
 			 Flags[NEXT_LEVEL]=OFF; //Setear flag de que se hizo load FIJAR DONDE DECLARARSE
-			 break;
+			break;
 	}
 }
 
@@ -57,12 +72,10 @@ void PedidoDimenciones(TipoDatos * dato)
 	
 	(dato->tablero).dim.filas= getint("Ingrese Cantidad de Filas: ");
 	(dato->tablero).dim.columnas= getint("Ingrese Cantidad de Columnas: ");
-
 	dim_ok = DIMCHECK((dato->tablero).dim.filas,(dato->tablero).dim.columnas);
 
 	}while(dim_ok == OFF);
 
-	return;
 }
 
 
@@ -89,14 +102,13 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 	{
 		case 'e': 
 
-			cant = sscanf(operacion+1,"%*[ \t]%d,%d%c",&pos.x,&pos.y,&aux);
+			cant = sscanf(operacion+1,"%*[ \t]%d,%d%c",&(pos.x),&(pos.y),&aux);
 				
-			if(cant == 2 && cant != EOF){
-				printf("e \n");
-				printf("cant %d,x: %d,y:%d\n",cant,pos.x,pos.y);
+			if(cant == 2)
+			{
 				cant_azulejos = eliminar(&(dato->tablero),pos.x,pos.y);
-				printf("Azulejos: %d \n",cant_azulejos);
-			}else
+			}
+			else
 			{
 				printerror(COMANDO_INVALIDO);
 				return;	
@@ -105,7 +117,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 		case 'm':
 			cant = sscanf(operacion+1,"%*[ \t]%d,%d%c",&pos.x,&pos.y,&aux);
 						
-			if(cant == 2 && cant != EOF)
+			if(cant == 2)
 				cant_azulejos = martillazo(&(dato->tablero),pos.x,pos.y);
 			else
 			{
@@ -116,7 +128,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 		case 'c':
 			cant = sscanf(operacion+1,"%*[ \t]%d%c",&pos.y,&aux);
 				
-			if(cant == 1 && cant != EOF)
+			if(cant == 1)
 				cant_azulejos = columna(&(dato->tablero),pos.y);
 			else
 			{
@@ -126,7 +138,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 			break;
 		case 'h':
 			cant = sscanf(operacion+1,"%*[ \t]%d%c",&pos.x,&aux);
-			if(cant == 1 && cant != EOF)
+			if(cant == 1)
 				cant_azulejos = hilera(&(dato->tablero),pos.x);
 			else
 			{
@@ -137,7 +149,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 		case 's':
 			cant = sscanf(operacion+1,"ave%*[ \t]%30s%c",nombrefile,&aux);
 
-			if(cant == 1 && cant != EOF && validFileName(nombrefile))
+			if(cant == 1 && validFileName(nombrefile))
 			{
 				printf("llego a save\n");								
 				//save(dato,nombrefile);
@@ -167,10 +179,12 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 			
 					//save(dato,nombrefile);
 					Flags[END_APPLICATION]=ON;
+					Flags[GAME_OVER]=ON;
 				}
 				else if(strcmp( respuesta,"NO" )==0)
 				{
 					Flags[END_APPLICATION]=ON;
+					Flags[GAME_OVER]=ON;
 				}
 				else
 				{
@@ -192,6 +206,17 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 	else
 	{		
 		Proc_Matriz(dato,cant_azulejos);
+		if(nivelTerminado(&(dato->tablero)))
+		{
+			Flags[NEXT_LEVEL]=ON;
+			printf("Completo el Nivel %d\n",dato->nivel);
+	
+		}
+		else if(!analisisMatriz(&(dato->tablero)))
+		{
+			Flags[GAME_OVER]=ON;
+			printf("¡Perdiste al piste!\n");
+		}
 	}
 	
 }
@@ -226,9 +251,9 @@ int validFileName(char * nombrefile)
 
 void printerror(int ind)
 {
-	char * error[]={"Fuera de Rango","No hay adyacencia","Error de Columna","Error de Hilera","Posicion Nula","Sin_Memoria","No Hay error","Comando no valido"}; 
+	char * error[]={"Comando no valido","Sin habilidades Especiales","Sin Memoria","Posicion Nula","Hilera nula","Columna Nula","No hay adyacencia","Fuera de Rango"};
 
-	printf("ERROR: %s\n",*(error+(ind*(-1)-1)));
+	printf("ERROR: %s\n",error[ind*(-1)-1]);
 
 }
 
@@ -236,24 +261,35 @@ void imprimeTablero(TipoTablero * tablero)
 {
 	
 	int i, j, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
+	printf("filas = %d, columnas = %d\n", filas, columnas);
 	for(i=-1; i<filas; i++)
 	{
 		printf(" ");
 		for(j=-1; j<columnas; j++)
 		{
 			if(i==-1 && j>=0)
+			{
 				printf("%-2d ", j);
+			}
 			else if(j==-1 && i>=0)
+			{
 				printf("%2d  ", i);
+			}
 			else if(j>=0 && i>=0)
 			{
 				if((tablero->matriz)[j][i] != 0  && (tablero->matriz)[j][i]!='0')
+				{
 					printf("%c  ", (tablero->matriz)[j][i]);
+				}
 				else
+				{
 					printf("   ");
+				}
 			}
 			else
+			{
 				printf("    ");
+			}
 		}
 		putchar('\n');
 	}
