@@ -37,6 +37,9 @@ typedef struct
 	int nivel;
 }TipoDatos;
 
+int save(TipoDatos * dato, int flagBitacora, char * nombre);
+int load(TipoDatos * dato, int * flagBitacora, char * nombre);
+
 int Crear_Nivel(TipoDatos * dato); // devuelve 0 si pudo crearse el nivel, SIN_MEMORIA en otro caso
 void Proc_Matriz(TipoDatos * dato, int azulejos);
 static int calcularPuntaje(const TipoDimension * dim, int azulejos);
