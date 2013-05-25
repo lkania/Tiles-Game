@@ -1,11 +1,19 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 #include "tilesBack.h"
 #include "tilesFront.h"
+#include "getnum.h"
+
 
 int main(void)
 {	TipoFlag  Flags = {OFF,OFF,OFF,OFF};
 	TipoDatos dato;
 		
 	srand(time(NULL));	
+	
+	printf("MAX COL: %s, MAX FIL: %s\n",getenv("PATH"),getenv("LINES"));
 	
 	while(Flags[FIN_APLICACION]==OFF) 
 	{
@@ -44,7 +52,7 @@ void Menu (TipoDatos * dato,TipoFlag Flags)
 {
 	int c;
 
-	printf("Bienvenido:\n\n1 - Juego Nuevo \n2 - Juego con Bitacora \n3 - Cargar Partida\n\n\n","Ingresa Filas\n","Ingresa Columnas\n");
+	printf("Bienvenido:\n\n1 - Juego Nuevo \n2 - Juego con Bitacora \n3 - Cargar Partida\n4 - Instrucciones\n");
 
 	do
 	{
@@ -53,6 +61,7 @@ void Menu (TipoDatos * dato,TipoFlag Flags)
 
 	switch(c)
 	{
+	
 		case 2: Flags[BITACORA]=ON; 
 		case 1:
 			dato->nivel=0;
@@ -68,8 +77,24 @@ void Menu (TipoDatos * dato,TipoFlag Flags)
 		case 3:  //LOAD
 			 Flags[PROX_NIVEL]=OFF; //Setear flag de que se hizo load FIJAR DONDE DECLARARSE
 			break;
+		case 4: instrucciones(Flags);
+		
 	}
 }
+
+void instrucciones(TipoFlag Flags)
+{
+	printf("El objetivo es eliminar todas las valdosas del tablero\nLos movimientos posibles son:\n\
+	e FILA, COLUMNA\t- ELMINAR CASILLERO Y ADYACENTES DEL MISMO COLOR\n\
+	h FILA\t\t- ELIMNAR HILERA\n\
+	c COLUMNA\t- ELIMNAR COLUMNA\n\
+	m FILA, COLUMNA\t- ELMINAR CASILLERO Y SUS 8 ADYACEBTE\n");
+	printf("El tablero puede tener como dimensiones\n\tMINIMO: %d X %d\n\tMAXIMO: %d X %d\n",MIN_FIL,MIN_COL,MAX_FIL,MAX_COL);
+	printf("Presione 'Q' pasa volver al menu\n");
+	Flags[FIN_JUEGO]=ON;
+	while(getchar() != 'Q');
+}
+
 
 void PedidoNivel(TipoDatos * dato)
 {
@@ -111,9 +136,8 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 	char operacion[MAX_LONG];
 
 	char * nombrefile=malloc(MAX_LONG*sizeof(*nombrefile));
-
-
 	char * respuesta=malloc(MAX_LONG*sizeof(*respuesta));
+	
 	char accion,aux;
 	
 	//aux_datos = dato ;//Se realiza un save temporal de los datos por si el usuario pide la operacion UNDO	
@@ -171,15 +195,19 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 			}
 			break;
 		case 's':
-			cant = sscanf(operacion+1,"ave%*[ \t]%30s%c",nombrefile,&aux);
-
-			if(cant == 1 && validFileName(nombrefile))
+			if(nombre != NULL)
 			{
-				//save(dato,nombrefile);
+				cant = sscanf(operacion+1,"ave%*[ \t]%30s%c",nombrefile,&aux);
+
+				if(cant == 1 && validFileName(nombrefile))
+				{
+					//save(dato,nombrefile);
+				}
+				else
+					printerror(COMANDO_INVALIDO);
 			}
 			else
-				printerror(COMANDO_INVALIDO);
-					
+				printerror(SIN_MEMORIA);
 			return;
 
 		case 'u': // VER LOGICA DEL UNDO 
@@ -190,46 +218,55 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 
 		case 'q':
 			cant = sscanf(operacion+1,"uit%c",&aux);
-
-			if(cant == EOF)
+			
+			if (respuesta != NULL)
 			{
-				int comp_si;
-				int comp_no;
+				if(cant == EOF)
+				{
+					int comp_si;
+					int comp_no;
 		
-				do{
+					do{
 			
-					printf("Desea guardar la partida [SI\\NO]\n");
+						printf("Desea guardar la partida [SI\\NO]\n");
 			
-					inputString(respuesta);
+						inputString(respuesta);
 
-					comp_si = strcmp(respuesta,"SI");
-					int comp_no = strcmp(respuesta,"NO");
+						comp_si = strcmp(respuesta,"SI");
+						int comp_no = strcmp(respuesta,"NO");
 						
-					if(comp_si==0)
-					{
-						do{	
-							printf("Ingrese un nombre valido: \n");
-							scanf("%30s%c",nombrefile,&aux);
-						}while(!validFileName(nombrefile));
+						if(comp_si==0)
+						{
+							do{	
+								printf("Ingrese un nombre valido: \n");
+								scanf("%30s%c",nombrefile,&aux);
+							}while(!validFileName(nombrefile));
 		
-						//save(dato,nombrefile);
-						Flags[FIN_APLICACION]=ON;
-						Flags[FIN_JUEGO]=ON;
-					}
-					else if(comp_no==0)
-					{
-						Flags[FIN_APLICACION]=ON;
-						Flags[FIN_JUEGO]=ON;
-					}
-					else
-					{
-						printf("Respuesta no valida\n");
-					}
+							//save(dato,nombrefile);
+							Flags[FIN_APLICACION]=ON;
+							Flags[FIN_JUEGO]=ON;
+						}
+						else if(comp_no==0)
+						{
+							Flags[FIN_APLICACION]=ON;
+							Flags[FIN_JUEGO]=ON;
+						}
+						else
+						{
+							printf("Respuesta no valida\n");
+						}
 
-				}while(comp_si != 0 && comp_no != 0);
+					}while(comp_si != 0 && comp_no != 0);
+				}
+				else
+					printerror(COMANDO_INVALIDO);
 			}
 			else
-				printerror(COMANDO_INVALIDO);	
+			{
+				printerror(SIN_MEMORIA);
+				Flags[FIN_APLICACION]=ON;
+				Flags[FIN_JUEGO]=ON;
+			}	
 			return;
 
 		default:
@@ -254,6 +291,8 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 		else if(!analisisMatriz(&(dato->tablero)))
 		{
 			Flags[FIN_JUEGO]=ON;
+			printf("No te quedan movimientos posibles\n");
+			imprimeTablero(&(dato->tablero));
 			printf("¡Perdiste al piste!\n");
 		}
 	}
