@@ -300,7 +300,7 @@ static int algunAdyacente(TipoTablero * tablero, int i, int j)
 {
 	char color = (tablero->matriz)[j][i];
 	int filas = (tablero->dim).filas, columnas = (tablero->dim).columnas, h, k;
-	for(k=j-1; h<=j+1; j++)
+	for(k=j-1; k<=j+1; k++)
 		for(h=i-1; h<=i+1; h++)
 			if(h>=0 && h<(tablero->dim).filas && k>=0 && k<(tablero->dim).columnas && (MOD(h-i)+MOD(k-j))==1 )
 				if((tablero->matriz)[k][h] == color)
