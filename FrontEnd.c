@@ -7,20 +7,30 @@
 #include "getnum.h"
 
 
+
 int main(void)
 {	TipoFlag  Flags = {OFF,OFF,OFF,OFF};
 	TipoDatos dato;
+    	FILE * archivo_bitacora;
 		
 	srand(time(NULL));	
-	
-	printf("MAX COL: %s, MAX FIL: %s\n",getenv("PATH"),getenv("LINES"));
-	
+		
 	while(Flags[FIN_APLICACION]==OFF) 
 	{
 		Menu(&dato,Flags);
+        
+       		archivo_bitacora=fopen("bitacora.txt","wt");
+        
+		if(archivo_bitacora == NULL)
+		{
+		    printerror(SIN_MEMORIA);
+		    Flags[BITACORA]=OFF;
+		}
 
+       
 		while(Flags[FIN_JUEGO]==OFF)
-		{	
+		{
+	
 			if(Flags[PROX_NIVEL]==ON)
 			{  	
 				Flags[PROX_NIVEL]=OFF;// falto El flag PROX_NIVEL ON si se carga una partida
@@ -28,18 +38,25 @@ int main(void)
 				if(Crear_Nivel(&dato) == SIN_MEMORIA)
 				{
 					printerror(SIN_MEMORIA);
-					return;
+					return 1;
+				}
+
+				if(Flags[BITACORA]==ON)
+				{  printf("Hola\n");
+				   GuardarMATBitacora(&(dato.tablero),archivo_bitacora);
 				}
 
 			}
-		
+
 			imprimirEstado(&dato);
 			imprimeTablero(&(dato.tablero));
 			AccionesDeJuego(&dato,Flags);
+			
 		}
-	}
-	
-	return 0;
+     
+        }
+
+        return 0;
 }
 
 void imprimirEstado(TipoDatos * dato)
@@ -50,6 +67,7 @@ void imprimirEstado(TipoDatos * dato)
 
 void Menu (TipoDatos * dato,TipoFlag Flags)
 {
+	char * nombrefile=malloc(MAX_LONG*sizeof(*nombrefile));
 	int c;
 
 	printf("Bienvenido:\n\n1 - Juego Nuevo \n2 - Juego con Bitacora \n3 - Cargar Partida\n4 - Instrucciones\n");
@@ -60,8 +78,7 @@ void Menu (TipoDatos * dato,TipoFlag Flags)
 	}while(c<1 || c>4);
 
 	switch(c)
-	{
-	
+	{	
 		case 2: Flags[BITACORA]=ON; 
 		case 1:
 			dato->nivel=0;
@@ -72,17 +89,33 @@ void Menu (TipoDatos * dato,TipoFlag Flags)
 			(dato->tablero).c_habilidades.c_columnas=0; 
 			PedidoDimenciones(dato);  
 			PedidoNivel(dato);
+			break;
+		case 3:
+			if(nombrefile != NULL)
+			{
+				PedirNombreValido(nombrefile);			
+
+				if(load(dato,&(Flags[BITACORA]),nombrefile) == 0)
+					printerror(FALLO_LECTURA);
+				else
+					printf("Cargado\n");	
 			
+				Flags[PROX_NIVEL]=OFF; 
+			}
+			else
+				printerror(SIN_MEMORIA);
 			break;
-		case 3:  //LOAD
-			 Flags[PROX_NIVEL]=OFF; //Setear flag de que se hizo load FIJAR DONDE DECLARARSE
+		case 4: 
+			instrucciones();
+			Flags[FIN_JUEGO]=ON;
 			break;
-		case 4: instrucciones(Flags);
 		
 	}
+	
+	free(nombrefile);
 }
 
-void instrucciones(TipoFlag Flags)
+void instrucciones(void)
 {
 	printf("El objetivo es eliminar todas las valdosas del tablero\nLos movimientos posibles son:\n\
 	e FILA, COLUMNA\t- ELMINAR CASILLERO Y ADYACENTES DEL MISMO COLOR\n\
@@ -91,7 +124,6 @@ void instrucciones(TipoFlag Flags)
 	m FILA, COLUMNA\t- ELMINAR CASILLERO Y SUS 8 ADYACEBTE\n");
 	printf("El tablero puede tener como dimensiones\n\tMINIMO: %d X %d\n\tMAXIMO: %d X %d\n",MIN_FIL,MIN_COL,MAX_FIL,MAX_COL);
 	printf("Presione 'Q' pasa volver al menu\n");
-	Flags[FIN_JUEGO]=ON;
 	while(getchar() != 'Q');
 }
 
@@ -195,13 +227,17 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 			}
 			break;
 		case 's':
-			if(nombre != NULL)
+			if(nombrefile != NULL)
 			{
 				cant = sscanf(operacion+1,"ave%*[ \t]%30s%c",nombrefile,&aux);
 
 				if(cant == 1 && validFileName(nombrefile))
 				{
-					//save(dato,nombrefile);
+					if(save(dato,Flags[BITACORA],nombrefile) == 0)
+						printerror(FALLO_LECTURA);
+					else
+						printf("Salvado\n");
+	
 				}
 				else
 					printerror(COMANDO_INVALIDO);
@@ -233,16 +269,17 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 						inputString(respuesta);
 
 						comp_si = strcmp(respuesta,"SI");
-						int comp_no = strcmp(respuesta,"NO");
+						comp_no = strcmp(respuesta,"NO");
 						
 						if(comp_si==0)
 						{
-							do{	
-								printf("Ingrese un nombre valido: \n");
-								scanf("%30s%c",nombrefile,&aux);
-							}while(!validFileName(nombrefile));
+							PedirNombreValido(nombrefile);		
+						
+							if(save(dato,Flags[BITACORA],nombrefile) == 0)
+								printerror(FALLO_LECTURA);
+							else
+								printf("Salvado\n");
 		
-							//save(dato,nombrefile);
 							Flags[FIN_APLICACION]=ON;
 							Flags[FIN_JUEGO]=ON;
 						}
@@ -299,6 +336,28 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 	
 }
 
+void PedirNombreValido(char * nombrefile)
+{
+	int cant;
+	char aux;
+
+	do{
+		printf("Ingrese un nombre valido: \n");
+		cant = scanf("%30s%c",nombrefile,&aux);
+	}while(!validFileName(nombrefile) && cant!=1);
+}
+
+int validFileName(char * nombrefile)
+{	int i;
+
+	for(i=0;nombrefile[i]!=0;i++)
+	{
+		if(!VALIDCHAR(nombrefile[i]))
+		return 0;
+	}
+	return 1;
+}
+
 void resultadoFindelNivel(TipoDatos * dato,TipoFlag Flags)
 {
 	Flags[PROX_NIVEL]=ON;
@@ -328,20 +387,9 @@ void inputString(char * string)
 	}
 }
 
-int validFileName(char * nombrefile)
-{	int i;
-
-	for(i=0;nombrefile[i]!=0;i++)
-	{
-		if(!VALIDCHAR(nombrefile[i]))
-		return 0;
-	}
-	return 1;
-}
-
 void printerror(int ind)
 {
-	char * error[]={"Comando no valido","Sin habilidades Especiales","Sin Memoria","Posicion Nula","Hilera nula","Columna Nula","No hay adyacencia","Fuera de Rango"};
+	char * error[]={"Fallo la lectura del archivo","Comando no valido","Sin habilidades Especiales","Sin Memoria","Posicion Nula","Hilera nula","Columna Nula","No hay adyacencia","Fuera de Rango"};
 
 	printf("ERROR: %s\n",error[ind*(-1)-1]);
 
@@ -384,10 +432,10 @@ void imprimeTablero(TipoTablero * tablero)
 	}
 }
 
-int save(TipoDatos * dato, int flagBitacora, char * nombre)
+int save(TipoDatos * dato, TipoEstado flagBitacora, char * nombre)
 {
 	FILE * archivo;
-	int informacion[9], aux, i, j, respuesta = 1;
+	int informacion[9], i, j, respuesta = 1;
 	informacion[0] = (dato->tablero).dim.filas;
 	informacion[1] = (dato->tablero).dim.columnas;
 	informacion[2] = dato->nivel_max_usuario;
@@ -408,7 +456,7 @@ int save(TipoDatos * dato, int flagBitacora, char * nombre)
 	return respuesta;
 }
 
-int load(TipoDatos * dato, int * flagBitacora, char * nombre)
+int load(TipoDatos * dato, TipoEstado * flagBitacora, char * nombre)
 {
 	FILE * archivo;
 	int informacion[9], aux, i, j, respuesta = 1;
@@ -434,4 +482,19 @@ int load(TipoDatos * dato, int * flagBitacora, char * nombre)
 	}
 	fclose(archivo);
 	return respuesta;
+}
+
+void GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora)
+{
+	int i, j, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
+	    
+	for(i=1; i<filas; i++)
+	{
+		for(j=1; j<columnas; j++)
+		{
+		    	fputc((tablero->matriz)[j][i],archivo_bitacora);
+		}
+	
+		fputc('\n',archivo_bitacora);
+	}
 }

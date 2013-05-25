@@ -34,15 +34,17 @@ void resultadoFindelNivel(TipoDatos * dato,TipoFlag Flags);
 
 void PedidoDimenciones(TipoDatos * dato);
 void PedidoNivel(TipoDatos * dato);
+void PedirNombreValido(char * nombrefile);
 int validFileName(char * nombrefile);
 void inputString(char * string);
 
 void imprimeTablero(TipoTablero * tablero);
 void imprimirEstado(TipoDatos * dato);
 void printerror(int ind);
-void instrucciones(TipoFlag Flags);
+void instrucciones(void);
 
-int save(TipoDatos * dato, int flagBitacora, char * nombre);
-int load(TipoDatos * dato, int * flagBitacora, char * nombre);
+int save(TipoDatos * dato, TipoEstado flagBitacora, char * nombre);
+int load(TipoDatos * dato, TipoEstado * flagBitacora, char * nombre);
+void GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora);
 
 #endif
