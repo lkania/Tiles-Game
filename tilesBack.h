@@ -32,6 +32,7 @@ typedef struct
 typedef struct
 {
 	TipoTablero tablero;
+	int nivel_max_usuario;
 	int puntaje;
 	int nivel;
 }TipoDatos;

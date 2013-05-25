@@ -1,24 +1,28 @@
 #include "tilesBack.h"
 #include "tilesFront.h"
 
-void main(void)
+int main(void)
 {	TipoFlag  Flags = {OFF,OFF,OFF,OFF};
 	TipoDatos dato;
-	int rta;
-	
+		
 	srand(time(NULL));	
 	
-	while(Flags[END_APPLICATION]==OFF) 
+	while(Flags[FIN_APLICACION]==OFF) 
 	{
 		Menu(&dato,Flags);
 
-		while(Flags[GAME_OVER]==OFF)
-		{		
-	
-			if(Flags[NEXT_LEVEL]==ON)
+		while(Flags[FIN_JUEGO]==OFF)
+		{	
+			if(Flags[PROX_NIVEL]==ON)
 			{  	
-				Flags[NEXT_LEVEL]=OFF; // El flag NEXT_LEVEL solo se pone en ON si: se carga una partida  o se pasa de nivel			
-				rta = Crear_Nivel(&dato);
+				Flags[PROX_NIVEL]=OFF;// falto El flag PROX_NIVEL ON si se carga una partida
+
+				if(Crear_Nivel(&dato) == SIN_MEMORIA)
+				{
+					printerror(SIN_MEMORIA);
+					return;
+				}
+
 			}
 		
 			imprimirEstado(&dato);
@@ -26,6 +30,8 @@ void main(void)
 			AccionesDeJuego(&dato,Flags);
 		}
 	}
+	
+	return 0;
 }
 
 void imprimirEstado(TipoDatos * dato)
@@ -50,18 +56,34 @@ void Menu (TipoDatos * dato,TipoFlag Flags)
 		case 2: Flags[BITACORA]=ON; 
 		case 1:
 			dato->nivel=0;
-			Flags[NEXT_LEVEL]=ON;
-			Flags[GAME_OVER]=OFF;
+			Flags[PROX_NIVEL]=ON;
+			Flags[FIN_JUEGO]=OFF;
 			(dato->tablero).c_habilidades.c_martillazos=0;
 			(dato->tablero).c_habilidades.c_hileras=0;
 			(dato->tablero).c_habilidades.c_columnas=0; 
 			PedidoDimenciones(dato);  
+			PedidoNivel(dato);
 			
 			break;
 		case 3:  //LOAD
-			 Flags[NEXT_LEVEL]=OFF; //Setear flag de que se hizo load FIJAR DONDE DECLARARSE
+			 Flags[PROX_NIVEL]=OFF; //Setear flag de que se hizo load FIJAR DONDE DECLARARSE
 			break;
 	}
+}
+
+void PedidoNivel(TipoDatos * dato)
+{
+	TipoEstado nivel_ok = OFF;
+
+	do
+	{
+
+	dato->nivel_max_usuario = getint("Ingrese hasta que nivel desea jugar: ");
+	
+	nivel_ok = NIVCHECK(dato->nivel_max_usuario,(dato->tablero).dim.filas,(dato->tablero).dim.columnas);		
+
+	}while(nivel_ok == OFF);
+
 }
 
 void PedidoDimenciones(TipoDatos * dato)
@@ -87,10 +109,11 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 	TipoPosicion pos;
 	
 	char operacion[MAX_LONG];
+
 	char * nombrefile=malloc(MAX_LONG*sizeof(*nombrefile));
 
+
 	char * respuesta=malloc(MAX_LONG*sizeof(*respuesta));
-	
 	char accion,aux;
 	
 	//aux_datos = dato ;//Se realiza un save temporal de los datos por si el usuario pide la operacion UNDO	
@@ -166,30 +189,47 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 			return;
 
 		case 'q':
-			printf("Desea guardar la partida [SI\\NO]\n");
+			cant = sscanf(operacion+1,"uit%c",&aux);
+
+			if(cant == EOF)
+			{
+				int comp_si;
+				int comp_no;
+		
+				do{
 			
-				inputString(respuesta);				
-	
-				if(strcmp( respuesta,"SI" )==0)
-				{
-					do{	
-						printf("Ingrese un nombre valido: \n");
-						scanf("%30s%c",nombrefile,&aux);
-					}while(!validFileName(nombrefile));
+					printf("Desea guardar la partida [SI\\NO]\n");
 			
-					//save(dato,nombrefile);
-					Flags[END_APPLICATION]=ON;
-					Flags[GAME_OVER]=ON;
-				}
-				else if(strcmp( respuesta,"NO" )==0)
-				{
-					Flags[END_APPLICATION]=ON;
-					Flags[GAME_OVER]=ON;
-				}
-				else
-				{
-					printf("Respuesta no valida\n\n");
-				}
+					inputString(respuesta);
+
+					comp_si = strcmp(respuesta,"SI");
+					int comp_no = strcmp(respuesta,"NO");
+						
+					if(comp_si==0)
+					{
+						do{	
+							printf("Ingrese un nombre valido: \n");
+							scanf("%30s%c",nombrefile,&aux);
+						}while(!validFileName(nombrefile));
+		
+						//save(dato,nombrefile);
+						Flags[FIN_APLICACION]=ON;
+						Flags[FIN_JUEGO]=ON;
+					}
+					else if(comp_no==0)
+					{
+						Flags[FIN_APLICACION]=ON;
+						Flags[FIN_JUEGO]=ON;
+					}
+					else
+					{
+						printf("Respuesta no valida\n");
+					}
+
+				}while(comp_si != 0 && comp_no != 0);
+			}
+			else
+				printerror(COMANDO_INVALIDO);	
 			return;
 
 		default:
@@ -208,34 +248,45 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 		Proc_Matriz(dato,cant_azulejos);
 		if(nivelTerminado(&(dato->tablero)))
 		{
-			Flags[NEXT_LEVEL]=ON;
-			printf("Completo el Nivel %d\n",dato->nivel);
+			resultadoFindelNivel(dato,Flags);
 	
 		}
 		else if(!analisisMatriz(&(dato->tablero)))
 		{
-			Flags[GAME_OVER]=ON;
+			Flags[FIN_JUEGO]=ON;
 			printf("¡Perdiste al piste!\n");
 		}
 	}
 	
 }
 
+void resultadoFindelNivel(TipoDatos * dato,TipoFlag Flags)
+{
+	Flags[PROX_NIVEL]=ON;
+	printf("Felicitaciones Completo el Nivel %d\n",dato->nivel);
+	printf("Puntaje Final del Nivel: %d\n",dato->puntaje);
+
+	if(dato->nivel == dato->nivel_max_usuario)
+	{
+		printf("¡¡Ganaste el juego, FELICITACIONES!!\n");
+		Flags[FIN_JUEGO]=ON;
+	}
+}
+
 void inputString(char * string)
 {
 
-	int longitud_op;
+	int longitud;
 
 	fgets(string,MAX_LONG,stdin);
-	longitud_op = strlen(string);
-	if(longitud_op != 0)
+
+	longitud = strlen(string);
+
+	if(longitud != 0)
 	{
-
-		if(string[longitud_op-1]=='\n')
-			string[--longitud_op]=0;
-
+		if(string[longitud-1]=='\n')
+			string[longitud-1]=0;
 	}
-
 }
 
 int validFileName(char * nombrefile)
