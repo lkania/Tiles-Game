@@ -2,58 +2,6 @@
 #include <stdlib.h>
 #include "tilesBack.h"
 
-int save(TipoDatos * dato, int flagBitacora, char * nombre)
-{
-	FILE * archivo;
-	int informacion[9], aux, i, j, respuesta = 1;
-	informacion[0] = (dato->tablero).dim.filas;
-	informacion[1] = (dato->tablero).dim.columnas;
-	informacion[2] = dato->nivel_max_usuario;
-	informacion[3] = flagBitacora;
-	informacion[4] = dato->nivel;
-	informacion[5] = dato->puntaje;
-	informacion[6] = (dato->tablero).c_habilidades.c_hileras;
-	informacion[7] = (dato->tablero).c_habilidades.c_columnas;
-	informacion[8] = (dato->tablero).c_habilidades.c_martillazos;
-	archivo = fopen(nombre, "w");
-	respuesta = fwrite(informacion, sizeof(int), 9, archivo) == 9;
-	if(respuesta)
-		for(i=0; i<informacion[0] && respuesta; i++)
-			for(j=0; j<informacion[1] && respuesta; j++)
-				if(fwrite(&((dato->tablero).matriz[j][i]), sizeof(char), 1, archivo) == 0)
-					respuesta = 0;
-	fclose(archivo);
-	return respuesta;
-}
-
-int load(TipoDatos * dato, int * flagBitacora, char * nombre)
-{
-	FILE * archivo;
-	int informacion[9], aux, i, j, respuesta = 1;
-	archivo = fopen(nombre, "r");
-	for(i=0; i<9 && respuesta; i++)
-		respuesta = fread(informacion, sizeof(int), 1, archivo);
-	if(respuesta)
-		for(i=0; i<informacion[0]; i++)
-			for(j=0; j<informacion[1]; j++)
-				if(fread( &((dato->tablero).matriz[j][i]), sizeof(char), 1, archivo) == 0)
-					respuesta = 0;
-	if(respuesta)
-	{
-		(dato->tablero).dim.filas = informacion[0];
-		(dato->tablero).dim.columnas = informacion[1];
-		dato->nivel_max_usuario = informacion[2];
-		*flagBitacora = informacion[3];
-		dato->nivel = informacion[4];
-		dato->puntaje = informacion[5];
-		(dato->tablero).c_habilidades.c_hileras = informacion[6];
-		(dato->tablero).c_habilidades.c_columnas = informacion[7];
-		(dato->tablero).c_habilidades.c_martillazos = informacion[8];
-	}
-	fclose(archivo);
-	return respuesta;
-}
-
 int Crear_Nivel(TipoDatos * dato)
 {
 	dato->nivel++;

@@ -42,4 +42,7 @@ void imprimirEstado(TipoDatos * dato);
 void printerror(int ind);
 void instrucciones(TipoFlag Flags);
 
+int save(TipoDatos * dato, int flagBitacora, char * nombre);
+int load(TipoDatos * dato, int * flagBitacora, char * nombre);
+
 #endif
