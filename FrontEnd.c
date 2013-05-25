@@ -51,6 +51,7 @@ void Menu (TipoDatos * dato,TipoFlag Flags)
 		case 1:
 			dato->nivel=0;
 			Flags[NEXT_LEVEL]=ON;
+			Flags[GAME_OVER]=OFF;
 			(dato->tablero).c_habilidades.c_martillazos=0;
 			(dato->tablero).c_habilidades.c_hileras=0;
 			(dato->tablero).c_habilidades.c_columnas=0; 
@@ -151,7 +152,6 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 
 			if(cant == 1 && validFileName(nombrefile))
 			{
-				printf("llego a save\n");								
 				//save(dato,nombrefile);
 			}
 			else
@@ -261,7 +261,6 @@ void imprimeTablero(TipoTablero * tablero)
 {
 	
 	int i, j, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
-	printf("filas = %d, columnas = %d\n", filas, columnas);
 	for(i=-1; i<filas; i++)
 	{
 		printf(" ");
