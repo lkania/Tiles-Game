@@ -553,6 +553,8 @@ int load(TipoDatos * dato, TipoEstado * flagBitacora, char * nombre)
 	FILE * archivo;
 	int informacion[9], aux, i, j, respuesta = 1;
 	archivo = fopen(nombre, "r");
+	if(archivo == NULL)
+		return ARCHIVO_INEXISTENTE;
 	for(i=0; i<9 && respuesta; i++)
 		respuesta = fread((informacion+i), sizeof(int), 1, archivo);
 	(dato->tablero).dim.filas = informacion[0];
