@@ -13,7 +13,8 @@ int main(void)
     	FILE * archivo_bitacora;
 	TipoDatos aux_dato;
 	char * modo[]={"at","wt"};
-		
+	
+	aux_dato.tablero.matriz=NULL;
 	srand(time(NULL));	
 		
 	while(Flags[FIN_APLICACION]==OFF) 
@@ -32,9 +33,12 @@ int main(void)
 		}
        
 		//Creacion de aux_dato para la utilizacion del comando UNDO
-		if(generarAuxiliar(&aux_dato,dato.tablero.dim.filas,dato.tablero.dim.columnas)==SIN_MEMORIA)
-		{
-			printerror(SIN_MEMORIA);
+        if(aux_dato.tablero.matriz!=NULL) free(aux_dato.tablero.matriz);
+        
+		if(Flags[FIN_JUEGO]==OFF && generarAuxiliar(&aux_dato,dato.tablero.dim.filas,dato.tablero.dim.columnas)==SIN_MEMORIA)
+		{   
+			
+            printerror(SIN_MEMORIA);
 			printf("No es posible utilizar UNDO");
 			return 1;
 		}
@@ -124,7 +128,8 @@ void Menu (TipoDatos * dato,TipoFlag Flags)
 				else
 					printf("Cargado\n");	
 			
-				Flags[PROX_NIVEL]=OFF; 
+				Flags[PROX_NIVEL]=OFF;
+                Flags[FIN_JUEGO]=OFF;
 			}
 			else
 				printerror(SIN_MEMORIA);
@@ -241,8 +246,9 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,Tip
 				
 			if(cant == 1)
 			{
+                igualacion(aux_dato,dato);
 				cant_azulejos = columna(&(dato->tablero),pos.y);
-				igualacion(aux_dato,dato);
+				
 			}
 			else
 			{
@@ -254,8 +260,9 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,Tip
 			cant = sscanf(operacion+1,"%*[ \t]%d%c",&pos.x,&aux);
 			if(cant == 1)
 			{
+                igualacion(aux_dato,dato);
 				cant_azulejos = hilera(&(dato->tablero),pos.x);
-				igualacion(aux_dato,dato);
+				
 			}
 			else
 			{
