@@ -9,7 +9,8 @@
 
 
 int main(void)
-{	TipoFlag  Flags = {OFF,OFF,OFF,OFF};
+{
+	TipoFlag  Flags = {OFF,OFF,OFF,OFF};
 	TipoDatos dato;
     	FILE * archivo_bitacora;
 		
@@ -19,14 +20,16 @@ int main(void)
 	{
 		Menu(&dato,Flags);
         
-       		archivo_bitacora=fopen("bitacora.txt","wt");
-        
-		if(archivo_bitacora == NULL)
+		if(Flags[BITACORA]==ON)
 		{
-		    printerror(SIN_MEMORIA);
-		    Flags[BITACORA]=OFF;
+	       		archivo_bitacora=fopen("bitacora.txt","wt");
+		
+			if(archivo_bitacora == NULL)
+			{
+			    printerror(SIN_MEMORIA);
+			    Flags[BITACORA]=OFF;
+			}
 		}
-
        
 		while(Flags[FIN_JUEGO]==OFF)
 		{
@@ -42,19 +45,27 @@ int main(void)
 				}
 
 				if(Flags[BITACORA]==ON)
-				{  printf("Hola\n");
-				   GuardarMATBitacora(&(dato.tablero),archivo_bitacora);
+				{  
+					if(GuardarMATBitacora(&(dato.tablero),archivo_bitacora)==ERROR_ESCRITURA)
+					{
+						printerror(ERROR_ESCRITURA);
+						printf("Bitacora Desactivada");
+						Flags[BITACORA]==OFF;
+					}
+				
 				}
 
 			}
 
 			imprimirEstado(&dato);
 			imprimeTablero(&(dato.tablero));
-			AccionesDeJuego(&dato,Flags);
+			AccionesDeJuego(&dato,Flags,archivo_bitacora);
 			
 		}
      
         }
+
+	fclose(archivo_bitacora);
 
         return 0;
 }
@@ -67,7 +78,7 @@ void imprimirEstado(TipoDatos * dato)
 
 void Menu (TipoDatos * dato,TipoFlag Flags)
 {
-	char * nombrefile=malloc(MAX_LONG*sizeof(*nombrefile));
+	char * nombrefile=malloc(MAX_LONG_FILE*sizeof(*nombrefile));
 	int c;
 
 	printf("Bienvenido:\n\n1 - Juego Nuevo \n2 - Juego con Bitacora \n3 - Cargar Partida\n4 - Instrucciones\n");
@@ -159,7 +170,7 @@ void PedidoDimenciones(TipoDatos * dato)
 }
 
 
-void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
+void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora)
 {	
 	static TipoDatos aux_datos;
 	int cant,cant_azulejos;
@@ -167,7 +178,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 	
 	char operacion[MAX_LONG];
 
-	char * nombrefile=malloc(MAX_LONG*sizeof(*nombrefile));
+	char * nombrefile=malloc(MAX_LONG_FILE*sizeof(*nombrefile));
 	char * respuesta=malloc(MAX_LONG*sizeof(*respuesta));
 	
 	char accion,aux;
@@ -234,7 +245,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 				if(cant == 1 && validFileName(nombrefile))
 				{
 					if(save(dato,Flags[BITACORA],nombrefile) == 0)
-						printerror(FALLO_LECTURA);
+						printerror(FALLO_ESCRITURA);
 					else
 						printf("Salvado\n");
 	
@@ -313,6 +324,8 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 			
 	}
 
+	
+
 	if(cant_azulejos < 0) // Si la cantidad de azulejos es negativa implica que hay un error
 	{
 		printerror(cant_azulejos);
@@ -332,6 +345,16 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags)
 			imprimeTablero(&(dato->tablero));
 			printf("¡Perdiste al piste!\n");
 		}
+		
+		if(Flags[BITACORA]==ON)
+		{
+			if(GuardarAccionBitacora(archivo_bitacora,operacion,Flags[PROX_NIVEL],dato->puntaje)==ERROR_ESCRITURA)
+			{
+				printerror(ERROR_ESCRITURA);
+				printf("Bitacora Desactivada");
+				Flags[BITACORA]==OFF;	
+			}
+		}
 	}
 	
 }
@@ -343,12 +366,13 @@ void PedirNombreValido(char * nombrefile)
 
 	do{
 		printf("Ingrese un nombre valido: \n");
-		cant = scanf("%30s%c",nombrefile,&aux);
+		cant = scanf("%25s%c",nombrefile,&aux); // 25 = MAX_LONG_FILE
 	}while(!validFileName(nombrefile) && cant!=1);
 }
 
 int validFileName(char * nombrefile)
-{	int i;
+{
+	int i;
 
 	for(i=0;nombrefile[i]!=0;i++)
 	{
@@ -389,7 +413,7 @@ void inputString(char * string)
 
 void printerror(int ind)
 {
-	char * error[]={"Fallo la lectura del archivo","Comando no valido","Sin habilidades Especiales","Sin Memoria","Posicion Nula","Hilera nula","Columna Nula","No hay adyacencia","Fuera de Rango"};
+	char * error[]={"Fallo la escritura del archivo","Fallo la lectura del archivo","Comando no valido","Sin habilidades Especiales","Sin Memoria","Posicion Nula","Hilera nula","Columna Nula","No hay adyacencia","Fuera de Rango"};
 
 	printf("ERROR: %s\n",error[ind*(-1)-1]);
 
@@ -484,17 +508,40 @@ int load(TipoDatos * dato, TipoEstado * flagBitacora, char * nombre)
 	return respuesta;
 }
 
-void GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora)
+int GuardarAccionBitacora(FILE * archivo_bitacora,char * operacion, TipoEstado prox_nivel, int puntaje)
+{
+	static int contador=1;
+	char s[MAX_LONG];
+
+	sprintf(s,"%d: %s; %d\n",contador,operacion,puntaje);
+	
+	if(fputs(s,archivo_bitacora) == EOF)
+		return ERROR_ESCRITURA; 
+
+	contador++;
+
+	if(prox_nivel==ON)
+		contador=1;
+
+	return 1;
+
+}
+
+int GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora)
 {
 	int i, j, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	    
-	for(i=1; i<filas; i++)
+	for(i=0; i<filas; i++)
 	{
-		for(j=1; j<columnas; j++)
+		for(j=0; j<columnas; j++)
 		{
-		    	fputc((tablero->matriz)[j][i],archivo_bitacora);
+		    	if(fputc((tablero->matriz)[j][i],archivo_bitacora) == EOF)
+				return ERROR_ESCRITURA;
 		}
 	
-		fputc('\n',archivo_bitacora);
+		if(fputc('\n',archivo_bitacora) == EOF)
+			return ERROR_ESCRITURA;
 	}
+	
+	return 1;
 }
