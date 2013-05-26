@@ -79,7 +79,7 @@ int main(void)
 
 	if(Flags[BITACORA]==ON)
 		fclose(archivo_bitacora);
-
+    
         return 0;
 }
 
@@ -94,12 +94,12 @@ void Menu (TipoDatos * dato,TipoFlag Flags)
 	char * nombrefile=malloc(MAX_LONG_FILE*sizeof(*nombrefile));
 	int c;
 
-	printf("Bienvenido:\n1 - Juego Nuevo \n2 - Juego con Bitacora \n3 - Cargar Partida\n4 - Instrucciones\n");
+	printf("Bienvenido:\n1 - Juego Nuevo \n2 - Juego con Bitacora \n3 - Cargar Partida\n4 - Instrucciones\n5 - Salir del Juego\n");
 
 	do
 	{
 		c=getint("Ingrese una opcion: ");
-	}while(c<1 || c>4);
+	}while(c<1 || c>5);
 
 	switch(c)
 	{	
@@ -133,6 +133,10 @@ void Menu (TipoDatos * dato,TipoFlag Flags)
 			instrucciones();
 			Flags[FIN_JUEGO]=ON;
 			break;
+        case 5:
+            Flags[FIN_APLICACION]=ON;
+            Flags[FIN_JUEGO]=ON;
+            break;
 		
 	}
 	
