@@ -39,6 +39,7 @@ void PedidoNivel(TipoDatos * dato);
 void PedirNombreValido(char * nombrefile);
 int validFileName(char * nombrefile);
 void inputString(char * string);
+TipoEstado RenombrarBitacora(TipoEstado bitacora,char * nombrefile);
 
 void imprimeTablero(TipoTablero * tablero);
 void imprimirEstado(TipoDatos * dato);
@@ -47,7 +48,7 @@ void instrucciones(void);
 
 int save(TipoDatos * dato, TipoEstado flagBitacora, char * nombre);
 int load(TipoDatos * dato, TipoEstado * flagBitacora, char * nombre);
-int GuardarAccionBitacora(FILE * archivo_bitacora,char * operacion, TipoEstado prox_nivel, int puntaje);
+int GuardarAccionBitacora(FILE * archivo_bitacora,char * operacion, TipoEstado prox_nivel, int puntaje,int cant_azulejos);
 int GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora);
 
 #endif
