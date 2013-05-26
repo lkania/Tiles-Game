@@ -269,7 +269,12 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,Tip
 					if(save(dato,Flags[BITACORA],nombrefile) == 0)
 						printerror(FALLO_ESCRITURA);
 					else
+					{
+						
 						printf("Salvado\n");
+						Flags[BITACORA]=RenombrarBitacora(Flags[BITACORA],nombrefile);
+			
+					}
 	
 				}
 				else
@@ -317,7 +322,10 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,Tip
 							if(save(dato,Flags[BITACORA],nombrefile) == 0)
 								printerror(FALLO_LECTURA);
 							else
+							{
 								printf("Salvado\n");
+								Flags[BITACORA]=RenombrarBitacora(Flags[BITACORA],nombrefile);
+							}
 		
 							Flags[FIN_APLICACION]=ON;
 							Flags[FIN_JUEGO]=ON;
@@ -389,6 +397,23 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,Tip
 		}
 	}	
 	
+}
+
+TipoEstado RenombrarBitacora(TipoEstado bitacora,char * nombrefile)
+{
+	char s[MAX_LONG_FILE+3];	
+	if(bitacora==ON)
+	{
+		sprintf(s,"%s.txt",nombrefile);
+	
+		if(rename("bitacora.txt",s)!=0)
+		{
+			printerror(FALLO_ESCRITURA);
+			printf("Bitacora Desactivada");
+			return OFF;
+		}
+	}
+	return ON;
 }
 
 void PedirNombreValido(char * nombrefile)
@@ -550,6 +575,8 @@ int GuardarAccionBitacora(FILE * archivo_bitacora,char * operacion, TipoEstado p
 	if(fputs(s,archivo_bitacora) == EOF)
 		return FALLO_ESCRITURA; 
 
+	printf("%d hello2\n", fputs(s,archivo_bitacora)); 
+
 	contador++;
 
 	if(prox_nivel==ON)
@@ -569,6 +596,8 @@ int GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora)
 		{
 		    	if(fputc((tablero->matriz)[j][i],archivo_bitacora) == EOF)
 				return FALLO_ESCRITURA;
+			
+				printf("%d hello\n", fputc((tablero->matriz)[j][i],archivo_bitacora)); 
 		}
 	
 		if(fputc('\n',archivo_bitacora) == EOF)
