@@ -10,11 +10,12 @@ int main(void)
 {
 	TipoFlag  Flags = {OFF,OFF,OFF,OFF,OFF};
 	TipoDatos dato;
-    	FILE * archivo_bitacora;
+    FILE * archivo_bitacora;
 	TipoDatos aux_dato;
 	char * modo[]={"at","wt"};
 	
 	aux_dato.tablero.matriz=NULL;
+    dato.tablero.matriz=NULL;
 	srand(time(NULL));	
 		
 	while(Flags[FIN_APLICACION]==OFF) 
@@ -34,6 +35,7 @@ int main(void)
        
 		//Creacion de aux_dato para la utilizacion del comando UNDO
         if(aux_dato.tablero.matriz!=NULL) free(aux_dato.tablero.matriz);
+        if(dato.tablero.matriz!=NULL) free(dato.tablero.matriz);
         
 		if(Flags[FIN_JUEGO]==OFF && generarAuxiliar(&aux_dato,dato.tablero.dim.filas,dato.tablero.dim.columnas)==SIN_MEMORIA)
 		{   
@@ -342,7 +344,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,Tip
 							Flags[FIN_JUEGO]=ON;
 						}
 						else if(comp_no==0)
-						{
+						{   
 							Flags[FIN_APLICACION]=ON;
 							Flags[FIN_JUEGO]=ON;
 						}
