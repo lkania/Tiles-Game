@@ -77,7 +77,8 @@ int main(void)
      
         }
 
-	fclose(archivo_bitacora);
+	if(Flags[BITACORA]==ON)
+		fclose(archivo_bitacora);
 
         return 0;
 }
@@ -353,6 +354,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,Tip
 
 	
 
+
 	if(cant_azulejos < 0) // Si la cantidad de azulejos es negativa implica que hay un error
 	{
 		printerror(cant_azulejos);
@@ -374,16 +376,18 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,Tip
 			printf("¡Perdiste al piste!\n");
 		}
 		
-		if(Flags[BITACORA]==ON)
-		{
-			if(GuardarAccionBitacora(archivo_bitacora,operacion,Flags[PROX_NIVEL],dato->puntaje)==FALLO_ESCRITURA)
-			{
-				printerror(FALLO_ESCRITURA);
-				printf("Bitacora Desactivada");
-				Flags[BITACORA]==OFF;	
-			}
-		}
+		
 	}
+
+	if(Flags[BITACORA]==ON)
+	{
+		if(GuardarAccionBitacora(archivo_bitacora,operacion,Flags[PROX_NIVEL],dato->puntaje,cant_azulejos)==FALLO_ESCRITURA)
+		{
+			printerror(FALLO_ESCRITURA);
+			printf("Bitacora Desactivada");
+			Flags[BITACORA]==OFF;	
+		}
+	}	
 	
 }
 
@@ -536,12 +540,12 @@ int load(TipoDatos * dato, TipoEstado * flagBitacora, char * nombre)
 	return respuesta;
 }
 
-int GuardarAccionBitacora(FILE * archivo_bitacora,char * operacion, TipoEstado prox_nivel, int puntaje)
+int GuardarAccionBitacora(FILE * archivo_bitacora,char * operacion, TipoEstado prox_nivel, int puntaje,int cant_azulejos)
 {
 	static int contador=1;
 	char s[MAX_LONG];
 
-	sprintf(s,"%d: %s; %d\n",contador,operacion,puntaje);
+	sprintf(s,"%d: %s; %d\n",contador,operacion,(cant_azulejos < 0) ? 0:puntaje);
 	
 	if(fputs(s,archivo_bitacora) == EOF)
 		return FALLO_ESCRITURA; 
