@@ -554,12 +554,15 @@ int load(TipoDatos * dato, TipoEstado * flagBitacora, char * nombre)
 	int informacion[9], aux, i, j, respuesta = 1;
 	archivo = fopen(nombre, "r");
 	for(i=0; i<9 && respuesta; i++)
-		respuesta = fread(informacion, sizeof(int), 1, archivo);
-	if(respuesta)
+		respuesta = fread((informacion+i), sizeof(int), 1, archivo);
+	(dato->tablero).dim.filas = informacion[0];
+	(dato->tablero).dim.columnas = informacion[1];
+	if(respuesta && (aux = generarTableroNull( &(dato->tablero))) )
 		for(i=0; i<informacion[0]; i++)
 			for(j=0; j<informacion[1]; j++)
 				if(fread( &((dato->tablero).matriz[j][i]), sizeof(char), 1, archivo) == 0)
 					respuesta = 0;
+	respuesta = aux;
 	if(respuesta)
 	{
 		(dato->tablero).dim.filas = informacion[0];

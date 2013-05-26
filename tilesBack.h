@@ -50,9 +50,10 @@ int nivelTerminado(TipoTablero * tablero); // devuelve 1 si termino el nivel, 0 
 int analisisMatriz(TipoTablero * tablero); //devuelve 0 si no puedo jugar mas, 1 si puedo seguir jugando
 static int algunAdyacente(TipoTablero * tablero, int i, int j);//funcion auxiliar de analisisMatriz
 
-static int generarTablero(TipoDatos * dato); //Genera el tablero de juego en cada nivel
+int generarTablero(TipoDatos * dato); //Genera el tablero de juego en cada nivel
 static int coloresPresentes(TipoTablero * tablero, char * colores); // funcion auxiliar de generarTablero
 static void liberarMatriz(TipoTablero * tablero);
+int generarTableroNull(TipoTablero * tablero);
 
 //Cada uno de las siguientes funciones devuelve cuantos azulejos se rompieron, si es que se pudo.
 //o un numero negativo caracteristico que indica el error que hubo. NUNCA DEVUELVEN 0

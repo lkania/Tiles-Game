@@ -25,7 +25,7 @@ void Proc_Matriz(TipoDatos * dato, int azulejos)
 }
 
 
-static int generarTablero(TipoDatos * dato)
+int generarTablero(TipoDatos * dato)
 {
         int i, j, indice, nivel = dato->nivel, filas = (dato->tablero).dim.filas, columnas = (dato->tablero).dim.columnas;
 	char ** tablero = malloc(columnas*sizeof(char*));
@@ -61,6 +61,28 @@ static int generarTablero(TipoDatos * dato)
 		(dato->tablero).matriz = tablero;
 	}while(!coloresPresentes(&(dato->tablero), colores));
         return 0;
+}
+
+int generarTableroNull(TipoTablero * tablero)
+{
+	int j, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
+	char ** matriz = malloc(columnas*sizeof(char*));
+	if(matriz == NULL)
+		return 0;
+	for(j=0; j<columnas; j++)
+	{
+		matriz[j] = malloc(filas*sizeof(char));
+		if(matriz[j] == NULL)
+		{
+			j--;
+			for(;j>=0; j--)
+				free(matriz[j]);
+			free(matriz);
+			return 0;
+		}
+	}
+	(tablero->matriz) = matriz;
+	return 1;
 }
 
 static int coloresPresentes(TipoTablero * tablero, char * colores)
@@ -334,9 +356,9 @@ static int calcularPuntaje(const TipoDimension * dim, int azulejos)
 	int totalAzulejos = (dim->filas)*(dim->columnas);
 	if(azulejos == 1)
 		return 1;
-	else if(1 < totalAzulejos < 0.3*totalAzulejos)
+	else if(1 < totalAzulejos && totalAzulejos < 0.3*totalAzulejos)
 		return (2*azulejos);
-	else if(0.3*totalAzulejos <= azulejos < 0.6*totalAzulejos)
+	else if(0.3*totalAzulejos <= azulejos &&  azulejos < 0.6*totalAzulejos)
 		return (3*azulejos);
 	return (4*azulejos);
 }
