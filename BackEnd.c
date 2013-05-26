@@ -47,7 +47,7 @@ static int generarTablero(TipoDatos * dato)
 			return SIN_MEMORIA;
 		}
 	}
-	putchar('\n');
+	
 	do
 	{
 		for(j=0; j<columnas; j++)
@@ -357,4 +357,49 @@ static void bonus(TipoHabilidades * habilidades, const TipoDimension * dim, int 
 	}
 	else
 		habilidades->c_hileras++;
+}
+
+int generarAuxiliar(TipoDatos * aux_dato,int filas,int columnas)
+{
+   	int i, j;
+	char ** matriz = malloc(columnas*sizeof(char*));
+	
+	if(matriz == NULL)
+		return SIN_MEMORIA;
+	for(j=0; j<columnas; j++)
+	{
+		matriz[j] = calloc(filas,sizeof(char));
+	
+		if(matriz[j] == NULL)
+		{
+			j--;
+			for(;j>=0; j--)
+				free(matriz[j]);
+			free(matriz);
+			return SIN_MEMORIA;
+		}
+	}
+	(aux_dato->tablero).matriz = matriz;
+	(aux_dato->tablero).dim.filas=filas; 
+	(aux_dato->tablero).dim.columnas=columnas;
+
+    return 0;
+}
+
+void igualacion(TipoDatos * aux_dato,TipoDatos * ori_dato)
+{	
+	int i,j;
+	for(j=0; j<(ori_dato->tablero).dim.columnas; j++)
+	{
+		for(i=0;i<(ori_dato->tablero).dim.filas;i++)
+		{
+			(aux_dato->tablero).matriz[j][i]=(ori_dato->tablero).matriz[j][i];		
+		}
+	}
+	
+	aux_dato->puntaje = ori_dato->puntaje;
+	(aux_dato->tablero).c_habilidades.c_hileras = (ori_dato->tablero).c_habilidades.c_hileras;
+	(aux_dato->tablero).c_habilidades.c_columnas = (ori_dato->tablero).c_habilidades.c_columnas;
+	(aux_dato->tablero).c_habilidades.c_martillazos = (ori_dato->tablero).c_habilidades.c_martillazos;
+
 }

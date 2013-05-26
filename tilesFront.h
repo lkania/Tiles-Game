@@ -24,13 +24,14 @@
 #define PROX_NIVEL			1
 #define FIN_JUEGO			2
 #define FIN_APLICACION			3
+#define	UNDO				4
 
 enum estados {OFF=0,ON};
 typedef enum estados TipoEstado;
-typedef TipoEstado TipoFlag[4]; //1er FLAG: BITACORA, 2do FLAG: NEXT LEVEL, 3er FLAG: GAME OVER, 4to FLAG: END APP
+typedef TipoEstado TipoFlag[5]; 
 
 void Menu (TipoDatos * dato,TipoFlag Flags);
-void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora);
+void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,TipoDatos * aux_dato);
 void resultadoFindelNivel(TipoDatos * dato,TipoFlag Flags);
 
 void PedidoDimenciones(TipoDatos * dato);

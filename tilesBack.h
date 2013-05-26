@@ -3,7 +3,7 @@
 
 #define MOD(x) ( ((x)>=0)?(x):-(x) )
 
-enum errores {FUERA_RANGO=-9,SIN_ADYACENCIA,COLUMNA_NULA,HILERA_NULA,POSICION_NULA,SIN_MEMORIA,NO_HAB,COMANDO_INVALIDO,FALLO_LECTURA,ERROR_ESCRITURA};
+enum errores {FUERA_RANGO=-11,SIN_ADYACENCIA,COLUMNA_NULA,HILERA_NULA,POSICION_NULA,SIN_MEMORIA,NO_HAB,COMANDO_INVALIDO,FALLO_LECTURA,FALLO_ESCRITURA,OPERACION_INVALIDA};
 
 typedef struct
 {
@@ -37,6 +37,8 @@ typedef struct
 	int nivel;
 }TipoDatos;
 
+int generarAuxiliar(TipoDatos * aux_dato,int filas,int columnas);
+void igualacion(TipoDatos * aux_dato,TipoDatos * ori_dato);
 
 int Crear_Nivel(TipoDatos * dato); // devuelve 0 si pudo crearse el nivel, SIN_MEMORIA en otro caso
 void Proc_Matriz(TipoDatos * dato, int azulejos);

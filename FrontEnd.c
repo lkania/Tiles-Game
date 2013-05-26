@@ -6,13 +6,13 @@
 #include "tilesFront.h"
 #include "getnum.h"
 
-
-
 int main(void)
 {
-	TipoFlag  Flags = {OFF,OFF,OFF,OFF};
+	TipoFlag  Flags = {OFF,OFF,OFF,OFF,OFF};
 	TipoDatos dato;
     	FILE * archivo_bitacora;
+	TipoDatos aux_dato;
+	char * modo[]={"at","wt"};
 		
 	srand(time(NULL));	
 		
@@ -22,7 +22,7 @@ int main(void)
         
 		if(Flags[BITACORA]==ON)
 		{
-	       		archivo_bitacora=fopen("bitacora.txt","wt");
+			archivo_bitacora=fopen("bitacora.txt",modo[Flags[PROX_NIVEL]]);
 		
 			if(archivo_bitacora == NULL)
 			{
@@ -31,12 +31,20 @@ int main(void)
 			}
 		}
        
+		//Creacion de aux_dato para la utilizacion del comando UNDO
+		if(generarAuxiliar(&aux_dato,dato.tablero.dim.filas,dato.tablero.dim.columnas)==SIN_MEMORIA)
+		{
+			printerror(SIN_MEMORIA);
+			printf("No es posible utilizar UNDO");
+			return 1;
+		}
+
 		while(Flags[FIN_JUEGO]==OFF)
 		{
 	
 			if(Flags[PROX_NIVEL]==ON)
 			{  	
-				Flags[PROX_NIVEL]=OFF;// falto El flag PROX_NIVEL ON si se carga una partida
+				Flags[PROX_NIVEL]=OFF;
 
 				if(Crear_Nivel(&dato) == SIN_MEMORIA)
 				{
@@ -44,11 +52,13 @@ int main(void)
 					return 1;
 				}
 
+				Flags[UNDO]=ON;
+
 				if(Flags[BITACORA]==ON)
 				{  
-					if(GuardarMATBitacora(&(dato.tablero),archivo_bitacora)==ERROR_ESCRITURA)
+					if(GuardarMATBitacora(&(dato.tablero),archivo_bitacora)==FALLO_ESCRITURA)
 					{
-						printerror(ERROR_ESCRITURA);
+						printerror(FALLO_ESCRITURA);
 						printf("Bitacora Desactivada");
 						Flags[BITACORA]==OFF;
 					}
@@ -59,7 +69,9 @@ int main(void)
 
 			imprimirEstado(&dato);
 			imprimeTablero(&(dato.tablero));
-			AccionesDeJuego(&dato,Flags,archivo_bitacora);
+						
+			AccionesDeJuego(&dato,Flags,archivo_bitacora,&aux_dato);
+			
 			
 		}
      
@@ -81,7 +93,7 @@ void Menu (TipoDatos * dato,TipoFlag Flags)
 	char * nombrefile=malloc(MAX_LONG_FILE*sizeof(*nombrefile));
 	int c;
 
-	printf("Bienvenido:\n\n1 - Juego Nuevo \n2 - Juego con Bitacora \n3 - Cargar Partida\n4 - Instrucciones\n");
+	printf("Bienvenido:\n1 - Juego Nuevo \n2 - Juego con Bitacora \n3 - Cargar Partida\n4 - Instrucciones\n");
 
 	do
 	{
@@ -170,10 +182,10 @@ void PedidoDimenciones(TipoDatos * dato)
 }
 
 
-void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora)
+void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,TipoDatos * aux_dato)
 {	
-	static TipoDatos aux_datos;
 	int cant,cant_azulejos;
+	
 	TipoPosicion pos;
 	
 	char operacion[MAX_LONG];
@@ -183,7 +195,6 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora)
 	
 	char accion,aux;
 	
-	//aux_datos = dato ;//Se realiza un save temporal de los datos por si el usuario pide la operacion UNDO	
 	
 	inputString(operacion);
 
@@ -196,7 +207,8 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora)
 			cant = sscanf(operacion+1,"%*[ \t]%d,%d%c",&(pos.x),&(pos.y),&aux);
 				
 			if(cant == 2)
-			{
+			{	
+				igualacion(aux_dato,dato);
 				cant_azulejos = eliminar(&(dato->tablero),pos.x,pos.y);
 			}
 			else
@@ -209,7 +221,10 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora)
 			cant = sscanf(operacion+1,"%*[ \t]%d,%d%c",&pos.x,&pos.y,&aux);
 						
 			if(cant == 2)
+			{
+				igualacion(aux_dato,dato);
 				cant_azulejos = martillazo(&(dato->tablero),pos.x,pos.y);
+			}
 			else
 			{
 				printerror(COMANDO_INVALIDO);
@@ -220,7 +235,10 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora)
 			cant = sscanf(operacion+1,"%*[ \t]%d%c",&pos.y,&aux);
 				
 			if(cant == 1)
+			{
 				cant_azulejos = columna(&(dato->tablero),pos.y);
+				igualacion(aux_dato,dato);
+			}
 			else
 			{
 				printerror(COMANDO_INVALIDO);
@@ -230,7 +248,10 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora)
 		case 'h':
 			cant = sscanf(operacion+1,"%*[ \t]%d%c",&pos.x,&aux);
 			if(cant == 1)
+			{
 				cant_azulejos = hilera(&(dato->tablero),pos.x);
+				igualacion(aux_dato,dato);
+			}
 			else
 			{
 				printerror(COMANDO_INVALIDO);
@@ -257,9 +278,15 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora)
 				printerror(SIN_MEMORIA);
 			return;
 
-		case 'u': // VER LOGICA DEL UNDO 
-			
-				//*dato = aux_dato;
+		case 'u':
+			if(Flags[UNDO]==OFF)
+			{
+				Flags[UNDO]=ON;
+				igualacion(dato,aux_dato);			
+							
+			}
+			else
+				printerror(OPERACION_INVALIDA);
 						
 			return;
 
@@ -331,7 +358,8 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora)
 		printerror(cant_azulejos);
 	}
 	else
-	{		
+	{	
+		Flags[UNDO]=OFF;		
 		Proc_Matriz(dato,cant_azulejos);
 		if(nivelTerminado(&(dato->tablero)))
 		{
@@ -348,9 +376,9 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora)
 		
 		if(Flags[BITACORA]==ON)
 		{
-			if(GuardarAccionBitacora(archivo_bitacora,operacion,Flags[PROX_NIVEL],dato->puntaje)==ERROR_ESCRITURA)
+			if(GuardarAccionBitacora(archivo_bitacora,operacion,Flags[PROX_NIVEL],dato->puntaje)==FALLO_ESCRITURA)
 			{
-				printerror(ERROR_ESCRITURA);
+				printerror(FALLO_ESCRITURA);
 				printf("Bitacora Desactivada");
 				Flags[BITACORA]==OFF;	
 			}
@@ -413,7 +441,7 @@ void inputString(char * string)
 
 void printerror(int ind)
 {
-	char * error[]={"Fallo la escritura del archivo","Fallo la lectura del archivo","Comando no valido","Sin habilidades Especiales","Sin Memoria","Posicion Nula","Hilera nula","Columna Nula","No hay adyacencia","Fuera de Rango"};
+	char * error[]={"Operacion invalida","Fallo la escritura del archivo","Fallo la lectura del archivo","Comando no valido","Sin habilidades Especiales","Sin Memoria","Posicion Nula","Hilera nula","Columna Nula","No hay adyacencia","Fuera de Rango"};
 
 	printf("ERROR: %s\n",error[ind*(-1)-1]);
 
@@ -516,7 +544,7 @@ int GuardarAccionBitacora(FILE * archivo_bitacora,char * operacion, TipoEstado p
 	sprintf(s,"%d: %s; %d\n",contador,operacion,puntaje);
 	
 	if(fputs(s,archivo_bitacora) == EOF)
-		return ERROR_ESCRITURA; 
+		return FALLO_ESCRITURA; 
 
 	contador++;
 
@@ -536,11 +564,11 @@ int GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora)
 		for(j=0; j<columnas; j++)
 		{
 		    	if(fputc((tablero->matriz)[j][i],archivo_bitacora) == EOF)
-				return ERROR_ESCRITURA;
+				return FALLO_ESCRITURA;
 		}
 	
 		if(fputc('\n',archivo_bitacora) == EOF)
-			return ERROR_ESCRITURA;
+			return FALLO_ESCRITURA;
 	}
 	
 	return 1;
