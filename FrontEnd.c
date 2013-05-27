@@ -12,7 +12,7 @@ int main(void)
 	TipoDatos dato;
     FILE * archivo_bitacora;
 	TipoDatos aux_dato;
-	char * modo[]={"at","wt"};
+	//char * modo[]={"at","wt"};
 	setColor(NEGRO);
 	aux_dato.tablero.matriz=NULL;
     dato.tablero.matriz=NULL;
@@ -24,7 +24,7 @@ int main(void)
         
 		if(Flags[BITACORA]==ON)
 		{
-			archivo_bitacora=fopen("bitacora.txt",modo[Flags[PROX_NIVEL]]);
+			archivo_bitacora=fopen("bitacora.txt","wt");
 		
 			if(archivo_bitacora == NULL)
 			{
@@ -285,7 +285,9 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,Tip
 					{
 						
 						printf("Salvado\n");
-						Flags[BITACORA]=RenombrarBitacora(Flags[BITACORA],nombrefile);
+                        
+						if(Flags[BITACORA]==ON)
+                            Flags[BITACORA]=SaveBitacora(nombrefile,archivo_bitacora);
 			
 					}
 	
@@ -337,7 +339,8 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,Tip
 							else
 							{
 								printf("Salvado\n");
-								Flags[BITACORA]=RenombrarBitacora(Flags[BITACORA],nombrefile);
+								if(Flags[BITACORA]==ON)
+                                    Flags[BITACORA]=SaveBitacora(nombrefile,archivo_bitacora);
 							}
 		
 							Flags[FIN_APLICACION]=ON;
@@ -412,22 +415,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,Tip
 	
 }
 
-TipoEstado RenombrarBitacora(TipoEstado bitacora,char * nombrefile)
-{
-	char s[MAX_LONG_FILE+3];	
-	if(bitacora==ON)
-	{
-		sprintf(s,"%s.txt",nombrefile);
-	
-		if(rename("bitacora.txt",s)!=0)
-		{
-			printerror(FALLO_ESCRITURA);
-			printf("Bitacora Desactivada");
-			return OFF;
-		}
-	}
-	return ON;
-}
+
 
 void PedirNombreValido(char * nombrefile)
 {
@@ -603,6 +591,7 @@ int GuardarAccionBitacora(FILE * archivo_bitacora,char * operacion, TipoEstado p
 
 }
 
+
 int GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora)
 {
 	int i, j, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
@@ -622,6 +611,71 @@ int GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora)
 	
 	return 1;
 }
+
+TipoEstado SaveBitacora(char * nombrefile,FILE * arch_origen)
+{
+	char s[MAX_LONG_FILE+3];
+    FILE *dest;
+  
+    char  str[MAX_LONG];
+    
+    fclose(arch_origen);
+    
+	
+		sprintf(s,"%s.txt",nombrefile);
+        
+        if((arch_origen = fopen("bitacora.txt", "rt"))==NULL) {
+            printerror(ARCHIVO_INEXISTENTE);
+            printf("Bitacora.txt");
+            return OFF;
+        }
+        
+        /* abro destino */
+        if((dest = fopen(s, "at"))==NULL) {
+            printerror(FALLO_ESCRITURA);
+            printf("Bitacora Desactivada\n");
+            return OFF;
+        }
+        
+        while(!feof(arch_origen)) {
+            
+            fgets(str,MAX_LONG,arch_origen);
+            if(ferror(arch_origen)) {
+                printerror(FALLO_LECTURA);
+                printf("Bitacora Desactivada");
+                return OFF;
+            }
+            if(!feof(arch_origen)) fputs(str, dest);
+            if(ferror(dest)) {
+                printerror(FALLO_ESCRITURA);
+                printf("Bitacora Desactivada\n");
+                return OFF;
+            }
+        }
+        
+        /* Guardo cambios */
+        if(fclose(arch_origen)==EOF) {
+            printerror(FALLO_ESCRITURA);
+            printf("Bitacora Desactivada\n");
+            return OFF;
+        }
+        
+        if(fclose(dest)==EOF) {
+            printerror(FALLO_ESCRITURA);
+            printf("Bitacora Desactivada\n");
+            return OFF;
+        }
+        
+        if((arch_origen = fopen("bitacora.txt", "at"))==NULL) {
+            printerror(ARCHIVO_INEXISTENTE);
+            printf("Bitacora Desactivada\n");
+            return OFF;
+        }
+    
+        return ON;
+}
+
+
 
 void imprimirColor(char caracter)
 {

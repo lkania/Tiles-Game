@@ -23,7 +23,7 @@
 #define BITACORA			0 
 #define PROX_NIVEL			1
 #define FIN_JUEGO			2
-#define FIN_APLICACION			3
+#define FIN_APLICACION		3
 #define	UNDO				4
 
 enum estados {OFF=0,ON};
@@ -39,7 +39,8 @@ void PedidoNivel(TipoDatos * dato);
 void PedirNombreValido(char * nombrefile);
 int validFileName(char * nombrefile);
 void inputString(char * string);
-TipoEstado RenombrarBitacora(TipoEstado bitacora,char * nombrefile);
+TipoEstado SaveBitacora(char * nombrefile,FILE * arch_origen);
+
 
 void imprimeTablero(TipoTablero * tablero);
 void imprimirEstado(TipoDatos * dato);
