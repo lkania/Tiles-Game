@@ -5,6 +5,8 @@
 
 enum errores {FUERA_RANGO=-12,SIN_ADYACENCIA,COLUMNA_NULA,HILERA_NULA,POSICION_NULA,SIN_MEMORIA,NO_HAB,COMANDO_INVALIDO,FALLO_LECTURA,FALLO_ESCRITURA,OPERACION_INVALIDA, ARCHIVO_INEXISTENTE};
 
+enum colores {NEGRO=0, ROJO, VERDE, AMARILLO, AZUL, VIOLETA, CELESTE, BLANCO};
+
 typedef struct
 {
 	int x,y;
@@ -73,5 +75,21 @@ static int validarColumna(TipoTablero * tablero, int columna);
 static void gravedad(TipoTablero * tablero);//tras su invocacion "caen" las piezas hasta que no haya espacios libres
 static void decalarFils(TipoTablero * tablero, int i, int j); //funcion auxiliar para gravedad
 static void nullCols(TipoTablero * tablero);//decala hacia la izquierda las columnas nulas
+
+void setColor(int color);
+/*COLORES
+	printf("%c[1;20mHello, world!\n", 27); // verde matrix
+	printf("%c[1;21mHello, world!\n", 27); // verde matrix
+	printf("%c[1;30mHello, world!\n", 27); // negro
+	printf("%c[1;31mHello, world!\n", 27); // rojo
+  	printf("%c[1;32mHello, world!\n", 27); // verde
+  	printf("%c[1;33mHello, world!\n", 27); // amarillo
+	printf("%c[1;34mHello, world!\n", 27); // azul
+	printf("%c[1;35mHello, world!\n", 27); // violeta
+	printf("%c[1;36mHello, world!\n", 27); // celeste
+	printf("%c[1;37mHello, world!\n", 27); // blanco
+	printf("%c[1;38mHello, world!\n", 27); // blanco
+	printf("%c[1;39mHello, world!\n", 27); // verde oscuro
+*/
 
 #endif

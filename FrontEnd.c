@@ -13,7 +13,7 @@ int main(void)
     FILE * archivo_bitacora;
 	TipoDatos aux_dato;
 	char * modo[]={"at","wt"};
-	
+	setColor(NEGRO);
 	aux_dato.tablero.matriz=NULL;
     dato.tablero.matriz=NULL;
 	srand(time(NULL));	
@@ -483,7 +483,7 @@ void inputString(char * string)
 
 void printerror(int ind)
 {
-	char * error[]={"Operacion invalida","Fallo la escritura del archivo","Fallo la lectura del archivo","Comando no valido","Sin habilidades Especiales","Sin Memoria","Posicion Nula","Hilera nula","Columna Nula","No hay adyacencia","Fuera de Rango"};
+	char * error[]={"Archivo inexistente", "Operacion invalida","Fallo la escritura del archivo","Fallo la lectura del archivo","Comando no valido","Sin habilidades Especiales","Sin Memoria","Posicion Nula","Hilera nula","Columna Nula","No hay adyacencia","Fuera de Rango"};
 
 	printf("ERROR: %s\n",error[ind*(-1)-1]);
 
@@ -510,7 +510,8 @@ void imprimeTablero(TipoTablero * tablero)
 			{
 				if((tablero->matriz)[j][i] != 0  && (tablero->matriz)[j][i]!='0')
 				{
-					printf("%c  ", (tablero->matriz)[j][i]);
+					//printf("%c  ", (tablero->matriz)[j][i]);
+					imprimirColor((tablero->matriz)[j][i]);
 				}
 				else
 				{
@@ -620,4 +621,11 @@ int GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora)
 	}
 	
 	return 1;
+}
+
+void imprimirColor(char caracter)
+{
+	int num = 31+(caracter-'A')%8;
+	printf("%c[1;%dm%c  ", 27, num, caracter);
+	setColor(NEGRO);
 }

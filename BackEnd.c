@@ -425,3 +425,10 @@ void igualacion(TipoDatos * aux_dato,TipoDatos * ori_dato)
 	(aux_dato->tablero).c_habilidades.c_martillazos = (ori_dato->tablero).c_habilidades.c_martillazos;
 
 }
+
+void setColor(int color)
+{
+	//enum colores {NEGRO=0, ROJO, VERDE, AMARILLO, AZUL, VIOLETA, CELESTE, BLANCO}
+	if(color>=NEGRO && color<=BLANCO)
+		printf("%c[1;%dm", 27, (color+30));
+}

@@ -51,4 +51,6 @@ int load(TipoDatos * dato, TipoEstado * flagBitacora, char * nombre);
 int GuardarAccionBitacora(FILE * archivo_bitacora,char * operacion, TipoEstado prox_nivel, int puntaje,int cant_azulejos);
 int GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora);
 
+void imprimirColor(char letra);
+
 #endif
