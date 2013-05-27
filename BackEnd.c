@@ -25,7 +25,7 @@ void Proc_Matriz(TipoDatos * dato, int azulejos)
 }
 
 
-int generarTablero(TipoDatos * dato)
+static int generarTablero(TipoDatos * dato)
 {
         int i, j, indice, nivel = dato->nivel, filas = (dato->tablero).dim.filas, columnas = (dato->tablero).dim.columnas;
 	char ** tablero = malloc(columnas*sizeof(char*));
