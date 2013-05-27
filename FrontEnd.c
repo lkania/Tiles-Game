@@ -340,18 +340,12 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,Tip
 							{
 								printf("Salvado\n");
 								if(Flags[BITACORA]==ON)
-                                    Flags[BITACORA]=SaveBitacora(nombrefile,archivo_bitacora);
+				                                Flags[BITACORA]=SaveBitacora(nombrefile,archivo_bitacora);
 							}
 		
-							Flags[FIN_APLICACION]=ON;
-							Flags[FIN_JUEGO]=ON;
+						
 						}
-						else if(comp_no==0)
-						{   
-							Flags[FIN_APLICACION]=ON;
-							Flags[FIN_JUEGO]=ON;
-						}
-						else
+						else if(comp_si != 0 && comp_no != 0)
 						{
 							printf("Respuesta no valida\n");
 						}
@@ -364,9 +358,11 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,Tip
 			else
 			{
 				printerror(SIN_MEMORIA);
-				Flags[FIN_APLICACION]=ON;
-				Flags[FIN_JUEGO]=ON;
 			}	
+		
+			Flags[FIN_APLICACION]=ON;
+			Flags[FIN_JUEGO]=ON;
+
 			return;
 
 		default:
