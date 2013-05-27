@@ -34,10 +34,10 @@ int main(void)
 		}
        
 		//Creacion de aux_dato para la utilizacion del comando UNDO
-        if(aux_dato.tablero.matriz!=NULL) free(aux_dato.tablero.matriz);
-        if(dato.tablero.matriz!=NULL) free(dato.tablero.matriz);
+        if(aux_dato.tablero.matriz!=NULL ) free(aux_dato.tablero.matriz);
+        if(dato.tablero.matriz!=NULL && Flags[PROX_NIVEL]!=OFF) free(dato.tablero.matriz);
         
-		if(Flags[FIN_JUEGO]==OFF && generarAuxiliar(&aux_dato,dato.tablero.dim.filas,dato.tablero.dim.columnas)==SIN_MEMORIA)
+		if( Flags[FIN_JUEGO]==OFF && generarAuxiliar(&aux_dato,dato.tablero.dim.filas,dato.tablero.dim.columnas)==SIN_MEMORIA  )
 		{   
 			
             printerror(SIN_MEMORIA);
