@@ -30,8 +30,8 @@ enum estados {OFF=0,ON};
 typedef enum estados TipoEstado;
 typedef TipoEstado TipoFlag[5]; 
 
-void Menu (TipoDatos * dato,TipoFlag Flags);
-void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,TipoDatos * aux_dato);
+void Menu (TipoDatos * dato,TipoFlag Flags,FILE **archivo_bitacora);
+void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE ** archivo_bitacora,TipoDatos * aux_dato);
 void resultadoFindelNivel(TipoDatos * dato,TipoFlag Flags);
 
 void PedidoDimenciones(TipoDatos * dato);
@@ -39,8 +39,8 @@ void PedidoNivel(TipoDatos * dato);
 void PedirNombreValido(char * nombrefile);
 int validFileName(char * nombrefile);
 void inputString(char * string);
-TipoEstado SaveBitacora(char * nombrefile,FILE * arch_origen);
-
+TipoEstado SaveBitacora(char * nombrefile,FILE ** arch_origen);
+TipoEstado LoadBitacora(char * nombrefile,FILE ** archivo_bitacora);
 
 void imprimeTablero(TipoTablero * tablero);
 void imprimirEstado(TipoDatos * dato);
