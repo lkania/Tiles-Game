@@ -6,11 +6,14 @@
 #include "tilesFront.h"
 #include "getnum.h"
 
+
+
 int main(void)
 {
 	TipoFlag  Flags = {OFF,OFF,OFF,OFF,OFF,OFF};
 	TipoDatos dato;
-    FILE * archivo_bitacora;
+    TipoBitacora bitacora={NULL,"bitacora.txt"};
+    //FILE * archivo_bitacora;
 	TipoDatos aux_dato;
 	//char * modo[]={"at","wt"};
 	setColor(NEGRO);
@@ -20,7 +23,27 @@ int main(void)
 		
 	while(Flags[FIN_APLICACION]==OFF) 
 	{
-		Menu(&dato,Flags,&archivo_bitacora);
+		Menu(&dato,Flags,&bitacora);
+        
+        if(Flags[BITACORA]==ON){
+            if (Flags[PROX_NIVEL]==ON) // PROX_LEVEL ON implica que no se hizo ningun load
+            {   bitacora.archivo_bitacora=fopen(bitacora.nombre_bitacora,"w+t");
+            }else{
+                bitacora.archivo_bitacora=fopen(bitacora.nombre_bitacora,"r+");
+                if(fseek(bitacora.archivo_bitacora,0,SEEK_END)!=0){
+                    
+                    printerror(ARCHIVO_INEXISTENTE);
+                    printf("Bitacora Desactivada");
+                    return OFF;
+                }
+            }
+            if(bitacora.archivo_bitacora == NULL)
+			{
+			    printerror(SIN_MEMORIA);
+			    Flags[BITACORA]=OFF;
+			}
+            
+        }
 		//Creacion de aux_dato para la utilizacion del comando UNDO
 		if(aux_dato.tablero.matriz!=NULL ) free(aux_dato.tablero.matriz);
 		if(dato.tablero.matriz!=NULL && Flags[PROX_NIVEL]!=OFF) free(dato.tablero.matriz);
@@ -50,7 +73,7 @@ int main(void)
 
 				if(Flags[BITACORA]==ON)
 				{  
-					if(GuardarMATBitacora(&(dato.tablero),archivo_bitacora)==FALLO_ESCRITURA)
+					if(GuardarMATBitacora(&(dato.tablero),bitacora.archivo_bitacora)==FALLO_ESCRITURA)
 					{
 						printerror(FALLO_ESCRITURA);
 						printf("Bitacora Desactivada");
@@ -64,7 +87,7 @@ int main(void)
 			imprimirEstado(&dato);
 			imprimeTablero(&(dato.tablero));
 						
-			AccionesDeJuego(&dato,Flags,archivo_bitacora,&aux_dato);
+			AccionesDeJuego(&dato,Flags,bitacora,&aux_dato);
 			
 			
 		}
@@ -72,7 +95,7 @@ int main(void)
         }
 
 	if(Flags[BITACORA]==ON)
-		fclose(archivo_bitacora);
+		fclose(bitacora.archivo_bitacora);
     
         return 0;
 }
@@ -83,7 +106,7 @@ void imprimirEstado(TipoDatos * dato)
 }
 
 
-void Menu (TipoDatos * dato,TipoFlag Flags,FILE **archivo_bitacora)
+void Menu (TipoDatos * dato,TipoFlag Flags,TipoBitacora * bitacora )
 {
 	char * nombrefile=malloc(MAX_LONG_FILE*sizeof(*nombrefile));
 	int c;
@@ -98,12 +121,12 @@ void Menu (TipoDatos * dato,TipoFlag Flags,FILE **archivo_bitacora)
 	switch(c)
 	{	
 		case 2: Flags[BITACORA]=ON;
-			*archivo_bitacora=fopen("bitacora.txt","w+t");
+			/*archivo_bitacora=fopen("bitacora.txt","w+t");
 			if(*archivo_bitacora == NULL)
 			{
 			    printerror(SIN_MEMORIA);
 			    Flags[BITACORA]=OFF;
-			}
+			}*/
                         
 		case 1:
 			dato->nivel=0;
@@ -126,11 +149,12 @@ void Menu (TipoDatos * dato,TipoFlag Flags,FILE **archivo_bitacora)
 					printf("Cargado\n");	
 				if (Flags[BITACORA]==ON)
 				{	
-					LoadBitacora(nombrefile,archivo_bitacora);
-					
+					//LoadBitacora(nombrefile,archivo_bitacora);
+					sprintf(bitacora->nombre_bitacora,"%s.txt",nombrefile);
+                    printf("%s\n\n",bitacora->nombre_bitacora);
 					
 				}
-                Flags[LOAD]=ON;
+                //Flags[LOAD]=ON;
 				Flags[PROX_NIVEL]=OFF;
                 Flags[FIN_JUEGO]=OFF;
                 
@@ -196,7 +220,7 @@ void PedidoDimenciones(TipoDatos * dato)
 }
 
 
-void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,TipoDatos * aux_dato)
+void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoDatos * aux_dato)
 {	
 	int cant,cant_azulejos;
 	
@@ -288,11 +312,14 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,Tip
 						
 						printf("Salvado\n");
                         
-						if(Flags[BITACORA]==ON && Flags[LOAD]==OFF)
-                            Flags[BITACORA]=SaveBitacora(nombrefile,archivo_bitacora);
-			
+                        
+                        
+						if(Flags[BITACORA]==ON && compBit_File(bitacora.nombre_bitacora,nombrefile)!=0){
+
+                                Flags[BITACORA]=SaveBitacora(nombrefile,bitacora.archivo_bitacora);
+                        }
 					}
-	
+                    	
 				}
 				else
 					printerror(COMANDO_INVALIDO);
@@ -341,9 +368,11 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,Tip
 							else
 							{
 								printf("Salvado\n");
-								if(Flags[BITACORA]==ON && Flags[LOAD]==OFF)
-				                                Flags[BITACORA]=SaveBitacora(nombrefile,archivo_bitacora);
-							}
+                                
+								if(Flags[BITACORA]==ON && compBit_File(bitacora.nombre_bitacora,nombrefile)!=0)
+                                {        Flags[BITACORA]=SaveBitacora(nombrefile,bitacora.archivo_bitacora);
+                                }
+                            }
 		
 						
 						}
@@ -404,7 +433,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,Tip
 
 	if(Flags[BITACORA]==ON)
 	{	
-		if(GuardarAccionBitacora(archivo_bitacora,operacion,Flags[PROX_NIVEL],dato->puntaje,cant_azulejos)==FALLO_ESCRITURA)
+		if(GuardarAccionBitacora(bitacora.archivo_bitacora,operacion,Flags[PROX_NIVEL],dato->puntaje,cant_azulejos)==FALLO_ESCRITURA)
 		{
 			printerror(FALLO_ESCRITURA);
 			printf("Bitacora Desactivada");
@@ -702,3 +731,15 @@ TipoEstado LoadBitacora(char * nombrefile,FILE ** archivo_bitacora)
     }
 	return ON;
 }
+
+int compBit_File(char * bit ,char *file)
+{
+    int i;
+    
+    for (i=0;file[i]!=0 && bit[i] != 0;i++){
+        if (bit[i]!= file [i])
+            return 1;
+    }
+    return (bit[i] != 0 && strcmp(bit+i,".txt")==0 )? 0:1;
+}
+

@@ -27,14 +27,20 @@
 #define	UNDO				4
 #define LOAD                5
 
+typedef struct {
+    FILE * archivo_bitacora;
+    char nombre_bitacora[MAX_LONG_FILE+4];
+} TipoBitacora;
+
+
 enum estados {OFF=0,ON};
 typedef enum estados TipoEstado;
 typedef TipoEstado TipoFlag[6];
 
-void Menu (TipoDatos * dato,TipoFlag Flags,FILE **archivo_bitacora);  // Pide informacion al usuario a traves de interfas grafica para setear los datos iniciales del juego
+void Menu (TipoDatos * dato,TipoFlag Flags,TipoBitacora * bitacora );  // Pide informacion al usuario a traves de interfas grafica para setear los datos iniciales del juego
 
 
-void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,FILE * archivo_bitacora,TipoDatos * aux_dato);/* Esta funcion se encaraga de llamar a funciones del back en funcion
+void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora  bitacora,TipoDatos * aux_dato);/* Esta funcion se encaraga de llamar a funciones del back en funcion
                                                                                                       a la accion que ingresa el usuario */
 
 void resultadoFindelNivel(TipoDatos * dato,TipoFlag Flags);
