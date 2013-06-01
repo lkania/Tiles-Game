@@ -2,6 +2,7 @@
 #define tilesFront_H
 
 #include "tilesBack.h"
+#include <stdio.h>
 
 //CONSTANTES
 #define	MAX_LONG			30
