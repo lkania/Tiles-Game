@@ -1,2 +1,2 @@
-Tiles-Game: BackEnd.c FrontEnd.c getnum.c
-	gcc -o Tiles-Game BackEnd.c FrontEnd.c getnum.c -I.
+Tiles-Game: BackEnd.c FrontEnd.c getnum.c tilesFront.h tilesBack.h getnum.h
+	gcc -o Tiles-Game BackEnd.c FrontEnd.c getnum.c tilesFront.h tilesBack.h getnum.h -I.
