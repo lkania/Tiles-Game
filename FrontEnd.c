@@ -8,7 +8,7 @@
 
 int main(void)
 {
-	TipoFlag  Flags = {OFF,OFF,OFF,OFF,OFF,OFF};
+	TipoFlag  Flags = {OFF,OFF,OFF,OFF,OFF};
 	TipoDatos dato;
     	TipoBitacora bitacora={NULL,"bitacora.txt"};
     	TipoDatos aux_dato;
@@ -25,7 +25,7 @@ int main(void)
 		{
 			if (Flags[PROX_NIVEL]==ON) // PROX_LEVEL ON implica que no se hizo ningun load
 			{
-                if((bitacora.archivo_bitacora=fopen(bitacora.nombre_bitacora,"w+t"))== NULL)
+				if((bitacora.archivo_bitacora=fopen(bitacora.nombre_bitacora,"w+t"))== NULL)
 				{
 					printerror(SIN_MEMORIA);
 					Flags[BITACORA]=OFF;
@@ -34,7 +34,7 @@ int main(void)
 			}
 			else
 			{
-                if((bitacora.archivo_bitacora=fopen(bitacora.nombre_bitacora,"r+"))== NULL)
+				if((bitacora.archivo_bitacora=fopen(bitacora.nombre_bitacora,"r+"))== NULL)
 				{
 					printerror(SIN_MEMORIA);
 					Flags[BITACORA]=OFF;
@@ -140,21 +140,27 @@ void Menu (TipoDatos * dato,TipoFlag Flags,TipoBitacora * bitacora )
 				int aux;
 				PedirNombreValido(nombrefile);			
 
-				if(aux=load(dato,&(Flags[BITACORA]),nombrefile) < 0) 
+				if((aux=load(dato,&(Flags[BITACORA]),nombrefile)) < 0)
+				{ 
 					printerror(aux);
-				else
-					printf("Cargado\n");	
-				if (Flags[BITACORA]==ON)
-				{	
-					sprintf(bitacora->nombre_bitacora,"%s.txt",nombrefile);
-                			printf("%s\n\n",bitacora->nombre_bitacora);
+					Flags[FIN_JUEGO]=ON;
 				}
-              
-				Flags[PROX_NIVEL]=OFF;
-                		Flags[FIN_JUEGO]=OFF;
+				else
+				{
+					printf("Cargado\n");	
+					if (Flags[BITACORA]==ON)
+					{	
+						sprintf(bitacora->nombre_bitacora,"%s.txt",nombrefile);
+		        			printf("%s\n\n",bitacora->nombre_bitacora);
+					}
+		      
+					Flags[PROX_NIVEL]=OFF;
+		        		Flags[FIN_JUEGO]=OFF;
+				}
                 	}
 			else
-				printerror(SIN_MEMORIA);
+				printerror(SIN_MEMORIA); 
+				//Solo da error si el usuario elige cargar un archivo y no hay memoria suficiente para alamacenar el nombre ingresado por el usuario
 			break;
 		case 4: 
 			instrucciones();

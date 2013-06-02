@@ -26,7 +26,6 @@
 #define FIN_JUEGO			2
 #define FIN_APLICACION			3
 #define	UNDO				4
-#define LOAD				5
 
 typedef struct 
 {
