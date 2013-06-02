@@ -538,7 +538,7 @@ int load(TipoDatos * dato, TipoEstado * flagBitacora, char * nombre)
 {
 	FILE * archivo;
 	int informacion[9], aux, i, j, respuesta = 1;
-	archivo = fopen(nombre, "r");
+	archivo = fopen(nombre, "r+");
 	if(archivo == NULL)
 		return ARCHIVO_INEXISTENTE;
 	for(i=0; i<9 && respuesta; i++)
@@ -564,6 +564,8 @@ int load(TipoDatos * dato, TipoEstado * flagBitacora, char * nombre)
 		(dato->tablero).c_habilidades.c_martillazos = informacion[8];
 	}
 	fclose(archivo);
+	if(respuesta==0)
+		return FALLO_LECTURA;
 	return respuesta;
 }
 

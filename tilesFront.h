@@ -83,7 +83,7 @@ void instrucciones(void);
 /* Guarda la partida que esta en juego */
 int save(TipoDatos * dato, TipoEstado flagBitacora, char * nombre);
 
-/* Carga un partida anteriormente salvada, devuelve 0 si hubo error en la lectura del archivo */
+/* Carga un partida anteriormente salvada, devuelve 1 si no hubo error y un numero negativo si lo hubo  */
 int load(TipoDatos * dato, TipoEstado * flagBitacora, char * nombre);
 
 /* Guarda en archivo_bitacora la accion ejecutada, devuelve 1 si no hubo error y un numero negativo si lo hubo */
