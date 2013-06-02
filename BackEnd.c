@@ -82,7 +82,7 @@ int generarTableroNull(TipoTablero * tablero)
 		}
 	}
 	(tablero->matriz) = matriz;
-	return 0;
+	return 1;
 }
 
 static int coloresPresentes(TipoTablero * tablero, char * colores)
