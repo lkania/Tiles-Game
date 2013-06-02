@@ -25,12 +25,16 @@ int main(void)
 		{
 			if (Flags[PROX_NIVEL]==ON) // PROX_LEVEL ON implica que no se hizo ningun load
 			{
-				bitacora.archivo_bitacora=fopen(bitacora.nombre_bitacora,"w+t");
+                if((bitacora.archivo_bitacora=fopen(bitacora.nombre_bitacora,"w+t"))== NULL)
+				{
+					printerror(SIN_MEMORIA);
+					Flags[BITACORA]=OFF;
+				}
+
 			}
 			else
 			{
-				bitacora.archivo_bitacora=fopen(bitacora.nombre_bitacora,"r+");
-				if(bitacora.archivo_bitacora == NULL)
+                if((bitacora.archivo_bitacora=fopen(bitacora.nombre_bitacora,"r+"))== NULL)
 				{
 					printerror(SIN_MEMORIA);
 					Flags[BITACORA]=OFF;
