@@ -68,7 +68,7 @@ int generarTableroNull(TipoTablero * tablero)
 	int j, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	char ** matriz = malloc(columnas*sizeof(char*));
 	if(matriz == NULL)
-		return 0;
+		return SIN_MEMORIA;
 	for(j=0; j<columnas; j++)
 	{
 		matriz[j] = malloc(filas*sizeof(char));
@@ -78,11 +78,11 @@ int generarTableroNull(TipoTablero * tablero)
 			for(;j>=0; j--)
 				free(matriz[j]);
 			free(matriz);
-			return 0;
+			return SIN_MEMORIA;
 		}
 	}
 	(tablero->matriz) = matriz;
-	return 1;
+	return 0;
 }
 
 static int coloresPresentes(TipoTablero * tablero, char * colores)
@@ -272,15 +272,8 @@ static void gravedad(TipoTablero * tablero)
 {
 	int i, j, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	for(j=0; j<columnas; j++)
-	{
 		for(i=filas-1; i>=0 && (tablero->matriz)[j][i]!='0'; i--)
-		{
-			if((tablero->matriz)[j][i] == '\0')
-			{
-				decalarFils(tablero, i, j);
-			}
-		}
-	}
+			decalarFils(tablero, i, j);
 }
 
 static void decalarFils(TipoTablero * tablero, int i, int j)
@@ -303,17 +296,14 @@ static void nullCols(TipoTablero * tablero)
 	{
 		if((tablero->matriz)[j][filas-1]=='0')
 			j--;
+		else if( (tablero->matriz)[i][filas-1]!='0' )
+			i++;
 		else
 		{
-			if( (tablero->matriz)[i][filas-1]!='0')
-				i++;
-			else
-			{
-				aux = (tablero->matriz)[i];
-				for(k=i; k<j; k++)
-					(tablero->matriz)[k]=(tablero->matriz)[k+1];
-				(tablero->matriz)[k] = aux;
-			}
+			aux = (tablero->matriz)[i];
+			for(k=i; k<j; k++)
+				(tablero->matriz)[k]=(tablero->matriz)[k+1];
+			(tablero->matriz)[k] = aux;
 		}
 	}
 }
@@ -381,33 +371,6 @@ static void bonus(TipoHabilidades * habilidades, const TipoDimension * dim, int 
 		habilidades->c_hileras++;
 }
 
-int generarAuxiliar(TipoDatos * aux_dato,int filas,int columnas)
-{
-   	int i, j;
-	char ** matriz = malloc(columnas*sizeof(char*));
-	
-	if(matriz == NULL)
-		return SIN_MEMORIA;
-	for(j=0; j<columnas; j++)
-	{
-		matriz[j] = calloc(filas,sizeof(char));
-	
-		if(matriz[j] == NULL)
-		{
-			j--;
-			for(;j>=0; j--)
-				free(matriz[j]);
-			free(matriz);
-			return SIN_MEMORIA;
-		}
-	}
-	(aux_dato->tablero).matriz = matriz;
-	(aux_dato->tablero).dim.filas=filas; 
-	(aux_dato->tablero).dim.columnas=columnas;
-
-    return 0;
-}
-
 void igualacion(TipoDatos * aux_dato,TipoDatos * ori_dato)
 {	
 	int i,j;
@@ -426,9 +389,8 @@ void igualacion(TipoDatos * aux_dato,TipoDatos * ori_dato)
 
 }
 
-void setColor(int color)
+void cambiarColor(int color)
 {
-	//enum colores {NEGRO=0, ROJO, VERDE, AMARILLO, AZUL, VIOLETA, CELESTE, BLANCO}
 	if(color>=NEGRO && color<=BLANCO)
 		printf("%c[1;%dm", 27, (color+30));
 }
