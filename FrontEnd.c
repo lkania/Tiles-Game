@@ -30,6 +30,11 @@ int main(void)
 			else
 			{
 				bitacora.archivo_bitacora=fopen(bitacora.nombre_bitacora,"r+");
+				if(bitacora.archivo_bitacora == NULL)
+				{
+					printerror(SIN_MEMORIA);
+					Flags[BITACORA]=OFF;
+				}
 			        if(fseek(bitacora.archivo_bitacora,0,SEEK_END)!=0)
 				{
 	                        	printerror(ARCHIVO_INEXISTENTE);
@@ -37,13 +42,8 @@ int main(void)
 					return OFF;
 				}
 			}
-		}
-		if(bitacora.archivo_bitacora == NULL)
-		{
-			printerror(SIN_MEMORIA);
-			Flags[BITACORA]=OFF;
-		}
-	    
+			
+	    	}
 		//Creacion de aux_dato para la utilizacion del comando UNDO
 		if(aux_dato.tablero.matriz!=NULL)
 			free(aux_dato.tablero.matriz);
