@@ -48,8 +48,10 @@ int main(void)
 		if(aux_dato.tablero.matriz!=NULL ) free(aux_dato.tablero.matriz);
 		if(dato.tablero.matriz!=NULL && Flags[PROX_NIVEL]!=OFF) free(dato.tablero.matriz);
         
-		if( Flags[FIN_JUEGO]==OFF && generarAuxiliar(&aux_dato,dato.tablero.dim.filas,dato.tablero.dim.columnas)==SIN_MEMORIA  )
-		{   
+        aux_dato.tablero.dim=dato.tablero.dim;
+        
+		if( Flags[FIN_JUEGO]==OFF &&  generarTableroNull(&aux_dato.tablero)==SIN_MEMORIA  )
+		{
 			
             printerror(SIN_MEMORIA);
 			printf("No es posible utilizar UNDO");
