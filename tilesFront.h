@@ -28,7 +28,8 @@
 #define	UNDO				4
 #define LOAD				5
 
-typedef struct {
+typedef struct 
+{
     FILE * archivo_bitacora;
     char nombre_bitacora[MAX_LONG_FILE+4];
 } TipoBitacora;
@@ -43,6 +44,7 @@ void Menu (TipoDatos * dato,TipoFlag Flags,TipoBitacora * bitacora );
 /* Llama a funciones del BackEnd en funcion a la accion que ingresa el usuario */
 void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora  bitacora,TipoDatos * aux_dato);
 
+/* Imprime en pantalla el puntaje final obtenido */
 void resultadoFindelNivel(TipoDatos * dato,TipoFlag Flags);
 
 /* Pide al usuario que ingrese las dimensiones de la matriz y setea las variables correspondientes */
@@ -57,7 +59,7 @@ void PedirNombreValido(char * nombrefile);
 /* Valida que nombrefile sea un nombre de archivo valido */
 int validFileName(char * nombrefile);
 
-/* Quita los '\n' finales de un string' */
+/* Quita '\n' final de un string */
 void inputString(char * string);
 
 /* Genera un archivo de texto con la copia del contenido arch_origen */ 
@@ -81,16 +83,19 @@ void instrucciones(void);
 /* Guarda la partida que esta en juego */
 int save(TipoDatos * dato, TipoEstado flagBitacora, char * nombre);
 
-/* Carga un partida anteriormente salvada */
+/* Carga un partida anteriormente salvada, devuelve 0 si hubo error en la lectura del archivo */
 int load(TipoDatos * dato, TipoEstado * flagBitacora, char * nombre);
 
-/* Guarda en archivo_bitacora la accion ejecutada */
+/* Guarda en archivo_bitacora la accion ejecutada, devuelve 1 si no hubo error y un numero negativo si lo hubo */
 int GuardarAccionBitacora(FILE * archivo_bitacora,char * operacion, TipoEstado prox_nivel, int puntaje,int cant_azulejos);
 
-/* Guarda en archivo_bitacora el tablero de juego */
+/* Guarda en archivo_bitacora el tablero de juego, devuelve 1 si no hubo error y un numero negativo si lo hubo */
 int GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora);
 
 /* Imprime un char en color en la STDOUT*/
 void imprimirColor(char letra);
+
+/* Compara el string file con el nombre de la bitacora para no sobreescribirla, devuelve 0 si son iguales y 1 sino */
+int compBit_File(char * bit ,char *file)
 
 #endif
