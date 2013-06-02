@@ -96,6 +96,6 @@ int GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora);
 void imprimirColor(char letra);
 
 /* Compara el string file con el nombre de la bitacora para no sobreescribirla, devuelve 0 si son iguales y 1 sino */
-int compBit_File(char * bit ,char *file)
+int compBit_File(char * bit ,char *file);
 
 #endif

@@ -42,7 +42,6 @@ int main(void)
 					return OFF;
 				}
 			}
-			
 	    	}
 		//Creacion de aux_dato para la utilizacion del comando UNDO
 		if(aux_dato.tablero.matriz!=NULL)
@@ -137,7 +136,7 @@ void Menu (TipoDatos * dato,TipoFlag Flags,TipoBitacora * bitacora )
 				int aux;
 				PedirNombreValido(nombrefile);			
 
-				if(aux=load(dato,&(Flags[BITACORA]),nombrefile) < 0)
+				if(aux=load(dato,&(Flags[BITACORA]),nombrefile) < 0) 
 					printerror(aux);
 				else
 					printf("Cargado\n");	
