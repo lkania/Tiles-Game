@@ -13,10 +13,10 @@ int main(void)
 	TipoFlag  Flags = {OFF,OFF,OFF,OFF,OFF,OFF};
 	TipoDatos dato;
     TipoBitacora bitacora={NULL,"bitacora.txt"};
-    //FILE * archivo_bitacora;
+    
 	TipoDatos aux_dato;
-	//char * modo[]={"at","wt"};
-	setColor(NEGRO);
+	
+	cambiarColor(BLANCO);
 	aux_dato.tablero.matriz=NULL;
    	dato.tablero.matriz=NULL;
 	srand(time(NULL));	
@@ -705,7 +705,7 @@ void imprimirColor(char caracter)
 {
 	int num = 31+(caracter-'A')%8;
 	printf("%c[1;%dm%c  ", 27, num, caracter);
-	setColor(NEGRO);
+	cambiarColor(BLANCO);
 }
 
 TipoEstado LoadBitacora(char * nombrefile,FILE ** archivo_bitacora)
