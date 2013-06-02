@@ -44,7 +44,7 @@ void Menu (TipoDatos * dato,TipoFlag Flags,TipoBitacora * bitacora );
 /* Llama a funciones del BackEnd en funcion a la accion que ingresa el usuario */
 void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora  bitacora,TipoDatos * aux_dato);
 
-/* Imprime en pantalla el puntaje final obtenido */
+/* Imprime en pantalla el puntaje final obtenido en un nivel y un mensaje que indica al usuario que completo el nivel */
 void resultadoFindelNivel(TipoDatos * dato,TipoFlag Flags);
 
 /* Pide al usuario que ingrese las dimensiones de la matriz y setea las variables correspondientes */
