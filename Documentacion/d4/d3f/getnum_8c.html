@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.3.1"/>
+<title>Referencia del Archivo getnum.c</title>
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../dynsections.js"></script>
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="../../TilesGame (1).png"/></td>
+    <td style="padding-left: 0.5em;">
+    <div id="projectbrief">Desarrollado por Ignacio Gutierrez, Emilio Tylson y Lucas Kania</div>
+    </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.8.3.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search",false,'Buscar');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="../../index.html"><span>Página&#160;principal</span></a></li>
+      <li><a href="../../annotated.html"><span>Estructuras&#160;de&#160;Datos</span></a></li>
+      <li class="current"><a href="../../files.html"><span>Archivos</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="../../search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Buscar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="../../search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../files.html"><span>Lista&#160;de&#160;archivos</span></a></li>
+      <li><a href="../../globals.html"><span>Globales</span></a></li>
+    </ul>
+  </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('d4/d3f/getnum_8c.html','../../');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todo</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Estructuras de Datos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Archivos</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Funciones</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>&apos;typedefs&apos;</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumeraciones</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Valores de enumeraciones</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>&apos;defines&apos;</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#define-members">'defines'</a> &#124;
+<a href="#func-members">Funciones</a>  </div>
+  <div class="headertitle">
+<div class="title">Referencia del Archivo getnum.c</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="../../da/de1/getnum_8h_source.html">getnum.h</a>&quot;</code><br/>
+<code>#include &lt;string.h&gt;</code><br/>
+</div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="../../closed.png" alt="+"/> Dependencia gráfica adjunta para getnum.c:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../da/d55/getnum_8c__incl.svg" width="262" height="187"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+</div>
+<p><a href="../../d4/d3f/getnum_8c_source.html">Ir al código fuente de este archivo.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+'defines'</h2></td></tr>
+<tr class="memitem:a38067f58f507e5e463bf5588cf8eafb3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d3f/getnum_8c.html#a38067f58f507e5e463bf5588cf8eafb3">BORRA_BUFFER</a>&#160;&#160;&#160;while (getchar() != '\n')</td></tr>
+<tr class="separator:a38067f58f507e5e463bf5588cf8eafb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Funciones</h2></td></tr>
+<tr class="memitem:a2ceea39e7e1a07e7e4e0f1da5224b36e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d3f/getnum_8c.html#a2ceea39e7e1a07e7e4e0f1da5224b36e">getint</a> (const char mensaje[],...)</td></tr>
+<tr class="separator:a2ceea39e7e1a07e7e4e0f1da5224b36e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45fbfb8c920d1bea64eef764b860ceb5"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d3f/getnum_8c.html#a45fbfb8c920d1bea64eef764b860ceb5">getfloat</a> (const char mensaje[],...)</td></tr>
+<tr class="separator:a45fbfb8c920d1bea64eef764b860ceb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a452105435946ea882e284b57bf10881f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d3f/getnum_8c.html#a452105435946ea882e284b57bf10881f">getdouble</a> (const char mensaje[],...)</td></tr>
+<tr class="separator:a452105435946ea882e284b57bf10881f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fc9433dd8dc0c1502e010577384c6e8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d3f/getnum_8c.html#a0fc9433dd8dc0c1502e010577384c6e8">yesNo</a> (const char mensaje[],...)</td></tr>
+<tr class="separator:a0fc9433dd8dc0c1502e010577384c6e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentación de los 'defines'</h2>
+<a class="anchor" id="a38067f58f507e5e463bf5588cf8eafb3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BORRA_BUFFER&#160;&#160;&#160;while (getchar() != '\n')</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definición en la línea <a class="el" href="../../d4/d3f/getnum_8c_source.html#l00005">5</a> del archivo <a class="el" href="../../d4/d3f/getnum_8c_source.html">getnum.c</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Documentación de las funciones</h2>
+<a class="anchor" id="a452105435946ea882e284b57bf10881f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double getdouble </td>
+          <td>(</td>
+          <td class="paramtype">const char&#160;</td>
+          <td class="paramname"><em>mensaje</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definición en la línea <a class="el" href="../../d4/d3f/getnum_8c_source.html#l00060">60</a> del archivo <a class="el" href="../../d4/d3f/getnum_8c_source.html">getnum.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a45fbfb8c920d1bea64eef764b860ceb5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float getfloat </td>
+          <td>(</td>
+          <td class="paramtype">const char&#160;</td>
+          <td class="paramname"><em>mensaje</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definición en la línea <a class="el" href="../../d4/d3f/getnum_8c_source.html#l00034">34</a> del archivo <a class="el" href="../../d4/d3f/getnum_8c_source.html">getnum.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2ceea39e7e1a07e7e4e0f1da5224b36e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int getint </td>
+          <td>(</td>
+          <td class="paramtype">const char&#160;</td>
+          <td class="paramname"><em>mensaje</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definición en la línea <a class="el" href="../../d4/d3f/getnum_8c_source.html#l00009">9</a> del archivo <a class="el" href="../../d4/d3f/getnum_8c_source.html">getnum.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0fc9433dd8dc0c1502e010577384c6e8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int yesNo </td>
+          <td>(</td>
+          <td class="paramtype">const char&#160;</td>
+          <td class="paramname"><em>mensaje</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definición en la línea <a class="el" href="../../d4/d3f/getnum_8c_source.html#l00086">86</a> del archivo <a class="el" href="../../d4/d3f/getnum_8c_source.html">getnum.c</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../dir_4c03204ba0ab3cf953445f3a0064d647.html">Tiles-Game</a></li><li class="navelem"><a class="el" href="../../d4/d3f/getnum_8c.html">getnum.c</a></li>
+    <li class="footer">Generado por
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.3.1 </li>
+  </ul>
+</div>
+</body>
+</html>
