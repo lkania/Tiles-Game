@@ -27,14 +27,25 @@ void Proc_Matriz(TipoDatos * dato, int azulejos)
 
 static int generarTablero(TipoDatos * dato)
 {
-        int i, j, indice, nivel = dato->nivel, filas = (dato->tablero).dim.filas, columnas = (dato->tablero).dim.columnas;
-	char ** tablero = malloc(columnas*sizeof(char*));
-	char * colores = malloc(nivel+2);
-	colores[nivel+1]='\0';
-	for(i=0; i<=nivel; i++)
-		colores[i]='A'+i;
+	int i, j, indice, nivel = dato->nivel, filas = (dato->tablero).dim.filas, columnas = (dato->tablero).dim.columnas;
+	int azulejos_disponibles = filas*columnas;
+	char ** tablero, *colores, *azulejos, aux;
+	tablero = malloc(columnas*sizeof(char*));
 	if(tablero == NULL)
 		return SIN_MEMORIA;
+	colores = malloc(nivel+1);
+	if(colores == NULL)
+	{
+		free(tablero);
+		return SIN_MEMORIA;
+	}
+	azulejos = malloc(filas*columnas);
+	if(azulejos == NULL)
+	{
+		free(tablero);
+		free(colores);
+		return SIN_MEMORIA;
+	}
 	for(j=0; j<columnas; j++)
 	{
 		tablero[j] = malloc(filas*sizeof(char));
@@ -47,20 +58,28 @@ static int generarTablero(TipoDatos * dato)
 			return SIN_MEMORIA;
 		}
 	}
-	
-	do
+	for(i=0; i<nivel+1; i++)
 	{
-		for(j=0; j<columnas; j++)
+		colores[i]='A'+i;
+		azulejos[i] = colores[i];
+	}
+	for(i=nivel+1; i<filas*columnas; i++)
+	{
+		indice = rand()%(nivel+1);
+		azulejos[i] = 'A' + indice;
+	}
+	for(j=0; j<columnas; j++)
+	{
+		for(i=0; i<filas; i++)
 		{
-			for(i=0; i<filas; i++)
-			{
-				indice = rand()%(nivel+1);
-				tablero[j][i] = 'A' + indice;
-			}
+			indice = rand()%azulejos_disponibles;
+			tablero[j][i] = azulejos[indice];
+			SWAP(azulejos[indice], azulejos[azulejos_disponibles-1], aux);
+			azulejos_disponibles--;
 		}
-		(dato->tablero).matriz = tablero;
-	}while(!coloresPresentes(&(dato->tablero), colores));
-        return 0;
+	}
+	(dato->tablero).matriz = tablero;
+	return 0;
 }
 
 int generarTableroNull(TipoTablero * tablero)
@@ -85,7 +104,7 @@ int generarTableroNull(TipoTablero * tablero)
 	return 1;
 }
 
-static int coloresPresentes(TipoTablero * tablero, char * colores)
+/*static int coloresPresentes(TipoTablero * tablero, char * colores)
 {
 	int filas = (tablero->dim).filas, columnas = (tablero->dim).columnas, i, j, k, flag=0;
 	for(k=0; colores[k] != '\0'; k++)
@@ -103,7 +122,7 @@ static int coloresPresentes(TipoTablero * tablero, char * colores)
 			return 0;
 	}
 	return 1;			
-}
+}*/
 
 static void liberarMatriz(TipoTablero * tablero)
 {
@@ -135,76 +154,64 @@ static void elimAd(TipoTablero * tablero, int i, int j, char tipo, int * azulejo
 
 int eliminar(TipoTablero * tablero, int i, int j)
 {
-	int azulejos=validarEliminar(tablero, i, j);
-	if(azulejos == 0)
-	{
-		char tipo = (tablero->matriz)[j][i];
-		elimAd(tablero, i, j, tipo, &azulejos);
-	}
+	int azulejos=0;
+	char tipo = (tablero->matriz)[j][i];
+	elimAd(tablero, i, j, tipo, &azulejos);
 	return azulejos;
 }
 
 int martillazo(TipoTablero * tablero, int i, int j)
 {
-	int azulejos = validarMartillazo(tablero, i, j);
-	if(azulejos == 0)
+	int azulejos = 0;
+	int h, k;
+	for(k=j-1; k<=j+1; k++)
 	{
-		int h, k;
-	    for(k=j-1; k<=j+1; k++)
+       	for(h=i-1; h<=i+1; h++)
 		{
-        	for(h=i-1; h<=i+1; h++)
+       	    if(h>=0 && h<(tablero->dim).filas && k>=0 && k<(tablero->dim).columnas && (tablero->matriz)[k][h]!=0)
 			{
-        	    if(h>=0 && h<(tablero->dim).filas && k>=0 && k<(tablero->dim).columnas && (tablero->matriz)[k][h]!=0)
-				{
-        	        (tablero->matriz)[k][h] = '\0';
-					azulejos++;
-				}
+       	        (tablero->matriz)[k][h] = '\0';
+				azulejos++;
 			}
 		}
-		(tablero->c_habilidades).c_martillazos--;
 	}
+	(tablero->c_habilidades).c_martillazos--;
 	return azulejos;
 }
 
 int hilera(TipoTablero * tablero, int hilera)
 {
-	int azulejos = validarHilera(tablero, hilera);
-	if(azulejos == 0)
+	int azulejos = 0;
+	int j;
+   	for(j=0; j<(tablero->dim).columnas; j++)
 	{
-		int j;
-    	for(j=0; j<(tablero->dim).columnas; j++)
+		if((tablero->matriz)[j][hilera]!=0)
 		{
-			if((tablero->matriz)[j][hilera]!=0)
-			{
-				(tablero->matriz)[j][hilera] = '\0';
-				azulejos++;
-			}
+			(tablero->matriz)[j][hilera] = '\0';
+			azulejos++;
 		}
-		(tablero->c_habilidades).c_hileras--;
 	}
+	(tablero->c_habilidades).c_hileras--;
 	return azulejos;
 }
 
 int columna(TipoTablero * tablero, int columna)
 {
-	int azulejos = validarColumna(tablero, columna);
-	if(azulejos == 0)
+	int azulejos = 0;
+	int i;
+   	for(i=0; i<(tablero->dim).filas; i++)
 	{
-		int i;
-    	for(i=0; i<(tablero->dim).filas; i++)
+		if((tablero->matriz)[columna][i]!=0)
 		{
-			if((tablero->matriz)[columna][i]!=0)
-			{
-    	    	(tablero->matriz)[columna][i] = '\0';
-				azulejos++;
-			}
+   	    	(tablero->matriz)[columna][i] = '\0';
+			azulejos++;
 		}
-		(tablero->c_habilidades).c_columnas--;
 	}
+	(tablero->c_habilidades).c_columnas--;
 	return azulejos;
 }
 
-static int validarEliminar(TipoTablero * tablero, int i, int j)
+int validarEliminar(TipoTablero * tablero, int i, int j)
 {
 	int aux, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	char tipo;
@@ -225,7 +232,7 @@ static int validarEliminar(TipoTablero * tablero, int i, int j)
 	return 0;
 }
 
-static int validarMartillazo(TipoTablero * tablero, int i, int j)
+int validarMartillazo(TipoTablero * tablero, int i, int j)
 {
 	int filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	if(i<0 || i>=filas || j<0 || j>=columnas)
@@ -237,7 +244,7 @@ static int validarMartillazo(TipoTablero * tablero, int i, int j)
 	return 0;
 }
 
-static int validarHilera(TipoTablero * tablero, int hilera)
+int validarHilera(TipoTablero * tablero, int hilera)
 {
 	int j, flag = 0, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	if(hilera<0 || hilera >= filas)
@@ -252,7 +259,7 @@ static int validarHilera(TipoTablero * tablero, int hilera)
 	return 0;
 }
 
-static int validarColumna(TipoTablero * tablero, int columna)
+int validarColumna(TipoTablero * tablero, int columna)
 {
 	int i, flag = 0, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	if(columna < 0 || columna >= columnas)

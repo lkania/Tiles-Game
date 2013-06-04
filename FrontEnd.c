@@ -42,12 +42,12 @@ int main(void)
 			        if(fseek(bitacora.archivo_bitacora,0,SEEK_END)!=0)
 				{
 	                        	printerror(ARCHIVO_INEXISTENTE);
-					printf("Bitacora Desactivada");
+					printf("Bitacora Desactivada\n");
 					return OFF;
 				}
-			}
+			
 	    	}
-		//Creacion de aux_dato para la utilizacion del comando UNDO
+		
 		if(aux_dato.tablero.matriz!=NULL)
 			free(aux_dato.tablero.matriz);
 		if(dato.tablero.matriz!=NULL && Flags[PROX_NIVEL]!=OFF)
@@ -58,7 +58,7 @@ int main(void)
 		if( Flags[FIN_JUEGO]==OFF &&  generarTableroNull(&aux_dato.tablero)==SIN_MEMORIA  )
 		{
 			printerror(SIN_MEMORIA);
-			printf("No es posible utilizar UNDO");
+			printf("No es posible utilizar UNDO\n");
 			return 1;
 		}
 
@@ -81,7 +81,7 @@ int main(void)
 					if(GuardarMATBitacora(&(dato.tablero),bitacora.archivo_bitacora)==FALLO_ESCRITURA)
 					{
 						printerror(FALLO_ESCRITURA);
-						printf("Bitacora Desactivada");
+						printf("Bitacora Desactivada\n");
 						Flags[BITACORA]=OFF;
 					}
 		
@@ -238,8 +238,8 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 
 			cant = sscanf(operacion+1,"%*[ \t]%d,%d%c",&(pos.x),&(pos.y),&aux);
 				
-			if(cant == 2)
-			{	
+			if(cant == 2 && (cant_azulejos=validarEliminar(&(dato->tablero),pos.x,pos.y) == 0) )
+			{
 				igualacion(aux_dato,dato);
 				cant_azulejos = eliminar(&(dato->tablero),pos.x,pos.y);
 			}
@@ -249,7 +249,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 		case 'm':
 			cant = sscanf(operacion+1,"%*[ \t]%d,%d%c",&pos.x,&pos.y,&aux);
 						
-			if(cant == 2)
+			if(cant == 2 && (cant_azulejos=validarMartillazo(&(dato->tablero),pos.x,pos.y) == 0))
 			{
 				igualacion(aux_dato,dato);
 				cant_azulejos = martillazo(&(dato->tablero),pos.x,pos.y);
@@ -260,18 +260,17 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 		case 'c':
 			cant = sscanf(operacion+1,"%*[ \t]%d%c",&pos.y,&aux);
 				
-			if(cant == 1)
+			if(cant == 1 && (cant_azulejos=validarColumna(&(dato->tablero),pos.y)) ) 
 			{
 				igualacion(aux_dato,dato);
 				cant_azulejos = columna(&(dato->tablero),pos.y);
-				
 			}
 			else
 				cant_azulejos=COMANDO_INVALIDO;
 			break;
 		case 'h':
 			cant = sscanf(operacion+1,"%*[ \t]%d%c",&pos.x,&aux);
-			if(cant == 1)
+			if(cant == 1 && (cant_azulejos=validarHilera(&(dato->tablero),pos.x)) )
 			{
 				igualacion(aux_dato,dato);
 				cant_azulejos = hilera(&(dato->tablero),pos.x);
@@ -317,7 +316,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 
 		case 'u':
 			cant = sscanf(operacion+1,"ndo%c",&aux);
-			printf("%d\n",cant);
+			
 			if(cant == EOF)
 			{
 				if(Flags[UNDO]==OFF)
@@ -585,7 +584,7 @@ TipoEstado GuardarAccionBitacora(FILE * archivo_bitacora,char * operacion, TipoE
 	if(fputs(s,archivo_bitacora) == EOF)
 	{
 		printerror(FALLO_ESCRITURA);
-		printf("Bitacora Desactivada");
+		printf("Bitacora Desactivada\n");
 		return OFF; 
 	}
 
@@ -608,7 +607,7 @@ TipoEstado GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora)
 		    	if(fputc((tablero->matriz)[j][i],archivo_bitacora) == EOF)
 			{
 				printerror(FALLO_ESCRITURA);
-				printf("Bitacora Desactivada");
+				printf("Bitacora Desactivada\n");
 				return OFF; 
 			}
 			
@@ -630,7 +629,7 @@ TipoEstado SaveBitacora(char * nombrefile,FILE * arch_origen)
         if(fseek(arch_origen,0,SEEK_SET)!=0)
 	{
 		printerror(ARCHIVO_INEXISTENTE);
-		printf("Bitacora Desactivada");
+		printf("Bitacora Desactivada\n");
 		return OFF;
         }
     
@@ -649,7 +648,7 @@ TipoEstado SaveBitacora(char * nombrefile,FILE * arch_origen)
 		if(ferror(arch_origen))
 		{
 			printerror(FALLO_LECTURA);
-	                printf("Bitacora Desactivada");
+	                printf("Bitacora Desactivada\n");
 	                return OFF;
         	}
 	

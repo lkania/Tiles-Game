@@ -2,6 +2,7 @@
 #define tilesBack_H
 
 #define MOD(x) ( ((x)>=0)?(x):-(x) )
+#define SWAP(a, b, aux) aux=a;a=b;b=aux
 
 enum errores {FUERA_RANGO=-12,SIN_ADYACENCIA,COLUMNA_NULA,HILERA_NULA,POSICION_NULA,SIN_MEMORIA,NO_HAB,COMANDO_INVALIDO,FALLO_LECTURA,FALLO_ESCRITURA,OPERACION_INVALIDA, ARCHIVO_INEXISTENTE};
 
@@ -63,7 +64,7 @@ static int generarTablero(TipoDatos * dato);
 /* coloresPresentes es una funcion auxiliar de generarTablero. Devuelve 0 si alguno de los colores correspondientes al nivel
 ** para el cual generarTablero esta creando el tablero no se encuentra presente en el mismo. Devuelve 1 en caso contrario.
 */
-static int coloresPresentes(TipoTablero * tablero, char * colores);
+//static int coloresPresentes(TipoTablero * tablero, char * colores);
 static void liberarMatriz(TipoTablero * tablero); // Libera la memoria utilizada para la matriz
 int generarTableroNull(TipoTablero * tablero); //Reserva espacio para un tablero sin asignar elementos en sus posiciones.
 
@@ -84,10 +85,10 @@ int columna(TipoTablero * tablero, int columna);
 static void elimAd(TipoTablero * tablero, int i, int j, char tipo, int * azulejos);
 
 /* Las siguientes son funciones auxiliares de sus respectivos movimientos.*/
-static int validarEliminar(TipoTablero * tablero, int i, int j);
-static int validarMartillazo(TipoTablero * tablero, int i, int j);
-static int validarHilera(TipoTablero * tablero, int hilera);
-static int validarColumna(TipoTablero * tablero, int columna);
+int validarEliminar(TipoTablero * tablero, int i, int j);
+int validarMartillazo(TipoTablero * tablero, int i, int j);
+int validarHilera(TipoTablero * tablero, int hilera);
+int validarColumna(TipoTablero * tablero, int columna);
 
 static void gravedad(TipoTablero * tablero);//tras su invocacion "caen" las piezas hasta que no haya espacios libres
 
