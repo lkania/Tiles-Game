@@ -55,17 +55,14 @@ void PedidoNivel(TipoDatos * dato);
 /* Pide al usuario un nombre valido para un archivo y lo almacena en nombrefile */
 void PedirNombreValido(char * nombrefile); 
 
-/* Valida que nombrefile sea un nombre de archivo valido */
+/* Valida que nombrefile sea un nombre de archivo valido, retorna 1 si es nombre es valido y 0 sino lo es*/
 int validFileName(char * nombrefile);
 
-/* Quita '\n' final de un string */
+/* Quita '\n' final de un string retornado por fgets*/
 void inputString(char * string);
 
-/* Genera un archivo de texto con la copia del contenido arch_origen */ 
+/* Genera un archivo de texto con la copia del contenido arch_origen, si hay un error desactiva el flag bitacora devolviendo OFF*/ 
 TipoEstado SaveBitacora(char * nombrefile,FILE * arch_origen);
-
-/* Carga el archivo nombrefile con extension txt (si existe) modificando archivo_bitacora */
-TipoEstado LoadBitacora(char * nombrefile,FILE ** archivo_bitacora); 
 
 /* Imprime la matriz de juego */
 void imprimeTablero(TipoTablero * tablero);
@@ -79,17 +76,17 @@ void printerror(int ind);
 /* Imprime una pantalla explicando como se juega el juego y cuales son las dimensiones maximas que una matriz puede tener */
 void instrucciones(void);
 
-/* Guarda la partida que esta en juego */
+/* Guarda la partida que esta en juego, devuelve 1 si guardo correctamente y FALLO_ESCRITURA sino */
 int save(TipoDatos * dato, TipoEstado flagBitacora, char * nombre);
 
-/* Carga un partida anteriormente salvada, devuelve 1 si no hubo error y un numero negativo si lo hubo  */
+/* Carga un partida anteriormente salvada, devuelve 1 si no hubo error y un entero negativo si lo hubo  */
 int load(TipoDatos * dato, TipoEstado * flagBitacora, char * nombre);
 
-/* Guarda en archivo_bitacora la accion ejecutada, devuelve 1 si no hubo error y un numero negativo si lo hubo */
-int GuardarAccionBitacora(FILE * archivo_bitacora,char * operacion, TipoEstado prox_nivel, int puntaje,int cant_azulejos);
+/* Guarda en archivo_bitacora la accion ejecutada, devuelve OFF desactivando el Flag BITACORA si hubo un error de lo contrario */
+TipoEstado GuardarAccionBitacora(FILE * archivo_bitacora,char * operacion, TipoEstado prox_nivel, int puntaje,int cant_azulejos);
 
-/* Guarda en archivo_bitacora el tablero de juego, devuelve 1 si no hubo error y un numero negativo si lo hubo */
-int GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora);
+/* Guarda en archivo_bitacora el tablero de juego, devuelve OFF desactivando el Flag BITACORA si hubo un error de lo contrario */
+TipoEstado GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora);
 
 /* Imprime un char en color en la STDOUT*/
 void imprimirColor(char letra);

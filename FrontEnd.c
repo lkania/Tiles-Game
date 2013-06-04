@@ -221,13 +221,13 @@ void PedidoDimenciones(TipoDatos * dato)
 
 void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoDatos * aux_dato)
 {	
-	int cant,cant_azulejos;
+	int cant,cant_azulejos=0;
 	TipoPosicion pos;
 	char operacion[MAX_LONG];
 	char * nombrefile=malloc(MAX_LONG_FILE*sizeof(*nombrefile));
 	char * respuesta=malloc(MAX_LONG*sizeof(*respuesta));
 	char accion,aux;
-
+	
 	inputString(operacion);
 
 	sscanf(operacion,"%c",&accion);
@@ -244,10 +244,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 				cant_azulejos = eliminar(&(dato->tablero),pos.x,pos.y);
 			}
 			else
-			{
-				printerror(COMANDO_INVALIDO);
-				return;	
-			}
+				cant_azulejos=COMANDO_INVALIDO;
 			break;
 		case 'm':
 			cant = sscanf(operacion+1,"%*[ \t]%d,%d%c",&pos.x,&pos.y,&aux);
@@ -258,10 +255,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 				cant_azulejos = martillazo(&(dato->tablero),pos.x,pos.y);
 			}
 			else
-			{
-				printerror(COMANDO_INVALIDO);
-				return;	
-			}
+				cant_azulejos=COMANDO_INVALIDO;
 			break;
 		case 'c':
 			cant = sscanf(operacion+1,"%*[ \t]%d%c",&pos.y,&aux);
@@ -273,10 +267,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 				
 			}
 			else
-			{
-				printerror(COMANDO_INVALIDO);
-				return;	
-			}
+				cant_azulejos=COMANDO_INVALIDO;
 			break;
 		case 'h':
 			cant = sscanf(operacion+1,"%*[ \t]%d%c",&pos.x,&aux);
@@ -286,10 +277,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 				cant_azulejos = hilera(&(dato->tablero),pos.x);
 			}
 			else
-			{
-				printerror(COMANDO_INVALIDO);
-				return;	
-			}
+				cant_azulejos=COMANDO_INVALIDO;
 			break;
 		case 's':
 			if(nombrefile != NULL)
@@ -303,32 +291,47 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 					else
 					{
 						printf("Salvado\n");
+
+
+
+						Flags[BITACORA]=GuardarAccionBitacora(bitacora.archivo_bitacora,operacion,Flags[PROX_NIVEL],dato->puntaje,cant_azulejos);
+
+
                         			if(Flags[BITACORA]==ON && compBit_File(bitacora.nombre_bitacora,nombrefile)!=0)
 						{
+							
 							Flags[BITACORA]=SaveBitacora(nombrefile,bitacora.archivo_bitacora);
 			                        }
 					}
                     	
 				}
 				else
-					printerror(COMANDO_INVALIDO);
+					cant_azulejos=COMANDO_INVALIDO;
 			}
 			else
+			{
 				printerror(SIN_MEMORIA);
-			return;
+				return;
+			}
+			break;
 
 		case 'u':
-			if(Flags[UNDO]==OFF)
+			cant = sscanf(operacion+1,"ndo%c",&aux);
+			printf("%d\n",cant);
+			if(cant == EOF)
 			{
-				Flags[UNDO]=ON;
-				igualacion(dato,aux_dato);			
-							
+				if(Flags[UNDO]==OFF)
+				{
+					Flags[UNDO]=ON;
+					igualacion(dato,aux_dato);			
+				}
+				else
+					cant_azulejos=OPERACION_INVALIDA;
 			}
 			else
-				printerror(OPERACION_INVALIDA);
-						
-			return;
-
+					cant_azulejos=COMANDO_INVALIDO;
+			break;
+			
 		case 'q':
 			cant = sscanf(operacion+1,"uit%c",&aux);
 			
@@ -373,7 +376,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 					Flags[FIN_JUEGO]=ON;
 				}
 				else
-					printerror(COMANDO_INVALIDO);
+					cant_azulejos=COMANDO_INVALIDO;
 			}
 			else
 			{
@@ -384,8 +387,8 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 
 		default:
 			
-			printerror(COMANDO_INVALIDO);
-			return;
+			cant_azulejos=COMANDO_INVALIDO;
+			break;
 			
 	}
 
@@ -393,7 +396,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 	{
 		printerror(cant_azulejos);
 	}
-	else
+	else if(cant_azulejos != 0)
 	{	
 		Flags[UNDO]=OFF;		
 		Proc_Matriz(dato,cant_azulejos);
@@ -409,19 +412,14 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 			imprimeTablero(&(dato->tablero));
 			printf("¡Perdiste al piste!\n");
 		}
+		
 	}
 
 	if(Flags[BITACORA]==ON)
 	{	
-		if(GuardarAccionBitacora(bitacora.archivo_bitacora,operacion,Flags[PROX_NIVEL],dato->puntaje,cant_azulejos)==FALLO_ESCRITURA)
-		{
-			printerror(FALLO_ESCRITURA);
-			printf("Bitacora Desactivada");
-			Flags[BITACORA]==OFF;	
-		}
+		Flags[BITACORA]=GuardarAccionBitacora(bitacora.archivo_bitacora,operacion,Flags[PROX_NIVEL],dato->puntaje,cant_azulejos);
 		
-	}	
-	
+	}
 }
 
 void PedirNombreValido(char * nombrefile)
@@ -440,10 +438,8 @@ int validFileName(char * nombrefile)
 	int i;
 
 	for(i=0;nombrefile[i]!=0;i++)
-	{
 		if(!VALIDCHAR(nombrefile[i]))
-		return 0;
-	}
+			return 0;
 	return 1;
 }
 
@@ -541,7 +537,7 @@ int save(TipoDatos * dato, TipoEstado flagBitacora, char * nombre)
 				if(fwrite(&((dato->tablero).matriz[j][i]), sizeof(char), 1, archivo) == 0)
 					respuesta = 0;
 	fclose(archivo);
-	return respuesta;
+	return (respuesta==0) ? FALLO_ESCRITURA:1;
 }
 
 int load(TipoDatos * dato, TipoEstado * flagBitacora, char * nombre)
@@ -579,7 +575,7 @@ int load(TipoDatos * dato, TipoEstado * flagBitacora, char * nombre)
 	return respuesta;
 }
 
-int GuardarAccionBitacora(FILE * archivo_bitacora,char * operacion, TipoEstado prox_nivel, int puntaje,int cant_azulejos)
+TipoEstado GuardarAccionBitacora(FILE * archivo_bitacora,char * operacion, TipoEstado prox_nivel, int puntaje,int cant_azulejos)
 {
 	static int contador=1;
 	char s[MAX_LONG];
@@ -587,17 +583,21 @@ int GuardarAccionBitacora(FILE * archivo_bitacora,char * operacion, TipoEstado p
 	sprintf(s,"%d: %s; %d\n",contador,operacion,(cant_azulejos < 0) ? 0:puntaje);
 	
 	if(fputs(s,archivo_bitacora) == EOF)
-		return FALLO_ESCRITURA; 
+	{
+		printerror(FALLO_ESCRITURA);
+		printf("Bitacora Desactivada");
+		return OFF; 
+	}
 
 	contador++;
 
 	if(prox_nivel==ON)
 		contador=1;
 
-	return 1;
+	return ON;
 }
 
-int GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora)
+TipoEstado GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora)
 {
 	int i, j, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	    
@@ -606,7 +606,11 @@ int GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora)
 		for(j=0; j<columnas; j++)
 		{
 		    	if(fputc((tablero->matriz)[j][i],archivo_bitacora) == EOF)
-				return FALLO_ESCRITURA;
+			{
+				printerror(FALLO_ESCRITURA);
+				printf("Bitacora Desactivada");
+				return OFF; 
+			}
 			
 		}
 	
@@ -614,7 +618,7 @@ int GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora)
 			return FALLO_ESCRITURA;
 	}
 	
-	return 1;
+	return ON;
 }
 
 TipoEstado SaveBitacora(char * nombrefile,FILE * arch_origen)
@@ -674,28 +678,6 @@ void imprimirColor(char caracter)
 	int num = 31+(caracter-'A')%8;
 	printf("%c[1;%dm%c  ", 27, num, caracter);
 	cambiarColor(BLANCO);
-}
-
-TipoEstado LoadBitacora(char * nombrefile,FILE ** archivo_bitacora)
-{
-	char s[MAX_LONG_FILE+3];
-	char str[MAX_LONG];
-	sprintf(s,"%s.txt",nombrefile);
-	*archivo_bitacora=fopen(s,"r+");
-
- 	if(*archivo_bitacora == NULL)
-	{
-		printerror(ARCHIVO_INEXISTENTE);
-		printf("Bitacora Desactivada");
-		return OFF;
-	}
-	if(fseek(*archivo_bitacora,0,SEEK_END)!=0)
-	{
-		printerror(ARCHIVO_INEXISTENTE);
-		printf("Bitacora Desactivada");
-		return OFF;
-	}
-	return ON;
 }
 
 int compBit_File(char * bit ,char *file)
