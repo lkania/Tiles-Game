@@ -45,6 +45,7 @@ int main(void)
 					printf("Bitacora Desactivada\n");
 					return OFF;
 				}
+			}
 			
 	    	}
 		
@@ -625,53 +626,53 @@ TipoEstado SaveBitacora(char * nombrefile,FILE * arch_origen)
 	char s[MAX_LONG_FILE+3];
 	FILE *dest;
 	char  str[MAX_LONG];
+    	int error=0;
 		
         if(fseek(arch_origen,0,SEEK_SET)!=0)
+                error=ARCHIVO_INEXISTENTE;
+	else
 	{
-		printerror(ARCHIVO_INEXISTENTE);
-		printf("Bitacora Desactivada\n");
-		return OFF;
-        }
-    
-        /* abro destino */
-        sprintf(s,"%s.txt",nombrefile);
-        if((dest = fopen(s, "wt"))==NULL)
-	{
-		printerror(FALLO_ESCRITURA);
-		printf("Bitacora Desactivada\n");
-		return OFF;
-        }
-        
-        while(!feof(arch_origen))
-	{
-		fgets(str,MAX_LONG,arch_origen);
-		if(ferror(arch_origen))
+		sprintf(s,"%s.txt",nombrefile);
+		if((dest = fopen(s, "wt"))==NULL)        /* abro destino */
 		{
-			printerror(FALLO_LECTURA);
-	                printf("Bitacora Desactivada\n");
-	                return OFF;
-        	}
-	
-		if(!feof(arch_origen))
-			fputs(str, dest);
-		if(ferror(dest))
+			error=FALLO_ESCRITURA;
+			printf("Bitacora Desactivada\n");
+			return OFF;
+                }
+		else
 		{
-	                printerror(FALLO_ESCRITURA);
-	                printf("Bitacora Desactivada\n");
-	                return OFF;
-        	}
-        }
+			while(!feof(arch_origen) && error>=0)
+			{
+                        	fgets(str,MAX_LONG,arch_origen);
+                        	
+				if(ferror(arch_origen))
+                        		error=FALLO_LECTURA;
+				else
+				{
+					if(!feof(arch_origen))
+						fputs(str, dest);
+					if(ferror(dest))
+		                    	     	error=FALLO_ESCRITURA;
+				}
+			}
+			
+			if(fclose(dest)==EOF)
+			{
+				error=FALLO_ESCRITURA;
+			}
+		}
+	}
 
-	if(fclose(dest)==EOF)
+	if (error<0)
 	{
-		printerror(FALLO_ESCRITURA);
-		printf("Bitacora Desactivada\n");
+		printerror(error);
+		printf("Bitacora Desactivada");
 		return OFF;
-        }
-          
-        return ON;
+	}
+	else
+		return ON;
 }
-
+ 
 void imprimirColor(char caracter)
 {
 	int num = 31+(caracter-'A')%8;
