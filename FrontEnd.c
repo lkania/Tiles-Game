@@ -180,6 +180,7 @@ void Menu (TipoDatos * dato,TipoFlag Flags,TipoBitacora * bitacora )
 
 void instrucciones(void)
 {
+	putchar('\n');
 	printf("El objetivo es eliminar todas las valdosas del tablero\nLos movimientos posibles son:\n\
 	e FILA, COLUMNA\t- ELMINAR CASILLERO Y ADYACENTES DEL MISMO COLOR\n\
 	h FILA\t\t- ELIMNAR HILERA\n\
@@ -239,45 +240,45 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 
 			cant = sscanf(operacion+1,"%*[ \t]%d,%d%c",&(pos.x),&(pos.y),&aux);
 				
-			if(cant == 2 && (cant_azulejos=validarEliminar(&(dato->tablero),pos.x,pos.y) == 0) )
+			if(cant == 2 && ((cant_azulejos=validarEliminar(&(dato->tablero),pos.x,pos.y)) == 0))
 			{
 				igualacion(aux_dato,dato);
 				cant_azulejos = eliminar(&(dato->tablero),pos.x,pos.y);
 			}
 			else
-				cant_azulejos=COMANDO_INVALIDO;
+				cant_azulejos=(cant_azulejos!=0) ? cant_azulejos:COMANDO_INVALIDO;
 			break;
 		case 'm':
 			cant = sscanf(operacion+1,"%*[ \t]%d,%d%c",&pos.x,&pos.y,&aux);
 						
-			if(cant == 2 && (cant_azulejos=validarMartillazo(&(dato->tablero),pos.x,pos.y) == 0))
+			if(cant == 2 && ((cant_azulejos=validarMartillazo(&(dato->tablero),pos.x,pos.y)) == 0))
 			{
 				igualacion(aux_dato,dato);
 				cant_azulejos = martillazo(&(dato->tablero),pos.x,pos.y);
 			}
 			else
-				cant_azulejos=COMANDO_INVALIDO;
+				cant_azulejos=(cant_azulejos!=0) ? cant_azulejos:COMANDO_INVALIDO;
 			break;
 		case 'c':
 			cant = sscanf(operacion+1,"%*[ \t]%d%c",&pos.y,&aux);
 				
-			if(cant == 1 && (cant_azulejos=validarColumna(&(dato->tablero),pos.y)) ) 
+			if(cant == 1 && ((cant_azulejos=validarColumna(&(dato->tablero),pos.y)) == 0))
 			{
 				igualacion(aux_dato,dato);
 				cant_azulejos = columna(&(dato->tablero),pos.y);
 			}
 			else
-				cant_azulejos=COMANDO_INVALIDO;
+				cant_azulejos=(cant_azulejos!=0) ? cant_azulejos:COMANDO_INVALIDO;
 			break;
 		case 'h':
 			cant = sscanf(operacion+1,"%*[ \t]%d%c",&pos.x,&aux);
-			if(cant == 1 && (cant_azulejos=validarHilera(&(dato->tablero),pos.x)) )
+			if(cant == 1 && ((cant_azulejos=validarHilera(&(dato->tablero),pos.x))==0))
 			{
 				igualacion(aux_dato,dato);
 				cant_azulejos = hilera(&(dato->tablero),pos.x);
 			}
 			else
-				cant_azulejos=COMANDO_INVALIDO;
+				cant_azulejos=(cant_azulejos!=0) ? cant_azulejos:COMANDO_INVALIDO;
 			break;
 		case 's':
 			if(nombrefile != NULL)
@@ -286,22 +287,21 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 
 				if(cant == 1 && validFileName(nombrefile))
 				{
-					if(save(dato,Flags[BITACORA],nombrefile) == 0)
-						printerror(FALLO_ESCRITURA);
-					else
+					if(cant_azulejos=save(dato,Flags[BITACORA],nombrefile) >=0 )
 					{
+						printerror(FALLO_ESCRITURA);
+					
 						printf("Salvado\n");
-
-
-
 						Flags[BITACORA]=GuardarAccionBitacora(bitacora.archivo_bitacora,operacion,Flags[PROX_NIVEL],dato->puntaje,cant_azulejos);
-
-
                         			if(Flags[BITACORA]==ON && compBit_File(bitacora.nombre_bitacora,nombrefile)!=0)
 						{
-							
-							Flags[BITACORA]=SaveBitacora(nombrefile,bitacora.archivo_bitacora);
-			                        }
+                					cant_azulejos=SaveBitacora(nombrefile,bitacora.archivo_bitacora);
+							if(cant_azulejos<0)
+							{
+                    						Flags[BITACORA]== OFF;
+								printf("Bitacora Desactivada\n");
+							}
+						}	
 					}
                     	
 				}
@@ -309,10 +309,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 					cant_azulejos=COMANDO_INVALIDO;
 			}
 			else
-			{
-				printerror(SIN_MEMORIA);
-				return;
-			}
+				cant_azulejos=SIN_MEMORIA;
 			break;
 
 		case 'u':
@@ -355,8 +352,8 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 						{
 							PedirNombreValido(nombrefile);		
 						
-							if(save(dato,Flags[BITACORA],nombrefile) == 0)
-								printerror(FALLO_LECTURA);
+							if(save(dato,Flags[BITACORA],nombrefile) != 1)
+								printerror(FALLO_ESCRITURA);
 							else
 							{
 								printf("Salvado\n");                               
@@ -374,19 +371,17 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 					}while(comp_si != 0 && comp_no != 0);
 					Flags[FIN_APLICACION]=ON;
 					Flags[FIN_JUEGO]=ON;
+					return;
 				}
 				else
 					cant_azulejos=COMANDO_INVALIDO;
 			}
 			else
-			{
-				printerror(SIN_MEMORIA);
-			}	
-		
-			return;
+				cant_azulejos=SIN_MEMORIA;
+					
+			break;
 
-		default:
-			
+		default:			
 			cant_azulejos=COMANDO_INVALIDO;
 			break;
 			
@@ -473,9 +468,11 @@ void inputString(char * string)
 
 void printerror(int ind)
 {
-	char * error[]={"Sin habilidades Especiales","Sin Memoria","Hilera nula","Posicion Nula","Columna Nula","No hay adyacencia","Fuera de Rango","Comando no valido","Fallo la lectura del archivo","Fallo la escritura del archivo","Operacion invalida","Archivo inexistente"};
+	char * error[]={"Sin habilidad Especial","Sin Memoria","Hilera nula","Posicion Nula","Columna Nula","No hay adyacencia","Fuera de Rango","Comando no valido","Fallo la lectura del archivo","Fallo la escritura del archivo","Operacion invalida","Archivo inexistente"};
 
 	printf("ERROR: %s\n",error[ind*(-1)-1]);
+
+	/*Cada error tiene un valor negativo, que multiplicandolo por (-1) se consigue el indice positivo correspondiente en el vector de errores*/
 
 }
 
@@ -664,13 +661,9 @@ TipoEstado SaveBitacora(char * nombrefile,FILE * arch_origen)
 	}
 
 	if (error<0)
-	{
-		printerror(error);
-		printf("Bitacora Desactivada");
-		return OFF;
-	}
+		return error;
 	else
-		return ON;
+		return 0;
 }
  
 void imprimirColor(char caracter)
