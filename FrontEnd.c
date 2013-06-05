@@ -289,8 +289,6 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 				{
 					if(cant_azulejos=save(dato,Flags[BITACORA],nombrefile) >=0 )
 					{
-						printerror(FALLO_ESCRITURA);
-					
 						printf("Salvado\n");
 						Flags[BITACORA]=GuardarAccionBitacora(bitacora.archivo_bitacora,operacion,Flags[PROX_NIVEL],dato->puntaje,cant_azulejos);
                         			if(Flags[BITACORA]==ON && compBit_File(bitacora.nombre_bitacora,nombrefile)!=0)
