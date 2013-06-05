@@ -59,8 +59,8 @@ int validFileName(char * nombrefile);
 /* Quita '\n' final de un string retornado por fgets*/
 void inputString(char * string);
 
-/* Genera un archivo de texto con la copia del contenido arch_origen, si hay un error desactiva el flag bitacora devolviendo OFF*/ 
-TipoEstado SaveBitacora(char * nombrefile,FILE * arch_origen);
+/* Genera un archivo de texto con la copia del contenido arch_origen, retorna 0 si no hubo error y un enterno negativo si lo hubo*/ 
+int SaveBitacora(char * nombrefile,FILE * arch_origen);
 
 /* Imprime la matriz de juego */
 void imprimeTablero(TipoTablero * tablero);
@@ -74,22 +74,22 @@ void printerror(int ind);
 /* Imprime una pantalla explicando como se juega el juego y cuales son las dimensiones maximas que una matriz puede tener */
 void instrucciones(void);
 
-/* Guarda la partida que esta en juego, devuelve 1 si guardo correctamente y FALLO_ESCRITURA sino */
+/* Guarda la partida que esta en juego, retorna 1 si guardo correctamente y FALLO_ESCRITURA sino */
 int save(TipoDatos * dato, TipoEstado flagBitacora, char * nombre);
 
-/* Carga un partida anteriormente salvada, devuelve 1 si no hubo error y un entero negativo si lo hubo  */
+/* Carga un partida anteriormente salvada, retorna 1 si no hubo error y un entero negativo si lo hubo  */
 int load(TipoDatos * dato, TipoEstado * flagBitacora, char * nombre);
 
-/* Guarda en archivo_bitacora la accion ejecutada, devuelve OFF desactivando el Flag BITACORA si hubo un error de lo contrario */
+/* Guarda en archivo_bitacora la accion ejecutada, retorna OFF desactivando el Flag BITACORA si hubo un error de lo contrario */
 TipoEstado GuardarAccionBitacora(FILE * archivo_bitacora,char * operacion, TipoEstado prox_nivel, int puntaje,int cant_azulejos);
 
-/* Guarda en archivo_bitacora el tablero de juego, devuelve OFF desactivando el Flag BITACORA si hubo un error de lo contrario */
-TipoEstado GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora);
+/* Guarda en archivo_bitacora el tablero de juego, retorna 0 si no hubo error y un enterno negativo si lo hubo*/
+int GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora);
 
 /* Imprime un char en color en la STDOUT*/
 void imprimirColor(char letra);
 
-/* Compara el string file con el nombre de la bitacora para no sobreescribirla, devuelve 0 si son iguales y 1 sino */
+/* Compara el string file con el nombre de la bitacora para no sobreescribirla, retorna 0 si son iguales y 1 sino */
 int compBit_File(char * bit ,char *file);
 
 #endif

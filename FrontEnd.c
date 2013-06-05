@@ -311,9 +311,9 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 			break;
 
 		case 'u':
-			cant = sscanf(operacion+1,"ndo%c",&aux);
+			cant = strcmp(operacion+1,"ndo");
 			
-			if(cant == EOF)
+			if(cant == 0)
 			{
 				if(Flags[UNDO]==OFF)
 				{
@@ -328,11 +328,11 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 			break;
 			
 		case 'q':
-			cant = sscanf(operacion+1,"uit%c",&aux);
+			cant = strcmp(operacion+1,"uit");
 			
 			if (respuesta != NULL)
 			{
-				if(cant == EOF)
+				if(cant == 0)
 				{
 					int comp_si;
 					int comp_no;
@@ -592,7 +592,7 @@ TipoEstado GuardarAccionBitacora(FILE * archivo_bitacora,char * operacion, TipoE
 	return ON;
 }
 
-TipoEstado GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora)
+int GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora)
 {
 	int i, j, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
 	    
@@ -602,9 +602,7 @@ TipoEstado GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora)
 		{
 		    	if(fputc((tablero->matriz)[j][i],archivo_bitacora) == EOF)
 			{
-				printerror(FALLO_ESCRITURA);
-				printf("Bitacora Desactivada\n");
-				return OFF; 
+				return FALLO_ESCRITURA; 
 			}
 			
 		}
@@ -613,10 +611,10 @@ TipoEstado GuardarMATBitacora(TipoTablero * tablero,FILE * archivo_bitacora)
 			return FALLO_ESCRITURA;
 	}
 	
-	return ON;
+	return 0;
 }
 
-TipoEstado SaveBitacora(char * nombrefile,FILE * arch_origen)
+int SaveBitacora(char * nombrefile,FILE * arch_origen)
 {
 	char s[MAX_LONG_FILE+3];
 	FILE *dest;
