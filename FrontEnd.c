@@ -8,7 +8,7 @@
 
 int main(void)
 {
-	TipoFlag  Flags = {OFF,OFF,OFF,OFF,OFF};
+	TipoFlag  Flags = {OFF,OFF,OFF,OFF,OFF,OFF};
 	TipoDatos dato;
     	TipoBitacora bitacora={NULL,"bitacora.txt"};
     	TipoDatos aux_dato;
@@ -290,7 +290,11 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 					if(cant_azulejos=save(dato,Flags[BITACORA],nombrefile) >=0 )
 					{
 						printf("Salvado\n");
-						Flags[BITACORA]=GuardarAccionBitacora(bitacora.archivo_bitacora,operacion,Flags[PROX_NIVEL],dato->puntaje,cant_azulejos);
+						if(Flags[BITACORA]==ON)
+						{
+							Flags[BITACORA]=GuardarAccionBitacora(bitacora.archivo_bitacora,operacion,Flags[PROX_NIVEL],dato->puntaje,cant_azulejos);
+							Flags[SAVE]=ON;
+						}
                         			if(Flags[BITACORA]==ON && compBit_File(bitacora.nombre_bitacora,nombrefile)!=0)
 						{
                 					cant_azulejos=SaveBitacora(nombrefile,bitacora.archivo_bitacora);
@@ -408,11 +412,13 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 		
 	}
 
-	if(Flags[BITACORA]==ON)
+	if(Flags[BITACORA]==ON && Flags[SAVE]==OFF)
 	{	
 		Flags[BITACORA]=GuardarAccionBitacora(bitacora.archivo_bitacora,operacion,Flags[PROX_NIVEL],dato->puntaje,cant_azulejos);
 		
 	}
+	else
+		Flags[SAVE]=OFF;
 }
 
 void PedirNombreValido(char * nombrefile)

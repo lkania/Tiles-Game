@@ -21,7 +21,7 @@
 #define NIVEL_MAX(azulejos)		((MAX_NIVEL > ((azulejos)/2)) ? ((azulejos)/2):MAX_NIVEL)			
 
 
-enum indices {BITACORA=0,PROX_NIVEL,FIN_JUEGO,FIN_APLICACION,UNDO};
+enum indices {BITACORA=0,PROX_NIVEL,FIN_JUEGO,FIN_APLICACION,UNDO,SAVE};
 
 enum errores_Front {ARCHIVO_INEXISTENTE=-12,OPERACION_INVALIDA,FALLO_ESCRITURA,FALLO_LECTURA,COMANDO_INVALIDO};
 
@@ -33,7 +33,7 @@ typedef struct
 
 enum estados {OFF=0,ON};
 typedef enum estados TipoEstado;
-typedef TipoEstado TipoFlag[5];
+typedef TipoEstado TipoFlag[6];
 
 /* Pide informacion al usuario a traves de una interface grafica para setear los datos iniciales del juego */
 void Menu (TipoDatos * dato,TipoFlag Flags,TipoBitacora * bitacora );
