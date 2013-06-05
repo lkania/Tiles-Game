@@ -473,7 +473,7 @@ void inputString(char * string)
 
 void printerror(int ind)
 {
-	char * error[]={"Archivo inexistente", "Operacion invalida","Fallo la escritura del archivo","Fallo la lectura del archivo","Comando no valido","Sin habilidades Especiales","Sin Memoria","Posicion Nula","Hilera nula","Columna Nula","No hay adyacencia","Fuera de Rango"};
+	char * error[]={"Sin habilidades Especiales","Sin Memoria","Hilera nula","Posicion Nula","Columna Nula","No hay adyacencia","Fuera de Rango","Comando no valido","Fallo la lectura del archivo","Fallo la escritura del archivo","Operacion invalida","Archivo inexistente"};
 
 	printf("ERROR: %s\n",error[ind*(-1)-1]);
 

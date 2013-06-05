@@ -104,26 +104,6 @@ int generarTableroNull(TipoTablero * tablero)
 	return 1;
 }
 
-/*static int coloresPresentes(TipoTablero * tablero, char * colores)
-{
-	int filas = (tablero->dim).filas, columnas = (tablero->dim).columnas, i, j, k, flag=0;
-	for(k=0; colores[k] != '\0'; k++)
-	{
-		flag = 0;
-		for(j=0; j<columnas && !flag; j++)
-		{
-			for(i=0; i<filas && !flag; i++)
-			{
-				if((tablero->matriz)[j][i]==colores[k])
-					flag = 1;
-			}
-		}
-		if(flag==0)
-			return 0;
-	}
-	return 1;			
-}*/
-
 static void liberarMatriz(TipoTablero * tablero)
 {
 	int j, columnas = (tablero->dim).columnas;
