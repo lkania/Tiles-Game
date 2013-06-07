@@ -12,6 +12,8 @@ Tiles-Game
 	 - Emilio Tylson
 	 
 	TP-PI-2013-1C-ITBA
+	
+	Para ver la documentacion WEB ejecutar el archivo index.html
 
 ------------------------------------
 Autorización a utilizar colores
