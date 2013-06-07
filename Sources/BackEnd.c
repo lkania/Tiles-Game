@@ -159,15 +159,15 @@ int martillazo(TipoTablero * tablero, int i, int j)
 	return azulejos;
 }
 
-int hilera(TipoTablero * tablero, int hilera)
+int hilera(TipoTablero * tablero, int h)
 {
 	int azulejos = 0;
 	int j;
    	for(j=0; j<(tablero->dim).columnas; j++)
 	{
-		if((tablero->matriz)[j][hilera]!=0)
+		if((tablero->matriz)[j][h]!=0)
 		{
-			(tablero->matriz)[j][hilera] = '\0';
+			(tablero->matriz)[j][h] = '\0';
 			azulejos++;
 		}
 	}
@@ -175,15 +175,15 @@ int hilera(TipoTablero * tablero, int hilera)
 	return azulejos;
 }
 
-int columna(TipoTablero * tablero, int columna)
+int columna(TipoTablero * tablero, int c)
 {
 	int azulejos = 0;
 	int i;
    	for(i=0; i<(tablero->dim).filas; i++)
 	{
-		if((tablero->matriz)[columna][i]!=0)
+		if((tablero->matriz)[c][i]!=0)
 		{
-   	    	(tablero->matriz)[columna][i] = '\0';
+   	    	(tablero->matriz)[c][i] = '\0';
 			azulejos++;
 		}
 	}
@@ -224,13 +224,13 @@ int validarMartillazo(TipoTablero * tablero, int i, int j)
 	return 0;
 }
 
-int validarHilera(TipoTablero * tablero, int hilera)
+int validarHilera(TipoTablero * tablero, int h)
 {
 	int j, flag = 0, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
-	if(hilera<0 || hilera >= filas)
+	if(h<0 || h >= filas)
 		return FUERA_RANGO;
 	for(j=0; j<columnas && !flag; j++)
-		if((tablero->matriz)[j][hilera]!='0')
+		if((tablero->matriz)[j][h]!='0')
 			flag = 1;
 	if(flag == 0)
 		return HILERA_NULA;
@@ -239,14 +239,14 @@ int validarHilera(TipoTablero * tablero, int hilera)
 	return 0;
 }
 
-int validarColumna(TipoTablero * tablero, int columna)
+int validarColumna(TipoTablero * tablero, int c)
 {
 	int i, flag = 0, filas = (tablero->dim).filas, columnas = (tablero->dim).columnas;
-	if(columna < 0 || columna >= columnas)
+	if(c < 0 || c >= columnas)
 		return FUERA_RANGO;
 	else
 		for(i=0; i<filas && !flag; i++)
-			if((tablero->matriz)[columna][i]!='0')
+			if((tablero->matriz)[c][i]!='0')
 				flag = 1;
 	if(flag==0)
 		return COLUMNA_NULA;

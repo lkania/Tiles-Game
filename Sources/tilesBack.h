@@ -74,8 +74,8 @@ int generarTableroNull(TipoTablero * tablero); //Reserva espacio para un tablero
  */
 int eliminar(TipoTablero * tablero, int i, int j);
 int martillazo(TipoTablero * tablero, int i, int j);
-int hilera(TipoTablero * tablero, int hilera);
-int columna(TipoTablero * tablero, int columna);
+int hilera(TipoTablero * tablero, int h);
+int columna(TipoTablero * tablero, int c);
 
 /* elimAd es una funcion recursiva auxiliar de la funcion "eliminar". Lo que hace es ir convirtiendo en ceros los elementos
  * adyacentes al elemento de la matriz elegido. Incluyendo al elemento elegido. Notese que antes de llamar a elimAd se
@@ -87,8 +87,8 @@ static void elimAd(TipoTablero * tablero, int i, int j, char tipo, int * azulejo
 /* Las siguientes son funciones auxiliares de sus respectivos movimientos.*/
 int validarEliminar(TipoTablero * tablero, int i, int j);
 int validarMartillazo(TipoTablero * tablero, int i, int j);
-int validarHilera(TipoTablero * tablero, int hilera);
-int validarColumna(TipoTablero * tablero, int columna);
+int validarHilera(TipoTablero * tablero, int h);
+int validarColumna(TipoTablero * tablero, int c);
 
 static void gravedad(TipoTablero * tablero);//tras su invocacion "caen" las piezas hasta que no haya espacios libres
 
