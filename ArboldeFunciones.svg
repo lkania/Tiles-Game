@@ -19,7 +19,7 @@
    id="svg3883"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="_front_end_8c_a840291bc02cba5474a4cb46a9b9566fe_cgraph.svg">
+   sodipodi:docname="ArboldeFunciones.svg">
   <metadata
      id="metadata4741">
     <rdf:RDF>
@@ -47,8 +47,8 @@
      id="namedview4737"
      showgrid="false"
      inkscape:zoom="1.0368783"
-     inkscape:cx="603.93392"
-     inkscape:cy="264.14936"
+     inkscape:cx="501.70399"
+     inkscape:cy="1095.4909"
      inkscape:window-x="65"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
@@ -88,9 +88,9 @@
          id="a_node2">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#ac5da14380ebbd7eb58146932f909ec19"
-           id="a3899"
+           target="_top"
            xlink:title="cambiarColor"
-           target="_top">
+           id="a3899">
           <polygon
              fill="none"
              stroke="black"
@@ -133,9 +133,9 @@
          id="a_node3">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#ad02d883b4d6a33d8c18505cb21bc1c99"
-           id="a3916"
+           target="_top"
            xlink:title="Presentacion"
-           target="_top">
+           id="a3916">
           <polygon
              fill="none"
              stroke="black"
@@ -178,9 +178,9 @@
          id="a_node4">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#aab334a05bc64bef008da24cca3fd83f2"
-           id="a3933"
+           target="_top"
            xlink:title="Menu"
-           target="_top">
+           id="a3933">
           <polygon
              fill="none"
              stroke="black"
@@ -223,9 +223,9 @@
          id="a_node11">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#a4a69eef058d359d77e17632b3e41807e"
-           id="a3950"
+           target="_top"
            xlink:title="generarTableroNull"
-           target="_top">
+           id="a3950">
           <polygon
              fill="none"
              stroke="black"
@@ -268,9 +268,9 @@
          id="a_node12">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#ade56234c677e9f2fddee149cda63a52b"
-           id="a3967"
+           target="_top"
            xlink:title="printerror"
-           target="_top">
+           id="a3967">
           <polygon
              fill="none"
              stroke="black"
@@ -313,9 +313,9 @@
          id="a_node14">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#a37a5c44c29c5bb93cba21bea04d67cf3"
-           id="a3984"
+           target="_top"
            xlink:title="Crear_Nivel"
-           target="_top">
+           id="a3984">
           <polygon
              fill="none"
              stroke="black"
@@ -358,9 +358,9 @@
          id="a_node18">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#a330ec1027100b0b1f0829b22ee5a5415"
-           id="a4001"
+           target="_top"
            xlink:title="GuardarMATBitacora"
-           target="_top">
+           id="a4001">
           <polygon
              fill="none"
              stroke="black"
@@ -403,9 +403,9 @@
          id="a_node19">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#aa9153d7104d4019dd7aaf1e8a5718445"
-           id="a4018"
+           target="_top"
            xlink:title="imprimirEstado"
-           target="_top">
+           id="a4018">
           <polygon
              fill="none"
              stroke="black"
@@ -448,9 +448,9 @@
          id="a_node20">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#a9ef75758f3b47f3c2639f7bb586d0375"
-           id="a4035"
+           target="_top"
            xlink:title="imprimeTablero"
-           target="_top">
+           id="a4035">
           <polygon
              fill="none"
              stroke="black"
@@ -493,9 +493,9 @@
          id="a_node22">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#ab336c463d2464cd3ca4bb0f653e93efd"
-           id="a4052"
+           target="_top"
            xlink:title="AccionesDeJuego"
-           target="_top">
+           id="a4052">
           <polygon
              fill="none"
              stroke="black"
@@ -555,9 +555,9 @@
          id="a_node5">
         <a
            xlink:href="../../d4/d3f/getnum_8c.html#a2ceea39e7e1a07e7e4e0f1da5224b36e"
-           id="a4076"
+           target="_top"
            xlink:title="getint"
-           target="_top">
+           id="a4076">
           <polygon
              fill="none"
              stroke="black"
@@ -600,9 +600,9 @@
          id="a_node6">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#adf030e2911563c8b12da80699b53277d"
-           id="a4093"
+           target="_top"
            xlink:title="PedidoDimenciones"
-           target="_top">
+           id="a4093">
           <polygon
              fill="none"
              stroke="black"
@@ -645,9 +645,9 @@
          id="a_node7">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#a767a1e350b410fc29bc0fc90012f1be9"
-           id="a4110"
+           target="_top"
            xlink:title="PedidoNivel"
-           target="_top">
+           id="a4110">
           <polygon
              fill="none"
              stroke="black"
@@ -690,9 +690,9 @@
          id="a_node8">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#a34256005c9f46eff46dddfaf74a73427"
-           id="a4127"
+           target="_top"
            xlink:title="PedirNombreValido"
-           target="_top">
+           id="a4127">
           <polygon
              fill="none"
              stroke="black"
@@ -735,9 +735,9 @@
          id="a_node10">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#a4e81936deabcba0a90039b3d8fd54a27"
-           id="a4144"
+           target="_top"
            xlink:title="load"
-           target="_top">
+           id="a4144">
           <polygon
              fill="none"
              stroke="black"
@@ -797,9 +797,9 @@
          id="a_node13">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#a1122e9d0c8a9c1c2fd33acf80cb51e44"
-           id="a4168"
+           target="_top"
            xlink:title="instrucciones"
-           target="_top">
+           id="a4168">
           <polygon
              fill="none"
              stroke="black"
@@ -876,9 +876,9 @@
          id="a_node9">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#a639b04a4f1cdc236e6d0ffbd51db0c95"
-           id="a4199"
+           target="_top"
            xlink:title="validFileName"
-           target="_top">
+           id="a4199">
           <polygon
              fill="none"
              stroke="black"
@@ -938,9 +938,9 @@
          id="a_node15">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#a6d4a41e7bc5f6048526fe21ad6517815"
-           id="a4223"
+           target="_top"
            xlink:title="bonus"
-           target="_top">
+           id="a4223">
           <polygon
              fill="none"
              stroke="black"
@@ -983,9 +983,9 @@
          id="a_node16">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#a30d0a5aa94284ccfc8d3840f436edde7"
-           id="a4240"
+           target="_top"
            xlink:title="liberarMatriz"
-           target="_top">
+           id="a4240">
           <polygon
              fill="none"
              stroke="black"
@@ -1028,9 +1028,9 @@
          id="a_node17">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#a6d8e745b1bdf6f3ae9502cc947de72ac"
-           id="a4257"
+           target="_top"
            xlink:title="generarTablero"
-           target="_top">
+           id="a4257">
           <polygon
              fill="none"
              stroke="black"
@@ -1073,9 +1073,9 @@
          id="a_node21">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#ad30237987566e160cc3530480d4514fc"
-           id="a4274"
+           target="_top"
            xlink:title="imprimirColor"
-           target="_top">
+           id="a4274">
           <polygon
              fill="none"
              stroke="black"
@@ -1203,9 +1203,9 @@
          id="a_node23">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#a031f798e86eaa72898a0db976fc4566d"
-           id="a4326"
+           target="_top"
            xlink:title="inputString"
-           target="_top">
+           id="a4326">
           <polygon
              fill="none"
              stroke="black"
@@ -1248,9 +1248,9 @@
          id="a_node24">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#a638bacb7948a6f147d6103864d99067c"
-           id="a4343"
+           target="_top"
            xlink:title="validarEliminar"
-           target="_top">
+           id="a4343">
           <polygon
              fill="none"
              stroke="black"
@@ -1293,9 +1293,9 @@
          id="a_node25">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#abb4221a879101cd2370d2d0acc92bf12"
-           id="a4360"
+           target="_top"
            xlink:title="igualacion"
-           target="_top">
+           id="a4360">
           <polygon
              fill="none"
              stroke="black"
@@ -1338,9 +1338,9 @@
          id="a_node26">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#a434fb24763854229cc6eeced2e45b4bd"
-           id="a4377"
+           target="_top"
            xlink:title="eliminar"
-           target="_top">
+           id="a4377">
           <polygon
              fill="none"
              stroke="black"
@@ -1383,9 +1383,9 @@
          id="a_node28">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#adce6d32ded4b58704571dc8a4528a51b"
-           id="a4394"
+           target="_top"
            xlink:title="validarMartillazo"
-           target="_top">
+           id="a4394">
           <polygon
              fill="none"
              stroke="black"
@@ -1428,9 +1428,9 @@
          id="a_node29">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#a4567ed9e8cee6392fbb432ba9f36bc47"
-           id="a4411"
+           target="_top"
            xlink:title="martillazo"
-           target="_top">
+           id="a4411">
           <polygon
              fill="none"
              stroke="black"
@@ -1473,9 +1473,9 @@
          id="a_node30">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#ae0bf64ce84dd0f847d76ee9c386db12d"
-           id="a4428"
+           target="_top"
            xlink:title="validarColumna"
-           target="_top">
+           id="a4428">
           <polygon
              fill="none"
              stroke="black"
@@ -1518,9 +1518,9 @@
          id="a_node31">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#a816db612551a36031d61664fed48a215"
-           id="a4445"
+           target="_top"
            xlink:title="columna"
-           target="_top">
+           id="a4445">
           <polygon
              fill="none"
              stroke="black"
@@ -1563,9 +1563,9 @@
          id="a_node32">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#a8e2f13efac8977bc5082d97d90788f5e"
-           id="a4462"
+           target="_top"
            xlink:title="validarHilera"
-           target="_top">
+           id="a4462">
           <polygon
              fill="none"
              stroke="black"
@@ -1608,9 +1608,9 @@
          id="a_node33">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#a00ed018131a51a0fefae11dfb9005c0d"
-           id="a4479"
+           target="_top"
            xlink:title="hilera"
-           target="_top">
+           id="a4479">
           <polygon
              fill="none"
              stroke="black"
@@ -1653,9 +1653,9 @@
          id="a_node34">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#a6323e80bca186d3d9839b6a470500a98"
-           id="a4496"
+           target="_top"
            xlink:title="save"
-           target="_top">
+           id="a4496">
           <polygon
              fill="none"
              stroke="black"
@@ -1698,9 +1698,9 @@
          id="a_node35">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#ad75d779851077e6fb6b2fdace3b9f899"
-           id="a4513"
+           target="_top"
            xlink:title="GuardarAccionBitacora"
-           target="_top">
+           id="a4513">
           <polygon
              fill="none"
              stroke="black"
@@ -1743,9 +1743,9 @@
          id="a_node36">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#ab10f46bf0cd9897c47a726d653728622"
-           id="a4530"
+           target="_top"
            xlink:title="compBit_File"
-           target="_top">
+           id="a4530">
           <polygon
              fill="none"
              stroke="black"
@@ -1788,9 +1788,9 @@
          id="a_node37">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#a75aefb8f0ed536d9adae0d1722d559e6"
-           id="a4547"
+           target="_top"
            xlink:title="SaveBitacora"
-           target="_top">
+           id="a4547">
           <polygon
              fill="none"
              stroke="black"
@@ -1833,9 +1833,9 @@
          id="a_node38">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#a72ac91bcdb1237ef5c5e2e8075f420a4"
-           id="a4564"
+           target="_top"
            xlink:title="Proc_Matriz"
-           target="_top">
+           id="a4564">
           <polygon
              fill="none"
              stroke="black"
@@ -1878,9 +1878,9 @@
          id="a_node43">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#ad99bc99a3768cdc89f074ba8d5c5fd65"
-           id="a4581"
+           target="_top"
            xlink:title="nivelTerminado"
-           target="_top">
+           id="a4581">
           <polygon
              fill="none"
              stroke="black"
@@ -1923,9 +1923,9 @@
          id="a_node44">
         <a
            xlink:href="../../df/d49/_front_end_8c.html#aa2c9f30c45a8afbc629eca6c5866cc00"
-           id="a4598"
+           target="_top"
            xlink:title="resultadoFindelNivel"
-           target="_top">
+           id="a4598">
           <polygon
              fill="none"
              stroke="black"
@@ -1968,9 +1968,9 @@
          id="a_node45">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#a77f81f8f05fac2b77ac925185e15ae1c"
-           id="a4615"
+           target="_top"
            xlink:title="analisisMatriz"
-           target="_top">
+           id="a4615">
           <polygon
              fill="none"
              stroke="black"
@@ -2013,9 +2013,9 @@
          id="a_node27">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#a173f42259c2058a7251f21420b9bac1b"
-           id="a4632"
+           target="_top"
            xlink:title="elimAd"
-           target="_top">
+           id="a4632">
           <polygon
              fill="none"
              stroke="black"
@@ -2075,9 +2075,9 @@
          id="a_node39">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#a30778fe7f3a7111df0132951b5a8cb9f"
-           id="a4656"
+           target="_top"
            xlink:title="gravedad"
-           target="_top">
+           id="a4656">
           <polygon
              fill="none"
              stroke="black"
@@ -2120,9 +2120,9 @@
          id="a_node41">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#add1cf658d13603c789cb641681a863cc"
-           id="a4673"
+           target="_top"
            xlink:title="nullCols"
-           target="_top">
+           id="a4673">
           <polygon
              fill="none"
              stroke="black"
@@ -2165,9 +2165,9 @@
          id="a_node42">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#a7966b82c6fb095984645478900337cd4"
-           id="a4690"
+           target="_top"
            xlink:title="calcularPuntaje"
-           target="_top">
+           id="a4690">
           <polygon
              fill="none"
              stroke="black"
@@ -2210,9 +2210,9 @@
          id="a_node40">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#af6e26bc55afeec730efa1a694027de82"
-           id="a4707"
+           target="_top"
            xlink:title="decalarFils"
-           target="_top">
+           id="a4707">
           <polygon
              fill="none"
              stroke="black"
@@ -2255,9 +2255,9 @@
          id="a_node46">
         <a
            xlink:href="../../d0/d58/_back_end_8c.html#ac7c84a2ee121281c8f0d9c49c3dbb58e"
-           id="a4724"
+           target="_top"
            xlink:title="algunAdyacente"
-           target="_top">
+           id="a4724">
           <polygon
              fill="none"
              stroke="black"
@@ -2610,4 +2610,16 @@
        id="tspan4861"
        x="45.521248"
        y="1265.2865">BackEnd</tspan></text>
+  <path
+     style="fill:#ffd42a"
+     d="m 522.47786,154.0783 c -15.77752,-0.29111 -15.77812,-0.29121 -15.20299,-2.4367 0.31633,-1.18007 0.58108,-5.94303 0.58832,-10.58437 l 0.0132,-8.43879 24.11083,0 24.11084,0 0,11.09098 0,11.09099 -8.92101,-0.21549 c -4.90656,-0.11852 -16.02118,-0.3465 -24.69916,-0.50662 z m -0.32331,-9.71471 c 0.29043,-5.07173 0.26307,-5.12876 -2.31381,-4.82216 -3.46665,0.41246 -4.66946,2.58836 -3.84884,6.96264 0.60011,3.19883 0.95795,3.55892 3.27128,3.29184 2.41361,-0.27866 2.61827,-0.66317 2.89137,-5.43232 l 0,0 z m 6.44492,2.7411 c 0.3716,-0.60126 1.22234,-0.54593 2.34025,0.15221 3.24308,2.02534 4.90521,0.34334 4.90521,-4.96386 0,-2.66884 -0.434,-4.85243 -0.96444,-4.85243 -0.53044,0 -0.96443,0.39336 -0.96443,0.87414 0,0.48078 -0.86799,0.64716 -1.92887,0.36973 -1.06087,-0.27742 -1.92886,-0.0643 -1.92886,0.47361 0,0.5379 -1.41049,0.91402 -3.13441,0.8358 -2.76621,-0.12549 -3.17118,0.17893 -3.44744,2.59146 -0.17217,1.50351 -0.0773,3.34799 0.21084,4.09884 0.59588,1.55284 4.03061,1.84687 4.91215,0.4205 l 0,0 z m 17.83945,-2.67194 c -0.0213,-5.22326 -0.81702,-5.99131 -5.54936,-5.35657 -3.99981,0.53648 -4.0802,0.62077 -4.0802,4.27801 0,2.05191 0.43399,3.73075 0.96443,3.73075 0.53044,0 0.96444,-0.65099 0.96444,-1.44665 0,-0.79566 0.43399,-1.44665 0.96443,-1.44665 0.53044,0 0.96443,0.65099 0.96443,1.44665 0,2.04259 1.91569,1.81049 1.99,-0.24111 0.0468,-1.29312 0.26508,-1.18036 0.93336,0.48222 1.34443,3.34477 2.86489,2.57258 2.84847,-1.44665 z"
+     id="path3535"
+     inkscape:connector-curvature="0"
+     transform="matrix(0.8,0,0,0.8,0,-0.05)" />
+  <path
+     style="fill:#ffd42a"
+     d="m 326.804,914.05085 -39.78287,-0.2628 0,-10.59807 0,-10.59807 64.61703,0 64.61703,0 0,11.09098 0,11.09099 -24.83416,-0.23012 c -13.65878,-0.12656 -42.73645,-0.34837 -64.61703,-0.49291 z m -22.4182,-6.99505 c 0.99381,-0.53187 2.03902,-0.59152 2.32268,-0.13254 0.89841,1.45366 14.09677,0.68027 15.08649,-0.88404 0.72185,-1.14089 0.88332,-1.07989 0.89542,0.33831 0.0135,1.58021 0.9365,1.6993 10.64811,1.37385 5.84834,-0.19599 11.09021,-0.81321 11.6486,-1.3716 0.55839,-0.55839 0.87283,-2.26161 0.69875,-3.78494 -0.25963,-2.27195 -0.83588,-2.82865 -3.20667,-3.09781 -1.58959,-0.18047 -3.25012,-0.83147 -3.69005,-1.44665 -0.59828,-0.83661 -0.92317,-0.81467 -1.28905,0.087 -0.26904,0.66305 -1.3346,1.20554 -2.36793,1.20554 -1.03332,0 -2.1468,0.6985 -2.4744,1.55222 -0.54747,1.42666 -0.66591,1.42666 -1.46431,0 -0.47776,-0.85372 -1.86732,-1.55222 -3.08791,-1.55222 -1.22058,0 -3.57749,-0.47348 -5.23758,-1.05219 -3.35883,-1.1709 -5.22753,-0.04 -6.81881,4.12659 l -0.85167,2.22999 -0.69066,-2.65219 c -0.77147,-2.96251 -2.34984,-3.56602 -2.52229,-0.96444 -0.10655,1.60739 -0.13288,1.60739 -0.55294,0 -0.53574,-2.05007 -4.00456,-2.24369 -4.76351,-0.26589 -0.46599,1.21434 -0.74141,1.22607 -1.88712,0.0804 -0.74927,-0.74927 -3.26249,-1.3415 -5.69293,-1.3415 l -4.35143,0 0,3.77737 c 0,4.1382 1.32111,5.03667 2.36351,1.60739 0.49719,-1.63565 0.79425,-1.81376 1.20641,-0.72333 1.42499,3.76999 3.01956,4.52821 6.07929,2.89069 z m 65.08217,0.0224 c 0.3716,-0.60127 1.22234,-0.54594 2.34025,0.15221 1.04203,0.65076 2.49481,0.77698 3.57191,0.31035 0.99853,-0.43259 2.35801,-0.69905 3.02105,-0.59214 0.83079,0.13396 1.20555,-1.31778 1.20555,-4.67006 0,-2.67544 -0.434,-4.86444 -0.96444,-4.86444 -0.53044,0 -0.96443,0.55236 -0.96443,1.22746 0,0.78908 -1.37776,1.22746 -3.85773,1.22746 -2.47998,0 -3.85774,-0.43838 -3.85774,-1.22746 0,-1.66664 -0.69686,-1.54933 -3.76211,0.63331 -1.77347,1.26283 -3.06097,1.57749 -4.00661,0.97921 -0.76637,-0.48487 -2.36988,-0.88822 -3.56337,-0.89635 -1.19349,-0.008 -2.16997,-0.44876 -2.16997,-0.9792 0,-0.53044 -2.16998,-0.96443 -4.82217,-0.96443 l -4.82217,0 0,4.82216 c 0,4.66315 1.13694,6.34812 2.27763,3.37552 0.30533,-0.79566 1.16661,-1.44665 1.91396,-1.44665 0.74736,0 1.89911,0.65099 2.55945,1.44665 1.75023,2.10891 4.36981,1.7697 5.58599,-0.72332 l 1.05858,-2.16998 0.66219,2.22452 c 0.36421,1.22349 1.18701,2.02313 1.82845,1.77699 0.64144,-0.24614 1.77789,-0.0603 2.52544,0.4129 1.79409,1.13575 3.5183,1.1135 4.24029,-0.0547 l 0,0 z m 34.20118,-0.44365 c 0.63372,-0.76358 1.01236,-2.60806 0.84142,-4.09884 -0.27655,-2.4118 -0.6828,-2.70278 -3.68631,-2.64036 -1.85654,0.0386 -4.04175,0.37473 -4.85603,0.74699 -0.90222,0.41245 -2.29914,-0.0858 -3.5763,-1.2757 -1.15268,-1.07389 -2.33093,-1.95252 -2.61833,-1.95252 -0.28739,0 -0.52254,2.16997 -0.52254,4.82216 0,2.6522 0.43399,4.82217 0.96443,4.82217 0.53044,0 0.96444,-0.71825 0.96444,-1.59612 0,-1.48522 0.12256,-1.48522 1.76369,0 1.99795,1.80812 4.02291,2.09855 4.02291,0.577 0,-0.57122 0.94203,-0.35929 2.14346,0.48222 2.64034,1.84936 3.10848,1.86097 4.55916,0.11301 l 0,-10e-6 z m -21.16912,-1.02275 c 0,-0.79566 0.44761,-1.44665 0.99469,-1.44665 0.5471,0 1.24452,0.65099 1.54984,1.44665 0.30533,0.79566 1.15969,1.44665 1.8986,1.44665 0.96921,0 1.34347,-1.34336 1.34347,-4.82217 0,-2.65219 -0.434,-4.82216 -0.96444,-4.82216 -0.53044,0 -0.96443,0.71825 -0.96443,1.59612 0,1.48521 -0.12256,1.48521 -1.7637,0 -3.02772,-2.74005 -4.0229,-1.94199 -4.0229,3.22604 0,2.6522 0.43399,4.82217 0.96443,4.82217 0.53044,0 0.96444,-0.65099 0.96444,-1.44665 z m 25.07526,-3.37552 c 0,-2.65219 -0.43399,-4.82216 -0.96443,-4.82216 -0.53044,0 -0.96443,2.16997 -0.96443,4.82216 0,2.6522 0.43399,4.82217 0.96443,4.82217 0.53044,0 0.96443,-2.16997 0.96443,-4.82217 z"
+     id="path3539"
+     inkscape:connector-curvature="0"
+     transform="matrix(0.8,0,0,0.8,0,-0.05)" />
 </svg>
