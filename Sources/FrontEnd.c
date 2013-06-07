@@ -41,12 +41,14 @@ int main(void)
 					printerror(SIN_MEMORIA);
 					Flags[BITACORA]=OFF;
 				}
-			        if(fseek(bitacora.archivo_bitacora,0,SEEK_END)!=0)
+				else if(fseek(bitacora.archivo_bitacora,0,SEEK_END)!=0)
 				{
 	                        	printerror(ARCHIVO_INEXISTENTE);
-					printf("Bitacora Desactivada\n");
-					return OFF;
+					Flags[BITACORA]=OFF;
 				}
+
+				if(Flags[BITACORA]=OFF)
+					printf("Bitacora Desactivada\n");
 			}
 			
 	    	}
@@ -184,10 +186,10 @@ void instrucciones(void)
 {
 	putchar('\n');
 	printf("El objetivo es eliminar todas las valdosas del tablero\nLos movimientos posibles son:\n\
-	e FILA, COLUMNA\t- ELMINAR CASILLERO Y ADYACENTES DEL MISMO COLOR\n\
+	e FILA,COLUMNA\t- ELMINAR CASILLERO Y ADYACENTES DEL MISMO COLOR\n\
 	h FILA\t\t- ELIMNAR HILERA\n\
 	c COLUMNA\t- ELIMNAR COLUMNA\n\
-	m FILA, COLUMNA\t- ELMINAR CASILLERO Y SUS 8 ADYACENTES\n");
+	m FILA,COLUMNA\t- ELMINAR CASILLERO Y SUS 8 ADYACENTES\n");
 	printf("El tablero puede tener como dimensiones\n\tMINIMO: %d X %d\n\tMAXIMO: %d X %d\n",MIN_FIL,MIN_COL,MAX_FIL,MAX_COL);
 	printf("Presione 'Q' pasa volver al menu\n");
 	while(getchar() != 'Q');
@@ -363,7 +365,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 								printf("Salvado\n");                               
 								if(Flags[BITACORA]==ON && compBit_File(bitacora.nombre_bitacora,nombrefile)!=0)
 								{
-									Flags[BITACORA]=SaveBitacora(nombrefile,bitacora.archivo_bitacora);
+									cant_azulejos=SaveBitacora(nombrefile,bitacora.archivo_bitacora);
 								}
                             				}
 						}
@@ -375,6 +377,10 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 					}while(comp_si != 0 && comp_no != 0);
 					Flags[FIN_APLICACION]=ON;
 					Flags[FIN_JUEGO]=ON;
+
+					if(cant_azulejos < 0)
+						printerror(cant_azulejos);
+	
 					return;
 				}
 				else
@@ -637,8 +643,6 @@ int SaveBitacora(char * nombrefile,FILE * arch_origen)
 		if((dest = fopen(s, "wt"))==NULL)        /* abro destino */
 		{
 			error=FALLO_ESCRITURA;
-			printf("Bitacora Desactivada\n");
-			return OFF;
                 }
 		else
 		{
@@ -709,12 +713,13 @@ void Presentacion (void)
         }else putchar(present[i]);
     }
     
-    printf("Un juego crado por: Gutierrez, Juan Ignacio\n\
-           Kania, Lucas\n\
-           Tylson, Emilio\n\
-           \n\
-           \n\
-           TOQUE CUALQUIER TECLA SEGUIDO DE ENTER PARA INICIAR EL JUEGO\n");
+    printf("Un juego crado por:\n\
+	Gutierrez, Ignacio\n\
+        Kania, Lucas\n\
+        Tylson, Emilio\n\
+        \n\
+        \n\
+        TOQUE CUALQUIER TECLA\n");
     
     
     while((getchar())!='\n');
