@@ -3,8 +3,8 @@ Tiles-Game
 ------------------------------------
 
 	Un pequeño juego donde el objetivo es romper todos los azulejos de la matriz.
-
-	Desarrollado puramanete en C ANSI (con expeción de los colores que solo pueden ser utilizados bajo LINUX, pero son opcionales).
+	
+	Desarrollado puramanete en C ANSI (con exepción de los colores que solo pueden ser utilizados bajo sistemas UNIX)
 
 	Desarolladores:
 	 - Ignacio Gutierrez
