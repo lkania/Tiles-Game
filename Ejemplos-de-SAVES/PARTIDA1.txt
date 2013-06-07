@@ -1,0 +1,21 @@
+AABAA
+ABBAB
+ABBAB
+BAABB
+AAABB
+1: e 3,0; 0
+2: e 2,2; 10
+3: m 1,4; 22
+4: h 0; 32
+5: c 0; 42
+6: e 2,0; 52
+7: e 3,0; 60
+ACBCB
+AAAAC
+CACBA
+ACCAB
+BBBCC
+1: e 4,0; 6
+2: e 4,1; 16
+3: m 3,3; 43
+4: save PARTIDA1; 43
