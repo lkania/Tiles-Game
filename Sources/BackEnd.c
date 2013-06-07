@@ -333,7 +333,7 @@ static int calcularPuntaje(const TipoDimension * dim, int azulejos)
 	int totalAzulejos = (dim->filas)*(dim->columnas);
 	if(azulejos == 1)
 		return 1;
-	else if(1 < totalAzulejos && totalAzulejos < 0.3*totalAzulejos)
+	else if(1 < azulejos && azulejos < 0.3*totalAzulejos)
 		return (2*azulejos);
 	else if(0.3*totalAzulejos <= azulejos &&  azulejos < 0.6*totalAzulejos)
 		return (3*azulejos);
@@ -347,15 +347,10 @@ static void bonus(TipoHabilidades * habilidades, const TipoDimension * dim, int 
 	{
 		habilidades->c_martillazos++;
 		habilidades->c_columnas++;
-		habilidades->c_hileras++;
 	}
 	else if(puntaje >= 2*totalAzulejos)
-	{
 		habilidades->c_columnas++;
-		habilidades->c_hileras++;
-	}
-	else
-		habilidades->c_hileras++;
+	habilidades->c_hileras++;
 }
 
 void igualacion(TipoDatos * aux_dato,TipoDatos * ori_dato)
