@@ -13,7 +13,7 @@ Tiles-Game
 	 
 	TP-PI-2013-1C-ITBA
 	
-	Para ver la documentacion WEB ejecutar el archivo index.html
+	Para ver la documentación WEB ejecutar el archivo index.html
 
 ------------------------------------
 Autorización a utilizar colores
