@@ -14,6 +14,7 @@ Tiles-Game
 	TP-PI-2013-1C-ITBA
 	
 	Para ver la documentación WEB ejecutar el archivo index.html
+	Para utilizar los saves almacenados en 'Ejemplos-de-SAVES' copiar los saves a la carpeta donde se encuentra el ejecutable.
 
 ------------------------------------
 Autorización a utilizar colores
