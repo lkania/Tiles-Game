@@ -99,17 +99,4 @@ static void gravedad(TipoTablero * tablero);//tras su invocacion "caen" las piez
 static void decalarFils(TipoTablero * tablero, int i, int j);
 static void nullCols(TipoTablero * tablero);//decala hacia la izquierda las columnas nulas
 
-/* Cambia el color del texto de la consola.*/
-void cambiarColor(int color);
-/*El metodo utilizado para cambiar el color es el uso de un printf
- *	printf("%c[1;30m", 27); // negro
- *	printf("%c[1;31m", 27); // rojo
- *	printf("%c[1;32m", 27); // verde
- *	printf("%c[1;33m", 27); // amarillo
- *	printf("%c[1;34m", 27); // azul
- *	printf("%c[1;35m", 27); // violeta
- *	printf("%c[1;36m", 27); // celeste
- *	printf("%c[1;37m", 27); // blanco
-*/
-
 #endif

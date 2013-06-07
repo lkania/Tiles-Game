@@ -16,7 +16,9 @@ int main(void)
 	aux_dato.tablero.matriz=NULL;
    	dato.tablero.matriz=NULL;
 	srand(time(NULL));	
-		
+	
+	Presentacion();
+
 	while(Flags[FIN_APLICACION]==OFF) 
 	{
 		Menu(&dato,Flags,&bitacora);
@@ -185,7 +187,7 @@ void instrucciones(void)
 	e FILA, COLUMNA\t- ELMINAR CASILLERO Y ADYACENTES DEL MISMO COLOR\n\
 	h FILA\t\t- ELIMNAR HILERA\n\
 	c COLUMNA\t- ELIMNAR COLUMNA\n\
-	m FILA, COLUMNA\t- ELMINAR CASILLERO Y SUS 8 ADYACEBTE\n");
+	m FILA, COLUMNA\t- ELMINAR CASILLERO Y SUS 8 ADYACENTES\n");
 	printf("El tablero puede tener como dimensiones\n\tMINIMO: %d X %d\n\tMAXIMO: %d X %d\n",MIN_FIL,MIN_COL,MAX_FIL,MAX_COL);
 	printf("Presione 'Q' pasa volver al menu\n");
 	while(getchar() != 'Q');
@@ -228,7 +230,7 @@ void AccionesDeJuego(TipoDatos * dato,TipoFlag Flags,TipoBitacora bitacora,TipoD
 	char operacion[MAX_LONG];
 	char * nombrefile=malloc(MAX_LONG_FILE*sizeof(*nombrefile));
 	char * respuesta=malloc(MAX_LONG*sizeof(*respuesta));
-	char accion,aux;
+	char accion,aux,aux2;
 	
 	inputString(operacion);
 
@@ -472,7 +474,7 @@ void inputString(char * string)
 
 void printerror(int ind)
 {
-	char * error[]={"Sin habilidad Especial","Sin Memoria","Hilera nula","Posicion Nula","Columna Nula","No hay adyacencia","Fuera de Rango","Comando no valido","Fallo la lectura del archivo","Fallo la escritura del archivo","Operacion invalida","Archivo inexistente"};
+	char * error[]={"Sin habilidad Especial","Sin Memoria","Posicion Nula","Hilera nula","Columna Nula","No hay adyacencia","Fuera de Rango","Comando no valido","Fallo la lectura del archivo","Fallo la escritura del archivo","Operacion invalida","Archivo inexistente"};
 
 	printf("ERROR: %s\n",error[ind*(-1)-1]);
 
@@ -686,3 +688,40 @@ int compBit_File(char * bit ,char *file)
 		return (bit[i] != 0 && strcmp(bit+i,".txt")==0 )? 0:1;
 }
 
+void Presentacion (void)
+{
+    int i,num;
+    char present []="\n\
+  TTTTTT III L    EEEE  SSS    GGG   AA  M   M EEEE\n\
+    TT    I  L    E    S      G     A  A MM MM E\n\
+    TT    I  L    EEE   SSS   G  GG AAAA M M M EEE\n\
+    TT    I  L    E        S  G   G A  A M   M E\n\
+    TT   III LLLL EEEE SSSS    GGG  A  A M   M EEEE\n\
+    \n\
+    \n";
+    
+    
+    for (i=0; present[i]!=0; i++) {
+        if(isalpha(present[i])){
+            num = 31+(present[i]-'A')%8;
+            printf("%c[1;%dm%c", 27, num, present[i]);
+            cambiarColor(BLANCO);
+        }else putchar(present[i]);
+    }
+    
+    printf("Un juego crado por: Gutierrez, Juan Ignacio\n\
+           Kania, Lucas\n\
+           Tylson, Emilio\n\
+           \n\
+           \n\
+           TOQUE CUALQUIER TECLA SEGUIDO DE ENTER PARA INICIAR EL JUEGO\n");
+    
+    
+    while((getchar())!='\n');
+}
+
+void cambiarColor(int color)
+{
+	if(color>=NEGRO && color<=BLANCO)
+		printf("%c[1;%dm", 27, (color+30));
+}

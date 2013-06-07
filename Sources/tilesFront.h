@@ -92,4 +92,20 @@ void imprimirColor(char letra);
 /* Compara el string file con el nombre de la bitacora para no sobreescribirla, retorna 0 si son iguales y 1 sino */
 int compBit_File(char * bit ,char *file);
 
+/* Cambia el color del texto de la consola.*/
+void cambiarColor(int color);
+/*El metodo utilizado para cambiar el color es el uso de un printf
+ *	printf("%c[1;30m", 27); // negro
+ *	printf("%c[1;31m", 27); // rojo
+ *	printf("%c[1;32m", 27); // verde
+ *	printf("%c[1;33m", 27); // amarillo
+ *	printf("%c[1;34m", 27); // azul
+ *	printf("%c[1;35m", 27); // violeta
+ *	printf("%c[1;36m", 27); // celeste
+ *	printf("%c[1;37m", 27); // blanco
+*/
+
+/* Imprime una presentacion ASCII del juego */
+void Presentacion (void);
+
 #endif
