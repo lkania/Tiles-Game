@@ -154,7 +154,7 @@ void Menu (TipoDatos * dato,TipoFlag Flags,TipoBitacora * bitacora )
 						sprintf(bitacora->nombre_bitacora,"%s.txt",nombrefile);
 		        			printf("%s\n\n",bitacora->nombre_bitacora);
 					}
-		      
+		      			Flags[UNDO]=ON;
 					Flags[PROX_NIVEL]=OFF;
 		        		Flags[FIN_JUEGO]=OFF;
 				}
