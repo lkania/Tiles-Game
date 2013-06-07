@@ -47,9 +47,10 @@ int main(void)
 					Flags[BITACORA]=OFF;
 				}
 
-				if(Flags[BITACORA]=OFF)
-					printf("Bitacora Desactivada\n");
 			}
+		
+			if(Flags[BITACORA]==OFF)
+					printf("Bitacora Desactivada\n");
 			
 	    	}
 		
